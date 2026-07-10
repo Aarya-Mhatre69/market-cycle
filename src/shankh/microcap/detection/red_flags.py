@@ -1,0 +1,3 @@
+class RedFlagDetector:
+    def detect(self, extracted: dict) -> list[dict]:
+        ...
