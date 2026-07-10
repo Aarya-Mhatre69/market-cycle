@@ -1,9 +1,0 @@
-name: price_band_forecast
-description: Price band forecasting ML pipeline
-inputs:
-  - ticker
-  - from_date
-  - to_date
-outputs:
-  - forecast_report
-schedule: daily

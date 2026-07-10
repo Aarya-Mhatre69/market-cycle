@@ -4,3 +4,14 @@
 *.pyc
 *lock
 *node_modules/
+*.pkl
+*.npz
+*.json
+*.csv
+*artifacts/
+*.bin
+*cache/
+.agents/
+data/
+models/
+*.parquet
