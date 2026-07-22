@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from pathlib import Path
 
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
@@ -8,18 +9,18 @@ from langchain_core.tools import tool
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_tavily import TavilySearch
 from shankh.macro.tools import query_stock_clustering_and_forensics
+from shankh.utils import extract_response_text, resolve_model
+
 logger = logging.getLogger(__name__)
-from pathlib import Path
 
 
 def load_prompt(prompt_name: str) -> str:
     """
     Load system prompt markdown from config/prompts/{prompt_name}.md
     """
-    # Navigate relative to project root
     current_file = Path(__file__).resolve()
-    project_root = current_file.parents[2]
-    
+    project_root = current_file.parents[3]
+
     possible_paths = [
         project_root / "config" / "prompts" / f"{prompt_name}.md",
         project_root / "config" / "prompts" / f"{prompt_name}.txt",
@@ -34,16 +35,23 @@ def load_prompt(prompt_name: str) -> str:
         f"Prompt file '{prompt_name}' not found. Searched in: {[str(p) for p in possible_paths]}"
     )
 
-search_web = TavilySearch(
-    name="search_web",
-    description=(
-        "Search the web for current financial news, macro events, regulatory changes, "
-        "corporate announcements, or analyst commentary. Input should be a search query."
-    ),
-    max_results=5,
-    search_depth="advanced",
-    api_key=os.environ["TAVILY_API_KEY"]
-)
+
+def get_web_search_tool():
+    """Safely initialize Tavily web search tool if API key is configured."""
+    tavily_key = os.getenv("TAVILY_API_KEY")
+    if tavily_key:
+        return TavilySearch(
+            name="search_web",
+            description=(
+                "Search the web for current financial news, macro events, regulatory changes, "
+                "corporate announcements, or analyst commentary. Input should be a search query."
+            ),
+            max_results=5,
+            search_depth="advanced",
+            api_key=tavily_key,
+        )
+    return None
+
 
 @tool
 def interpret_rate_environment(repo_rate: float, gsec_10yr: float, cpi: float) -> str:
@@ -76,35 +84,30 @@ def score_fii_dii_flows(fii_30d_cr: float, dii_30d_cr: float) -> str:
     })
 
 
-MACRO_ANALYST_TOOLS = [
-    search_web,  # Search tool included
-    interpret_rate_environment,
-    score_fii_dii_flows,
-    query_stock_clustering_and_forensics
-]
-
-
-def _resolve_model():
-    if os.getenv("MISTRALAI_API_KEY"):
-        from langchain_mistralai import ChatMistralAI
-        return ChatMistralAI(model="mistral-large-latest", api_key=os.getenv("MISTRALAI_API_KEY"))
-    if os.getenv("GOOGLE_API_KEY"):
-        return "google_genai:gemini-2.0-flash"
-    return "google_genai:gemini-2.5-flash"
+def get_macro_analyst_tools() -> list:
+    tools = [
+        interpret_rate_environment,
+        score_fii_dii_flows,
+        query_stock_clustering_and_forensics,
+    ]
+    web_tool = get_web_search_tool()
+    if web_tool:
+        tools.insert(0, web_tool)
+    return tools
 
 
 def build_macro_analyst_agent(checkpointer=None):
     """Build the macro analyst sub-agent using system prompt from config/prompts/macro_analyst.md"""
     system_prompt = load_prompt("macro_analyst")
     return create_agent(
-        model=_resolve_model(),
-        tools=MACRO_ANALYST_TOOLS,
+        model=resolve_model(provider_hint="mistral"),
+        tools=get_macro_analyst_tools(),
         system_prompt=system_prompt,
         checkpointer=checkpointer,
     )
 
 
-from shankh.utils import extract_response_text
+
 
 def run_macro_analysis(macro_indicators: dict, thread_id: str = "macro-default") -> str:
     """Run macro analyst on raw indicator data."""

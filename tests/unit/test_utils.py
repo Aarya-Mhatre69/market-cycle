@@ -44,3 +44,10 @@ def test_extract_response_text_fallback_to_previous():
     ]
     extracted = extract_response_text(messages)
     assert extracted == "Valid response"
+
+
+def test_resolve_model_default():
+    from shankh.utils import resolve_model
+    model = resolve_model()
+    assert model is not None
+

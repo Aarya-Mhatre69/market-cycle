@@ -70,5 +70,4 @@ if __name__ == "__main__":
     
     logger.info(f"Starting Shankh Financial Advisor MCP Server on {host}:{port} via HTTP streamable-http...")
     
-    # Run using the SSE transport, making it an HTTP streamable MCP server.
     app.run(transport="streamable-http")

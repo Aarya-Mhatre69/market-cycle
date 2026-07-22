@@ -181,7 +181,7 @@ def market_regime_signal() -> dict:
 
 @mcp.tool()
 def get_market_snapshot() -> str:
-    """Broad snapshot of US equity market indices, VIX, and A/D ratio."""
+    """Broad snapshot of Indian equity market indices, India VIX, and A/D ratio."""
     return json.dumps(market_snapshot(), indent=2)
 
 
