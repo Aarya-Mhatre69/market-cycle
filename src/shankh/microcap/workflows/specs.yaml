@@ -1,8 +1,0 @@
-name: microcap_forensic_research
-description: Forensic screening agent for microcap research
-inputs:
-  - ticker
-outputs:
-  - research_report
-  - red_flag_summary
-schedule: on_demand

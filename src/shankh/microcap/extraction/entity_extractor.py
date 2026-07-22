@@ -1,3 +1,0 @@
-class EntityExtractor:
-    def extract(self, text: str) -> dict:
-        ...

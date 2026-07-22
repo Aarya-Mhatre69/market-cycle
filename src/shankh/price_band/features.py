@@ -154,7 +154,7 @@ def _return_features(df: pd.DataFrame, g, cfg: dict) -> dict[str, pd.Series]:
 
 
 def _candle_features(df: pd.DataFrame) -> dict[str, pd.Series]:
-    c, o, h, l = df["close"], df["open"], df["high"], df["low"]
+    c, o, h, l = df["close"], df["open"], df["high"], df["low"]  # noqa: E741
     cols: dict[str, pd.Series] = {}
 
     cols["hl_range"]  = (h - l) / (c + 1e-12)

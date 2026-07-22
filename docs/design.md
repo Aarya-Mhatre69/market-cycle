@@ -1,156 +1,295 @@
-# Shankh — Lean System Design
+## 1. Supervisor / Financial Advisor
 
-## 1. Design goals
-The system should stay lean and maintainable. The design should favor clarity over abstraction.
+ 
+### Tools
 
-### Principles
-- Keep ML training separate from workflow execution.
-- Keep the orchestration graph simple: a few nodes, simple state, no heavy graph typing.
-- Keep models out of the workflow graph itself. The graph should call a model service or an MCP tool.
-- Keep EDA and training as separate notebooks and scripts.
-- Keep the executive-facing application separate from the research engine.
-- Start with LangChain and simple LangGraph graphs. Add deeper agent behavior later only if needed.
+* **Web search**: for fresh news, events, policy changes, earnings headlines.
+* **Market snapshot MCP**: broad market state.
+* **Macro indicators MCP**: RBI, inflation, yields, oil, USD/INR, flows.
+* **Sector performance MCP**: rotation and breadth.
+* **Stock quote MCP**: single-name context.
+* **Regime signal MCP**: quick regime label.
+* **Macro analyst sub-agent**
+* **Regime analyst sub-agent**
 
-## 2. High-level architecture
+### Data sources
 
-```mermaid
-flowchart LR
-    A[Data Ingestion] --> B[Feature Preparation]
-    B --> C[Training Scripts / Notebooks]
-    C --> D[Model Artifacts]
-    D --> E[Inference Service / API]
-    E --> F[LangGraph Workflow]
-    F --> G[Report / Summary / Alert]
-    H[Executive App] --> E
-    I[MCP Server] --> E
-```
+* NSE / BSE market data
+* RBI / MOSPI / trading economics style macro feeds
+* FII/DII flow data
+* Reuters / business news / company announcements
+* Internal regime outputs
 
-## 3. Component layout
+### Responsibility
 
-### 3.1 Data layer
-Responsibilities:
-- Pull market and filing data.
-- Store raw and processed datasets.
-- Keep data preparation simple and reproducible.
+* Decide which tool or sub-agent to call
+* Merge outputs into one research response
+* Keep the answer structured: data → interpretation → caveats
 
-Suggested modules:
-- data_ingestion/
-- features/
-- storage/
+### Should not have
 
-### 3.2 Training layer
-Responsibilities:
-- Run EDA.
-- Train baseline and improved models.
-- Save trained artifacts.
+* Raw database write access
+* Trading execution APIs
+* Portfolio management APIs
+* Heavy feature engineering or model-training tools
 
-Suggested modules:
-- notebooks/eda/
-- notebooks/training/
-- src/shankh/models/
+---
 
-The training layer should not be coupled to the runtime workflow. It should publish model artifacts that the runtime can load.
+## 2. Macro Analyst
 
-### 3.3 Inference / serving layer
-Responsibilities:
-- Load trained models.
-- Expose predictions and explanations.
-- Provide a small API for the workflow and app.
+This agent should be focused on **economy, liquidity, rates, inflation, global spillovers**.
 
-Recommended interface:
-- FastAPI endpoints for forecast, regime, and microcap actions.
-- Optional MCP server exposing the same capabilities as tools.
+### Tools
 
-This layer is the boundary between ML and orchestration.
+* **Macro indicators MCP**
+* **Web search**
+* **Economic calendar API**
+* **Bond/yield curve API**
+* **Currency API**
+* **Commodity API** for crude, gold, industrial metals
+* **Central bank / policy document fetchers**
+* **News summarization tools**
+* Optional: **country comparison / global macro screener**
 
-### 3.4 Workflow layer
-Responsibilities:
-- Coordinate a small number of steps.
-- Call the inference service or MCP tools.
-- Produce final research output.
+### Data sources
 
-Use a very simple LangGraph graph with around 4 to 6 nodes:
-- collect
-- analyze
-- synthesize
-- deliver
+* RBI repo rate, CPI, WPI, IIP, credit growth
+* G-sec yields and yield curve
+* USD/INR
+* Brent crude
+* FII/DII flows
+* Fed / ECB / BOJ / global rate decisions
+* IMF / World Bank / OECD reports
+* Macro news and policy releases
 
-The graph state should be a plain dictionary such as:
+### Outputs it should produce
 
-```python
-{
-    "task": "forecast",
-    "inputs": {...},
-    "context": {...},
-    "outputs": {},
-    "notes": []
-}
-```
+* Growth regime
+* Inflation regime
+* Liquidity regime
+* Rates / bond interpretation
+* Risk-on vs risk-off view
+* Sector implications
 
-Avoid complex state schemas and nested graph objects.
+### Should not have
 
-### 3.5 Executive application layer
-Responsibilities:
-- Present summaries and reports.
-- Provide a read-only experience for human review.
-- Keep this separate from the core engine.
+* Intraday microstructure data
+* Trade execution
+* Individual stock fundamentals unless needed for macro context
 
-This can be a lightweight Streamlit or simple web app. It should not own training logic or model orchestration.
+---
 
-## 4. Workstream design
+## 3. Regime Analyst
 
-### 4.1 Price-band forecasting
-- EDA and feature engineering live in notebooks and scripts.
-- Training uses scikit-learn and XGBoost.
-- Runtime uses a prediction service.
-- The workflow only requests a forecast and receives a result.
+This agent should classify the **current market state**.
 
-### 4.2 Market regime analysis
-- Use simple rules plus lightweight models.
-- The workflow gathers context, asks the inference service for regime signals, and generates a narrative.
+### Tools
 
-### 4.3 Microcap forensic review
-- Use deterministic checks first.
-- Add model-based scoring if useful.
-- The workflow can call a scoring service and then generate a structured report.
+* **Market snapshot MCP**
+* **Sector performance MCP**
+* **Breadth data MCP** if available
+* **Volatility data MCP**
+* **Macro indicators MCP**
+* **Web search** for context around shocks or policy events
+* **change-point / regime model API**
+* **HMM / clustering inference tool**
 
-### 4.4 Scenario exploration
-- Keep this as a lightweight experiment module.
-- Do not make it a core workflow dependency.
+### Data sources
 
-## 5. Deployment model
-A simple deployment path is:
-- local notebooks and scripts for training
-- FastAPI service for inference
-- LangGraph workflow for orchestration
-- separate executive app for presentation
+* Index levels and returns
+* India VIX
+* Advance/decline breadth
+* % above key moving averages
+* Sector leadership
+* FII/DII flows
+* Rates, oil, USD/INR
+* Event calendar and major headlines
 
-For a more tool-driven setup, expose the same capabilities through an MCP server.
+### Typical regime labels
 
-## 6. Suggested folder structure
+* Bull trend
+* Bear trend
+* Sideways / range-bound
+* High volatility
+* Low volatility
+* Risk-on
+* Risk-off
+* Defensive rotation
+* Liquidity-driven rally
 
-```text
-src/shankh/
-  common/
-    data_ingestion/
-    storage/
-  models/
-  workflows/
-  services/
-  agents/
-  app/
-notebooks/
-  eda/
-  training/
-apps/
-  executive/
-prompts/
-```
+### What it should answer
 
-## 7. Recommended implementation sequence
-1. Build data ingestion and storage.
-2. Create a simple training pipeline for one workstream.
-3. Expose predictions through a small API.
-4. Add a minimal LangGraph workflow that calls the API.
-5. Add the executive app as a separate surface.
-6. Add MCP support only after the core service is stable.
+* What regime are we in?
+* How confident is the classification?
+* What evidence supports that?
+* What regime changes are emerging?
+
+### Should not have
+
+* Unbounded stock-picking tools
+* Order management
+* Portfolio optimization unless explicitly added
+
+---
+
+## 4. Market Data MCP Server
+
+This is not really an “agent”; it is a **tool provider**.
+
+### Good MCP functions
+
+* `market_snapshot()`
+* `macro_indicators()`
+* `sector_performance(period)`
+* `stock_quote(symbol)`
+* `market_regime_signal()`
+* `breadth_snapshot()`
+* `volatility_snapshot()`
+* `index_history(symbol, timeframe)`
+* `fundamental_snapshot(symbol)`
+
+### Data sources behind MCP
+
+* Exchange data
+* Broker or vendor market feeds
+* Macro data providers
+* Internal computed indicators
+* Cached daily snapshots
+
+### Why MCP is useful
+
+* Standard interface
+* Reusable by multiple agents
+* Keeps data access separate from reasoning
+* Easier to test and mock
+
+---
+
+## 5. Web Search Tool
+
+This should be a shared external-research tool.
+
+### Use for
+
+* Breaking news
+* RBI announcements
+* Earnings surprises
+* Regulatory changes
+* Corporate actions
+* Analyst commentary
+* Geopolitical events affecting markets
+
+### Best practice
+
+* Give it to the supervisor
+* Optionally allow macro/regime agents to call it
+* Do not let every sub-agent freely browse without need
+
+---
+
+## 6. Optional specialized agents you may add later
+
+### A. Stock Research Agent
+
+Tools:
+
+* stock quote
+* company fundamentals
+* earnings transcripts
+* analyst reports
+* filings / announcements
+* sector comparison
+
+Purpose:
+
+* single-name deep dive
+
+---
+
+### B. Earnings Agent
+
+Tools:
+
+* quarterly results API
+* transcript fetcher
+* guidance parser
+* estimate revision tracker
+
+Purpose:
+
+* earnings quality, surprise, margins, guidance
+
+---
+
+### C. Portfolio Risk Agent
+
+Tools:
+
+* exposure calculator
+* correlation matrix
+* drawdown tracker
+* factor exposure API
+* scenario stress test
+
+Purpose:
+
+* portfolio-level risk, not market narrative
+
+---
+
+### D. Event Impact Agent
+
+Tools:
+
+* news search
+* event calendar
+* historical event-response lookup
+
+Purpose:
+
+* estimate impact of RBI, CPI, budget, Fed, election, oil shock
+
+---
+
+## Practical split recommendation
+
+If you are building this cleanly, use:
+
+### Financial Advisor
+
+* web search
+* all MCP read-only market tools
+* macro analyst sub-agent
+* regime analyst sub-agent
+
+### Macro Analyst
+
+* macro APIs
+* bond/currency/commodity feeds
+* web search
+* no trading tools
+
+### Regime Analyst
+
+* market snapshot
+* breadth
+* volatility
+* sector rotation
+* macro indicators
+* optional statistical regime model
+
+### MCP layer
+
+* pure data access only
+* no reasoning
+* no prompt logic
+
+---
+
+## Simple rule
+
+* **Supervisor** decides.
+* **Specialists** analyze.
+* **MCP/APIs** fetch data.
+* **Models** infer regime or forecast.
+* **Nothing should mix fetching, reasoning, and execution in one place** unless the system is very small.

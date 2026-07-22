@@ -10,8 +10,8 @@ from pathlib import Path
 # Root paths  (resolved relative to this file → project-portable)
 # ---------------------------------------------------------------------------
 _SRC_ROOT = Path(__file__).resolve().parents[3]   # …/shankh/
-DATA_DIR   = _SRC_ROOT / "data"
-MODELS_DIR = _SRC_ROOT / "models" / "price_band"
+DATA_DIR   = _SRC_ROOT / "data" /"universe"
+MODELS_DIR = _SRC_ROOT / "models" / "price_band" / "pyro_glu"
 ARTIFACTS_DIR = MODELS_DIR / "artifacts"
 
 # ---------------------------------------------------------------------------
@@ -25,7 +25,7 @@ CONFIG: dict = {
     "data": {
         "data_dir": str(DATA_DIR),
         # hard out-of-sample test set starts here
-        "test_cutoff": "2024-07-01",
+        "test_cutoff": "2023-02-03",
         # columns that must be present in every CSV
         "required_cols": ["date", "open", "high", "low", "close", "volume"],
         # ticker is used ONLY as a grouping key during feature engineering.
@@ -80,8 +80,10 @@ CONFIG: dict = {
 
     # ---- model ----------------------------------------------------------
     "model": {
+        # name used for artifacts subdirectory
+        "name": "xgb",
         # "xgboost" | "lightgbm"
-        "backend": "lightgbm",
+        "backend": "xgboost",
 
         # quantile levels for the upper / lower bands
         # upper band → high quantile  (e.g. 0.84 ≈ mean + 1 std for normal)

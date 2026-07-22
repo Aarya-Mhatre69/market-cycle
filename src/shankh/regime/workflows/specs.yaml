@@ -1,7 +1,0 @@
-name: market_regime_classification
-description: Market regime analysis from macro, breadth, and cycle signals
-inputs:
-  - date
-outputs:
-  - regime_classification
-schedule: daily

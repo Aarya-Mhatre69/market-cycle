@@ -1,6 +1,0 @@
-class DocumentIngestor:
-    def fetch_filings(self, ticker: str, filing_type: str = "annual_report") -> list[bytes]:
-        ...
-
-    def extract_text(self, document: bytes, format: str = "pdf") -> str:
-        ...

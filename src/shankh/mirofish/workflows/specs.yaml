@@ -1,7 +1,0 @@
-name: mirofish_swarm_simulation
-description: Swarm simulation for event-driven narrative forecasting
-inputs:
-  - event_seed
-outputs:
-  - simulation_report
-schedule: on_demand
