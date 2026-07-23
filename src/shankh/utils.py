@@ -3,7 +3,26 @@ Utility functions for output parsing and format normalization across Shankh agen
 """
 
 import json
+from pathlib import Path
 from typing import Any, List
+
+
+def load_prompt(prompt_name: str) -> str:
+    """Load a prompt from config/prompts by name."""
+    project_root = Path(__file__).resolve().parents[3]
+    possible_paths = [
+        project_root / "config" / "prompts" / f"{prompt_name}.md",
+        project_root / "config" / "prompts" / f"{prompt_name}.txt",
+        Path("config/prompts") / f"{prompt_name}.md",
+    ]
+
+    for path in possible_paths:
+        if path.exists():
+            return path.read_text(encoding="utf-8").strip()
+
+    raise FileNotFoundError(
+        f"Prompt file '{prompt_name}' not found. Searched in: {[str(p) for p in possible_paths]}"
+    )
 
 
 def extract_text_content(content: Any) -> str:
@@ -42,12 +61,25 @@ def extract_text_content(content: Any) -> str:
 
 def extract_response_text(messages: List[Any]) -> str:
     """
-    Extract non-empty text content from the latest message in a message list.
-    Searches backwards from the last message to find the first message with non-empty text.
+    Extract non-empty text content from the latest AI/assistant message in a message list.
+    Only considers AIMessage instances (or dicts with role 'assistant') to avoid
+    echoing the user's own HumanMessage when the agent produces no output.
     """
     if not messages:
         return ""
+
+    try:
+        from langchain_core.messages import AIMessage
+        ai_predicate = lambda m: isinstance(m, AIMessage)
+    except ImportError:
+        # Fallback: match by role attribute or dict key if langchain_core unavailable
+        def ai_predicate(m):
+            role = getattr(m, "role", None) or (m.get("role") if isinstance(m, dict) else None)
+            return role in ("assistant", "ai")
+
     for msg in reversed(messages):
+        if not ai_predicate(msg):
+            continue
         content = getattr(msg, "content", msg)
         text = extract_text_content(content)
         if text.strip():

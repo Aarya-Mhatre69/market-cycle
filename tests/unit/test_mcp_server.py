@@ -3,7 +3,13 @@ import os
 from fastmcp.client import Client
 from fastmcp.client.transports import FastMCPTransport
 
-from shankh.mcp.web.server import app as server_app
+if os.getenv("RUN_LIVE_AGENT_TESTS") != "1":
+    pytest.skip(
+        "Set RUN_LIVE_AGENT_TESTS=1 to run live MCP agent tests.",
+        allow_module_level=True,
+    )
+
+from src.shankh.mcp.server import app as server_app 
 
 @pytest.fixture
 async def main_mcp_client():

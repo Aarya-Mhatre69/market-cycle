@@ -4,10 +4,9 @@ Shankh: AI-Assisted Financial Research Assistant for Indian Equity Markets.
 Main entry point for CLI query execution and MCP server launching.
 """
 
-import sys
 import argparse
 import logging
-from shankh.agents.financial_advisor import FinancialAdvisor
+from src.shankh.agents.financial_advisor import FinancialAdvisor
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("shankh.main")
@@ -33,7 +32,7 @@ def run_cli_query(question: str, thread_id: str = "main-cli"):
 
 
 def start_mcp_server(transport: str = "streamable-http", host: str = "0.0.0.0", port: int = 8000):
-    from shankh.mcp.web.server import app
+    from src.shankh.mcp.server import app
     logger.info(f"Starting Shankh Financial Advisor MCP Server on {host}:{port} via {transport}...")
     app.run(transport=transport)
 
@@ -71,7 +70,7 @@ def main():
         run_cli_query(args.query, thread_id=args.thread_id)
     else:
         # Default interactive run if no arguments passed
-        default_query = "Provide a comprehensive snapshot of current Indian market conditions and macro regime."
+        default_query = "Provide a comprehensive snapshot of current Indian market conditions and macro backdrop."
         run_cli_query(default_query, thread_id=args.thread_id)
 
 
