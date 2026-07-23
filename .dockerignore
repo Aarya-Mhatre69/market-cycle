@@ -3,27 +3,27 @@
 .github/
 .agents/
 
-# Python virtual env
+# Python virtual env & cache
 .venv/
 **/__pycache__/
 **/*.pyc
 **/*.pyo
 
-# Local env files (secrets are injected at runtime via Azure Container App secrets)
+# Local secrets — injected at runtime via Azure Container App environment variables
 .env
 .env.*
 
-# Dev / test artefacts
+# Frontend — not part of this image
+frontend/
+
+# Dev / test / docs artefacts
 tests/
 docs/
 data/
 n8n/
 
-# Frontend dev artefacts (built output is copied by Docker, not the cache)
-frontend/.next/
-frontend/node_modules/
-
 # Misc
 *.log
 suggestion.md
 t.py
+supervisord.conf

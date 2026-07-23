@@ -1,8 +1,8 @@
 ###############################################################################
-# Stage 1 — Python dependency wheels
-# Build wheels in a full image so the slim runtime never needs build tools.
+# Stage 1 — build: install dependencies into a separate prefix
+# Using a full image here so gcc/build-essential are available for native exts.
 ###############################################################################
-FROM python:3.12-slim AS python-builder
+FROM python:3.12-slim AS builder
 
 WORKDIR /build
 
@@ -13,17 +13,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential gcc curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy only the dependency manifest first for layer caching.
-COPY pyproject.toml .
-
-# Export a plain requirements.txt from pyproject.toml and install into /install.
+# Install uv, export deps from pyproject.toml, then pip-install into /install
+# so the runtime stage gets a clean, minimal copy.
+COPY pyproject.toml uv.lock ./
 RUN pip install --no-cache-dir uv \
-    && uv export --no-dev --no-hashes --format requirements-txt -o requirements.txt \
+    && uv export --locked --no-dev --no-hashes --format requirements-txt -o requirements.txt \
     && pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 
 ###############################################################################
-# Stage 2 — Runtime image
+# Stage 2 — runtime: lean image, no build tools
 ###############################################################################
 FROM python:3.12-slim AS runtime
 
@@ -34,19 +33,17 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONPATH=/app \
     PORT=8000
 
-# Copy installed site-packages from builder.
-COPY --from=python-builder /install /usr/local
+# Pull in the installed packages from the builder stage.
+COPY --from=builder /install /usr/local
 
-# ── Application source ────────────────────────────────────────────────────────
-COPY main.py          .
-COPY src/             src/
-COPY config/          config/
+# Application source
+COPY main.py   .
+COPY src/      src/
+COPY config/   config/
 
-# ── Embed model artifacts directly into the image ────────────────────────────
-# Models are small (~1.3 MB total) so we bake them in — no volume mount needed.
-COPY models/          models/
+# Embed model artifacts — all files total ~1.3 MB, safe to bake in.
+COPY models/   models/
 
 EXPOSE 8000
 
-# Graceful shutdown: uvicorn handles SIGTERM correctly.
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
