@@ -1,42 +1,41 @@
 # Shankh — Deployment Guide
 
-Two independent deployments:
-- **Backend** → Azure Container Apps (Python / FastAPI)
-- **Frontend** → Vercel (Next.js)
+| Service  | Platform             | URL                                      |
+|----------|----------------------|------------------------------------------|
+| Frontend | Vercel               | https://shankh-finagent.vercel.app       |
+| Backend  | Azure Container Apps | set after step 7 below                  |
 
 ---
 
 ## Prerequisites
 
 ```bash
-# Azure CLI
-az version                        # needs >= 2.57
+# Azure CLI >= 2.57
+az version
 az extension add --name containerapp --upgrade
-
-# Docker Desktop running locally
-docker version
 
 # Logged in
 az login
 ```
 
+`az acr build` streams the build to Azure — no local Docker daemon required.
+
 ---
 
-## Part 1 — Backend on Azure Container Apps
+## Backend — Azure Container Apps
 
-### 1. Set your variables
+### 1. Variables (set once, reuse throughout)
 
 ```bash
-# Edit these once — everything below reuses them
 RESOURCE_GROUP=shankh-rg
 LOCATION=eastus
-ACR_NAME=shankhregistry          # must be globally unique, lowercase, no hyphens
+ACR_NAME=shankhregistry        # globally unique, lowercase, no hyphens
 ENVIRONMENT=shankh-env
 APP_NAME=shankh-backend
 IMAGE_TAG=latest
 ```
 
-### 2. Create resource group + Azure Container Registry
+### 2. Resource group + Container Registry
 
 ```bash
 az group create --name $RESOURCE_GROUP --location $LOCATION
@@ -50,26 +49,16 @@ az acr create \
 
 ### 3. Build and push the image
 
-The Dockerfile is at the repo root. Model files are baked in — no volume needed.
+Run from the repo root (where `Dockerfile` lives). Model files are baked in.
 
 ```bash
-# From the repo root (where Dockerfile lives)
 az acr build \
   --registry $ACR_NAME \
   --image shankh-backend:$IMAGE_TAG \
   .
 ```
 
-This streams the build to ACR directly — no local Docker daemon required.
-If you prefer building locally first:
-
-```bash
-docker build -t $ACR_NAME.azurecr.io/shankh-backend:$IMAGE_TAG .
-az acr login --name $ACR_NAME
-docker push $ACR_NAME.azurecr.io/shankh-backend:$IMAGE_TAG
-```
-
-### 4. Create the Container Apps environment
+### 4. Container Apps environment
 
 ```bash
 az containerapp env create \
@@ -87,9 +76,7 @@ ACR_PASSWORD=$(az acr credential show \
   --output tsv)
 ```
 
-### 6. Deploy the container app
-
-Replace each `YOUR_*` value with your real API keys.
+### 6. Deploy
 
 ```bash
 az containerapp create \
@@ -127,67 +114,29 @@ BACKEND_URL=$(az containerapp show \
   --query "properties.configuration.ingress.fqdn" \
   --output tsv)
 
-echo "Backend: https://$BACKEND_URL"
+echo "https://$BACKEND_URL"
 ```
 
-Test it:
+Smoke test:
 
 ```bash
 curl https://$BACKEND_URL/health
 # {"status":"healthy","service":"Shankh Financial Advisor"}
 ```
 
-### 8. Update CORS in main.py
+### 8. Point the frontend at the backend
 
-Once you have your Vercel URL (e.g. `https://shankh.vercel.app`), add it to the `origins` list in `main.py`:
+In the Vercel dashboard → project settings → Environment Variables, set:
 
-```python
-origins = [
-    "https://shankh.vercel.app",   # <-- your Vercel URL
-    "http://localhost:3000",
-]
+```
+NEXT_PUBLIC_SHANKH_API_URL = https://<BACKEND_URL from step 7>
 ```
 
-Then redeploy:
-
-```bash
-az acr build --registry $ACR_NAME --image shankh-backend:$IMAGE_TAG .
-
-az containerapp update \
-  --name $APP_NAME \
-  --resource-group $RESOURCE_GROUP \
-  --image $ACR_NAME.azurecr.io/shankh-backend:$IMAGE_TAG
-```
+Then trigger a redeploy (Vercel dashboard → Deployments → Redeploy, or push any commit).
 
 ---
 
-## Part 2 — Frontend on Vercel
-
-The repo has a `vercel.json` at the root that points Vercel at the `frontend/` directory. Vercel will find `package.json` and detect Next.js automatically.
-
-### Option A — Vercel dashboard (recommended)
-
-1. Push the repo to GitHub
-2. Go to [vercel.com/new](https://vercel.com/new) → Import your repo
-3. Vercel will auto-detect the `vercel.json` root directory setting
-4. Add one environment variable:
-   - `NEXT_PUBLIC_SHANKH_API_URL` = `https://<your-backend-fqdn-from-step-7>`
-5. Deploy
-
-### Option B — Vercel CLI
-
-```bash
-npm i -g vercel
-vercel login
-
-# From the repo root
-vercel --prod \
-  --env NEXT_PUBLIC_SHANKH_API_URL=https://$BACKEND_URL
-```
-
----
-
-## Updating the backend after code changes
+## Updating after code changes
 
 ```bash
 az acr build --registry $ACR_NAME --image shankh-backend:$IMAGE_TAG .
@@ -202,7 +151,7 @@ Azure Container Apps does a rolling restart with zero downtime.
 
 ---
 
-## Updating secrets
+## Rotating secrets
 
 ```bash
 az containerapp secret set \
@@ -210,7 +159,7 @@ az containerapp secret set \
   --resource-group $RESOURCE_GROUP \
   --secrets google-api-key=NEW_VALUE
 
-# Restart to pick up the new secret value
+# Restart to pick up the new value
 az containerapp revision restart \
   --name $APP_NAME \
   --resource-group $RESOURCE_GROUP \
@@ -227,5 +176,3 @@ az containerapp revision restart \
 ```bash
 az group delete --name $RESOURCE_GROUP --yes --no-wait
 ```
-
-This removes the Container App, environment, ACR, and all associated resources.

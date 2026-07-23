@@ -41,7 +41,7 @@ _MODEL_DEFAULTS: dict[str, Any] = dict(temperature=0.6, max_retries=1, timeout=6
 class ModelSlot:
     """One entry in the rotation: a concrete chat model instance plus its health."""
 
-    name: str  # human-readable id, e.g. "gemini-2.5-flash#0"
+    name: str  # human-readable id, e.g. "gemini-3.5-flash#0"
     model: Any  # a BaseChatModel instance (ChatOpenAI, ChatMistralAI, ...)
     weight: int = 1  # relative selection weight among currently-healthy slots
     cooldown_until: float = 0.0  # monotonic() timestamp; skip slot until then
@@ -218,40 +218,27 @@ def build_default_pool() -> RotatingModelPool:
     rotate within one provider as well as across providers.
     """
     slots: list[ModelSlot] = []
-
-    if ChatGoogleGenerativeAI is not None:
-        for i, key in enumerate(_split_keys("GOOGLE_API_KEYS") or _split_keys("GOOGLE_API_KEY")):
-            slots.append(ModelSlot(
-                name=f"gemini-2.5-flash#{i}",
-                model=ChatGoogleGenerativeAI(model="gemini-3.5-flash", google_api_key=key, **_MODEL_DEFAULTS),
-            ))
-
-    if ChatMistralAI is not None:
-        for i, key in enumerate(_split_keys("MISTRAL_API_KEYS") or _split_keys("MISTRAL_API_KEY")):
-            slots.append(ModelSlot(
+    for i, key in enumerate(_split_keys("MISTRAL_API_KEYS") or _split_keys("MISTRAL_API_KEY")):
+        slots.append(ModelSlot(
                 name=f"mistral-large#{i}",
                 model=ChatMistralAI(model="mistral-large-latest", api_key=key, **_MODEL_DEFAULTS),
             ))
 
-    if ChatCerebras is not None:
-        for i, key in enumerate(_split_keys("CEREBRAS_API_KEYS") or _split_keys("CEREBRAS_API_KEY")):
-            slots.append(ModelSlot(
+
+
+
+    for i, key in enumerate(_split_keys("CEREBRAS_API_KEYS") or _split_keys("CEREBRAS_API_KEY")):
+        slots.append(ModelSlot(
                 name=f"cerebras-llama#{i}",
-                model=ChatCerebras(model="llama-3.3-70b", api_key=key, **_MODEL_DEFAULTS),
+                model=ChatCerebras(model="gpt-oss-120b", api_key=key, **_MODEL_DEFAULTS),
             ))
 
-    if ChatOpenAI is not None:
-        for i, key in enumerate(_split_keys("OPENAI_API_KEYS") or _split_keys("OPENAI_API_KEY")):
-            slots.append(ModelSlot(
-                name=f"openai-gpt#{i}",
-                model=ChatOpenAI(model="gpt-5.4-mini", api_key=key, **_MODEL_DEFAULTS),
-            ))
 
         # Z.AI / GLM (or any other OpenAI-compatible endpoint) - same client class,
         # just a different base_url. Swap ZAI_BASE_URL to point this at Together,
         # vLLM, OpenRouter's OpenAI-compat mode, etc.
-        for i, key in enumerate(_split_keys("ZAI_API_KEYS") or _split_keys("ZAI_API_KEY")):
-            slots.append(ModelSlot(
+    for i, key in enumerate(_split_keys("ZAI_API_KEYS") or _split_keys("ZAI_API_KEY")):
+        slots.append(ModelSlot(
                 name=f"zai-glm#{i}",
                 model=ChatOpenAI(
                     model=os.environ.get("ZAI_MODEL", "glm-5.2"),
@@ -259,6 +246,11 @@ def build_default_pool() -> RotatingModelPool:
                     base_url=os.environ.get("ZAI_BASE_URL", "https://api.z.ai/api/paas/v4/"),
                     **_MODEL_DEFAULTS,
                 ),
+            ))
+    for i, key in enumerate(_split_keys("GOOGLE_API_KEYS") or _split_keys("GOOGLE_API_KEY")):
+        slots.append(ModelSlot(
+                name=f"gemini-2.5-flash#{i}",
+                model=ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=key, **_MODEL_DEFAULTS),
             ))
 
     if not slots:

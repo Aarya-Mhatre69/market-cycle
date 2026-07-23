@@ -1,16 +1,30 @@
-*.env
-*.venv
-*__pycache__/
-*.pyc
-*lock
-*node_modules/
-*.pkl
-*.npz
-*.csv
-*artifacts/
-*.bin
-*cache/
-.agents/
+# Secrets
+.env
+.env.*
+
+# Python
+.venv/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+
+# Locks (uv.lock is intentionally committed for reproducible builds)
+# uv.lock  <- do NOT ignore this
+
+# Node
+frontend/node_modules/
+frontend/.next/
+*models/
+# Data — large raw datasets, never commit
 data/
-models/
-*.parquet
+
+# Trained model artifacts — committed so Docker build includes them
+# models/ is intentionally NOT ignored here
+
+# Misc build / IDE artefacts
+.agents/
+*.log
+.DS_Store
+
+# n8n
+n8n/

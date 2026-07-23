@@ -95,8 +95,6 @@ class FinancialAdvisor:
         self._agent = build_financial_advisor_agent(self._checkpointer)
 
     def ask(self, question: str, thread_id: str = "default", recursion_limit: int = 20) -> str:
-        print(question)
         config = {"configurable": {"thread_id": thread_id}, "recursion_limit": recursion_limit}
         result = self._agent.invoke({"messages": [HumanMessage(content=question)]}, config)
-        print(result)
         return extract_response_text(result.get("messages", []))

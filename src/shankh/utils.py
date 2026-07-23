@@ -98,7 +98,7 @@ def resolve_model(provider_hint: str = None) -> Any:
 
     if provider_hint == "cerebras" and os.getenv("CEREBRAS_API_KEY"):
         from langchain_cerebras import ChatCerebras
-        return ChatCerebras(model="llama-3.3-70b", api_key=os.getenv("CEREBRAS_API_KEY"))
+        return ChatCerebras(model="gpt-oss-120b", api_key=os.getenv("CEREBRAS_API_KEY"))
 
     if provider_hint == "mistral" and os.getenv("MISTRALAI_API_KEY"):
         from langchain_mistralai import ChatMistralAI
@@ -109,12 +109,12 @@ def resolve_model(provider_hint: str = None) -> Any:
 
     if os.getenv("CEREBRAS_API_KEY"):
         from langchain_cerebras import ChatCerebras
-        return ChatCerebras(model="llama-3.3-70b", api_key=os.getenv("CEREBRAS_API_KEY"))
+        return ChatCerebras(model="gpt-oss-120b", api_key=os.getenv("CEREBRAS_API_KEY"))
 
-    if os.getenv("MISTRALAI_API_KEY"):
-        from langchain_mistralai import ChatMistralAI
-        return ChatMistralAI(model="mistral-large-latest", api_key=os.getenv("MISTRALAI_API_KEY"))
+    # if os.getenv("MISTRALAI_API_KEY"):
+    from langchain_mistralai import ChatMistralAI
+    #     return ChatMistralAI(model="mistral-large-latest", api_key=os.getenv("MISTRALAI_API_KEY"))
 
-    # Return default string format for LangChain standard provider binding
-    return "google_genai:gemini-2.5-flash"
+    # # Return default string format for LangChain standard provider binding
+    return ChatMistralAI(model="mistral-large-latest", api_key=os.getenv("MISTRALAI_API_KEY"))
 

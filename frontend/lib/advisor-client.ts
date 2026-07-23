@@ -5,9 +5,15 @@ import type { AdvisorErrorKind, AskAdvisorResponse } from "./types";
  * NEXT_PUBLIC_SHANKH_API_URL in your Next.js environment — falls back to
  * localhost for local dev so the app never silently points nowhere.
  */
-export const ADVISOR_API_URL =
-  process.env.NEXT_PUBLIC_SHANKH_API_URL?.replace(/\/+$/, "") ??
-  "http://localhost:8000";
+const apiUrl = process.env.NEXT_PUBLIC_SHANKH_API_URL;
+
+if (!apiUrl) {
+  throw new Error(
+    "Missing NEXT_PUBLIC_SHANKH_API_URL environment variable."
+  );
+}
+
+export const ADVISOR_API_URL = apiUrl.replace(/\/+$/, "");
 
 /** The deep agent fans out to three subagents — give it real headroom. */
 const DEFAULT_ASK_TIMEOUT_MS = 120_000;
