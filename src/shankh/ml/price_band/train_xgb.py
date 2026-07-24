@@ -162,9 +162,12 @@ def _fit_model(model, backend: str, X_train, y_train, X_val, y_val, params: dict
             lgb.early_stopping(stopping_rounds=es_rounds, verbose=False),
             lgb.log_evaluation(period=-1),
         ]
-        model.fit(X_train, y_train, eval_set=[(X_val, y_val)], callbacks=callbacks)
+        # model.fit(X_train, y_train, eval_set=[(X_val, y_val)], callbacks=callbacks)
+        model.fit(X_train, y_train,eval_x=X_val, eval_y=y_val, callbacks=callbacks)
     else:  # xgboost
-        model.fit(X_train, y_train, eval_set=[(X_val, y_val)], verbose=False)
+        # model.fit(X_train, y_train, eval_set=[(X_val, y_val)], verbose=False)
+        # model.fit(X_train, y_train, eval_set=[(X_val, y_val)], verbose=False)
+        model.fit(X_train, y_train,eval_x=X_val, eval_y=y_val, verbose=False)
 
 
 def _get_default_model_params(cfg: dict) -> dict[str, Any]:
@@ -425,11 +428,47 @@ def run_pipeline(cfg: dict) -> dict:
     feature_cols = get_feature_cols(feat_df)
     logger.info("Engineered feature set: %d rows × %d features", len(feat_df), len(feature_cols))
 
+    # =========================================================================
+    # NEW: Compute and Save Correlation Matrix & Highly Correlated Pairs
+    # =========================================================================
+    art_dir = Path(cfg["artifacts"]["artifacts_dir"])
+    art_dir.mkdir(parents=True, exist_ok=True)
+
+    # 1. Compute Pearson correlation matrix across engineered features
+    corr_matrix = feat_df[feature_cols].corr()
+
+    # 2. Save full N x N matrix to CSV for spreadsheet inspection
+    corr_matrix_path = art_dir / "feature_correlation_matrix.csv"
+    corr_matrix.to_csv(corr_matrix_path)
+    logger.info("Saved full feature correlation matrix to %s", corr_matrix_path)
+
+    # 3. Extract and save HIGHLY CORRELATED PAIRS (|rho| >= 0.85) for fast review
+    upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
+    
+    high_corr_pairs = (
+        upper_tri.stack()
+        .reset_index()
+        .rename(columns={"level_0": "feature_1", "level_1": "feature_2", 0: "correlation"})
+    )
+    high_corr_pairs["abs_correlation"] = high_corr_pairs["correlation"].abs()
+    high_corr_pairs = high_corr_pairs[high_corr_pairs["abs_correlation"] >= 0.85].sort_values(
+        "abs_correlation", ascending=False
+    )
+
+    high_corr_path = art_dir / "highly_correlated_feature_pairs.csv"
+    high_corr_pairs.to_csv(high_corr_path, index=False)
+    
+    logger.info(
+        "Inspection: Found %d highly correlated feature pairs (|rho| >= 0.85). Saved to %s",
+        len(high_corr_pairs),
+        high_corr_path,
+    )
+    # =========================================================================
+
     logger.info("STEP 3 — Train / Test set partitioning (Test cutoff: %s)", cfg["data"]["test_cutoff"])
     test_cutoff = cfg["data"]["test_cutoff"]
     pretrain_df = feat_df[feat_df["date"] < test_cutoff].copy().reset_index(drop=True)
     test_df     = feat_df[feat_df["date"] >= test_cutoff].copy().reset_index(drop=True)
-
     if pretrain_df.empty or test_df.empty:
         raise ValueError(f"Partition empty at cutoff {test_cutoff}. Verify dataset coverage.")
 
@@ -480,7 +519,7 @@ def run_pipeline(cfg: dict) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Full Productionized Price-Band Forecasting Pipeline")
     parser.add_argument("--config", type=str, default=None, help="Path to JSON file with config overrides.")
-    parser.add_argument("--backend", type=str, choices=["lightgbm", "xgboost"], default="xgboost", help="Override backend model choice.")
+    parser.add_argument("--backend", type=str, choices=["lightgbm", "xgboost"], default="lightgbm", help="Override backend model choice.")
     parser.add_argument("--plot-only", action="store_true", help="Render plot directly from saved predictions without retraining.")
     parser.add_argument("--ticker", type=str, default=None, help="Specific ticker to plot when using --plot-only.")
     args = parser.parse_args()

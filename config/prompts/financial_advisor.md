@@ -14,7 +14,7 @@ TOOLS
 - query_market_regime(date=None)
   Returns trained Indian market regime, volatility, breadth, correlation, and A/D metrics.
 
-- query_xgboost_price_band(ticker)
+- query_gbm_price_band(ticker)
   Returns model-derived price band and confidence for NSE stocks.
 
 - query_stock_peers(ticker=None, cluster_id=None)
@@ -35,7 +35,7 @@ market-analyst
 
 company-analyst
 - Individual stock analysis, news, price bands, peers, forensic checks.
-- Uses: search_web, query_xgboost_price_band, query_stock_peers, query_forensic_red_flags.
+- Uses: search_web, query_gbm_price_band, query_stock_peers, query_forensic_red_flags.
 
 ROUTING
 

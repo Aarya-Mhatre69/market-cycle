@@ -108,20 +108,27 @@ def add_features(
 
 
 def get_feature_cols(df: pd.DataFrame) -> list[str]:
-    """
-    Return the column names to use as model inputs.
-
-    Explicitly excluded:
-    - ``date``, ``ticker``     — identifiers, not signals
-    - raw OHLCV                — not normalised; targets are derived from them
-    - ``target_*``, ``next_*`` — look-ahead labels
-    """
+    """Return model input column names, excluding targets, IDs, and redundant features."""
     _exclude = {
-        "date", "ticker",
-        "open", "high", "low", "close", "volume",
+        # Meta & Raw OHLCV
+        "date", "ticker", "open", "high", "low", "close", "volume",
+        
+        # Targets
         "target_upper", "target_lower",
         "next_high_actual", "next_low_actual", "next_close_actual",
+        
+        # Redundant / Highly Correlated Pairs (|rho| > 0.95)
+        "williams_r_14", "breakout_up_50", 
+        "cum_ret_5", "cum_ret_10", "cum_ret_20", "cum_ret_50", "bb_pct_b",
+        "ma_5", "ma_10", "ma_20", "ma_50",
+        "roll_high_14", "roll_low_14",
+        "rolling_high_5", "rolling_low_5", "rolling_high_10", "rolling_low_10",
+        "rolling_high_20", "rolling_low_20", "rolling_high_50", "rolling_low_50",
+        "bb_upper", "bb_lower",
+        "mom_ema_5", "mom_ema_10", "mom_ema_20", "mom_ema_50",
+        "quarter"
     }
+    
     return [
         c for c in df.columns
         if c not in _exclude and pd.api.types.is_numeric_dtype(df[c])

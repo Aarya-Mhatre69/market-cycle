@@ -120,14 +120,14 @@ class TestMacroAgentToolInvocation:
 
 
 # ---------------------------------------------------------------------------
-# Company agent — query_xgboost_price_band
+# Company agent — query_gbm_price_band
 # ---------------------------------------------------------------------------
 
 class TestCompanyAgentPriceBandToolInvocation:
 
     def test_price_band_tool_called_for_reliance(self):
         """
-        Build the company analyst agent and ask it to call query_xgboost_price_band
+        Build the company analyst agent and ask it to call query_gbm_price_band
         for RELIANCE.NS with live yfinance data. Asserts band prices are returned.
         """
         from shankh.agents.company_agent import build_company_analyst_agent
@@ -135,7 +135,7 @@ class TestCompanyAgentPriceBandToolInvocation:
         agent = build_company_analyst_agent(checkpointer=MemorySaver())
 
         prompt = (
-            "Use the query_xgboost_price_band tool to get the predicted next-day "
+            "Use the query_gbm_price_band tool to get the predicted next-day "
             "high/low price band for RELIANCE.NS using live market data. "
             "Report the predicted high price, low price, and band width. "
             "Do not use web search — only the ML model tool."

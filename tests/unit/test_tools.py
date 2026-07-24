@@ -26,23 +26,22 @@ DATE        = "2026-07-24"
 
 
 # ---------------------------------------------------------------------------
-# price_band — query_xgboost_price_band (one ticker at a time by design)
+# price_band — query_gbm_price_band (one ticker at a time by design)
 # ---------------------------------------------------------------------------
 
 def test_price_band_direct():
-    from shankh.ml.price_band.tool import query_xgboost_price_band
+    from shankh.ml.price_band.tool import query_gbm_price_band
 
-    logger.info("Invoking query_xgboost_price_band(ticker=%s, date=%s)", TICKER, DATE)
-    raw = query_xgboost_price_band.invoke({"ticker": TICKER, "date": DATE})
+    logger.info("Invoking query_gbm_price_band(ticker=%s, date=%s)", TICKER, DATE)
+    raw = query_gbm_price_band.invoke({"ticker": TICKER, "date": DATE})
     result = json.loads(raw)
     logger.info("price_band result:\n%s", json.dumps(result, indent=2))
 
     if "error" in result and "action_required" in result:
         pytest.skip(f"Model artifacts not trained yet: {result['error']}")
-
-    assert "xgboost_predicted_price_band" in result
-    band = result["xgboost_predicted_price_band"]
     print(result)
+    assert "lightgbm_predicted_price_band" in result
+    band = result["lightgbm_predicted_price_band"]
     assert band["predicted_high_price_inr"] >= band["predicted_low_price_inr"]
     assert result["ticker"] == TICKER
 

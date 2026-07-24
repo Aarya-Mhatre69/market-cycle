@@ -10,7 +10,7 @@ from langchain_mistralai import ChatMistralAI
 from langchain_cerebras import ChatCerebras
 from langgraph.checkpoint.memory import MemorySaver
 
-from shankh.ml.price_band.tool import query_xgboost_price_band
+from shankh.ml.price_band.tool import query_gbm_price_band, query_gbm_price_band
 from shankh.agents.company_tools import (
     get_company_analyst_tools,
     query_forensic_red_flags,
@@ -73,7 +73,8 @@ def get_advisor_tools() -> list:
     return filter_tools([
         get_web_search_tool(),
         query_market_regime,
-        query_xgboost_price_band,
+        # query_gbm_price_band,
+        query_gbm_price_band,
         query_stock_peers,
         query_forensic_red_flags,
     ])

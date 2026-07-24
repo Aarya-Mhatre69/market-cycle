@@ -6,7 +6,7 @@
 
 * `web_search` — fetch current news or event context when the question depends on recent information.
 * `query_market_regime()` — pull market regime output when the user asks about market state.
-* `query_xgboost_price_band()` — pull stock forecast output when the user asks about a company/stock.
+* `query_gbm_price_band()` — pull stock forecast output when the user asks about a company/stock.
 * `query_stock_peers()` — get similar stocks and cluster peers.
 * `query_forensic_red_flags()` — get anomaly / red-flag summaries.
 
@@ -46,7 +46,7 @@ If only `query_market_regime()` is real, then the other three should stay hidden
 
 **Tools:**
 
-* `query_xgboost_price_band()` — get the forecast band for the stock.
+* `query_gbm_price_band()` — get the forecast band for the stock.
 * `query_stock_peers()` — compare the stock with similar names / cluster peers.
 * `query_forensic_red_flags()` — check anomaly / red-flag status.
 * `web_search` — fetch recent company news, results, filings, or commentary.
@@ -60,7 +60,7 @@ If only `query_market_regime()` is real, then the other three should stay hidden
 | Financial Advisor | `web_search`, routes to others                                                                  |
 | Macro Analyst     | `web_search`                                                                                    |
 | Market Analyst    | `query_market_regime()`, `web_search`                                                           |
-| Company Analyst   | `query_xgboost_price_band()`, `query_stock_peers()`, `query_forensic_red_flags()`, `web_search` |
+| Company Analyst   | `query_gbm_price_band()`, `query_stock_peers()`, `query_forensic_red_flags()`, `web_search` |
 
 ---
 
