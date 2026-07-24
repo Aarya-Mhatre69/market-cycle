@@ -10,9 +10,9 @@ import logging
 import os
 
 from fastmcp import FastMCP
-from src.shankh.agents.financial_advisor import FinancialAdvisor
+from shankh.agents.financial_advisor import FinancialAdvisor
 
-from src.shankh.utils import extract_text_content
+from shankh.utils import extract_text_content
 
 # Configure logging for production readiness
 logging.basicConfig(

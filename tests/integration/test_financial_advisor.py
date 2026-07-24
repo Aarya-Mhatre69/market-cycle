@@ -7,7 +7,7 @@ Runs end-to-end execution loops against live LLM providers and search endpoints.
 import os
 import pytest
 
-from src.shankh.agents.financial_advisor import FinancialAdvisor
+from shankh.agents.financial_advisor import FinancialAdvisor
 from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
 # Mark all tests in this module as live integration tests requiring active credentials

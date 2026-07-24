@@ -6,7 +6,8 @@ from typing import Optional
 import pandas as pd
 from langchain_core.tools import tool
 
-from src.shankh.agents.shared_tools import get_web_search_tool
+from shankh.agents.shared_tools import get_web_search_tool, filter_tools
+from shankh.ml.market.tool import get_market_regime
 
 logger = logging.getLogger(__name__)
 
@@ -85,11 +86,8 @@ def query_market_regime(query_date: Optional[str] = None) -> str:
 
 
 def get_market_analyst_tools() -> list:
-    """Tools owned by the Market Analyst only.
-
-    Exposes only the trained market artifact lookup and live search.
-    """
-    return [
+    """Tools owned by the Market Analyst only."""
+    return filter_tools([
         get_web_search_tool(),
-        query_market_regime,
-        ]
+        get_market_regime,
+    ])

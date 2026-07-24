@@ -247,11 +247,11 @@ def build_default_pool() -> RotatingModelPool:
                     **_MODEL_DEFAULTS,
                 ),
             ))
-    for i, key in enumerate(_split_keys("GOOGLE_API_KEYS") or _split_keys("GOOGLE_API_KEY")):
-        slots.append(ModelSlot(
-                name=f"gemini-2.5-flash#{i}",
-                model=ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=key, **_MODEL_DEFAULTS),
-            ))
+    # for i, key in enumerate(_split_keys("GOOGLE_API_KEYS") or _split_keys("GOOGLE_API_KEY")):
+    #     slots.append(ModelSlot(
+    #             name=f"gemini-2.5-flash#{i}",
+    #             model=ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=key, **_MODEL_DEFAULTS),
+    #         ))
 
     if not slots:
         raise RuntimeError(

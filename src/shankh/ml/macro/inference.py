@@ -7,10 +7,10 @@ from typing import Dict, Any, Optional
 import pandas as pd
 import joblib
 
-from src.shankh.ml.macro.config import CONFIG
-from src.shankh.ml.macro.features import build_cluster_features
-from src.shankh.ml.macro.validation import validate_features
-from src.shankh.ml.macro.model import KMeansModel, IsolationForestModel
+from shankh.ml.macro.config import CONFIG
+from shankh.ml.macro.features import build_cluster_features
+from shankh.ml.macro.validation import validate_features
+from shankh.ml.macro.model import KMeansModel, IsolationForestModel
 
 logger = logging.getLogger(__name__)
 

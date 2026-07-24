@@ -11,12 +11,12 @@ import joblib
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-from src.shankh.ml.market.config import CONFIG
-from src.shankh.ml.market.data_loader import load_data
-from src.shankh.ml.market.features import build_regime_features
-from src.shankh.ml.market.validation import validate_features
-from src.shankh.ml.market.model import HMMModel
-from src.shankh.ml.market.evaluation import evaluate_regime
+from shankh.ml.market.config import CONFIG
+from shankh.ml.market.data_loader import load_data
+from shankh.ml.market.features import build_regime_features
+from shankh.ml.market.validation import validate_features
+from shankh.ml.market.model import HMMModel
+from shankh.ml.market.evaluation import evaluate_regime
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("train_regime")

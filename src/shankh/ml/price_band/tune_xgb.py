@@ -46,12 +46,12 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from src.shankh.ml.price_band.config import CONFIG
-from src.shankh.ml.price_band.data_loader import load_ohlcv
-from src.shankh.ml.price_band.evaluation import evaluate, save_eval_report, save_predictions
-from src.shankh.ml.price_band.features import add_features, get_feature_cols
-from src.shankh.ml.price_band.inference import predict_bands
-from src.shankh.ml.price_band.validation import Fold, walk_forward_folds
+from shankh.ml.price_band.config import CONFIG
+from shankh.ml.price_band.data_loader import load_ohlcv
+from shankh.ml.price_band.evaluation import evaluate, save_eval_report, save_predictions
+from shankh.ml.price_band.features import add_features, get_feature_cols
+from shankh.ml.price_band.inference import predict_bands
+from shankh.ml.price_band.validation import Fold, walk_forward_folds
 
 # Logging Configuration
 logging.basicConfig(

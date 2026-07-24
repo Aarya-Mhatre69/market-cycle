@@ -12,7 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 if str(PROJECT_ROOT / "src") not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from src.shankh.ml.macro.tools import (  # noqa: E402
+from shankh.ml.macro.tools import (  # noqa: E402
     query_stock_clustering_and_forensics,
 )
 

@@ -6,8 +6,8 @@ from typing import Optional
 import pandas as pd
 from langchain_core.tools import tool
 
-from src.shankh.ml.price_band.tool import query_xgboost_price_band
-from src.shankh.agents.shared_tools import get_web_search_tool
+from shankh.ml.price_band.tool import query_xgboost_price_band
+from shankh.agents.shared_tools import get_web_search_tool, filter_tools
 
 logger = logging.getLogger(__name__)
 
@@ -151,9 +151,9 @@ def query_stock_clustering_and_forensics(
 
 def get_company_analyst_tools() -> list:
     """Tools owned by the Company Analyst only."""
-    return [
+    return filter_tools([
         get_web_search_tool(),
         query_xgboost_price_band,
         query_stock_peers,
         query_forensic_red_flags,
-    ]
+    ])

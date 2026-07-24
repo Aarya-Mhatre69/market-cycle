@@ -41,12 +41,12 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 # Package module imports
-from src.shankh.ml.price_band.config import CONFIG
-from src.shankh.ml.price_band.data_loader import load_ohlcv
-from src.shankh.ml.price_band.evaluation import evaluate, save_eval_report, save_predictions
-from src.shankh.ml.price_band.features import add_features, get_feature_cols
-from src.shankh.ml.price_band.inference import predict_bands
-from src.shankh.ml.price_band.validation import Fold, walk_forward_folds
+from shankh.ml.price_band.config import CONFIG
+from shankh.ml.price_band.data_loader import load_ohlcv
+from shankh.ml.price_band.evaluation import evaluate, save_eval_report, save_predictions
+from shankh.ml.price_band.features import add_features, get_feature_cols
+from shankh.ml.price_band.inference import predict_bands
+from shankh.ml.price_band.validation import Fold, walk_forward_folds
 
 # Logging Configuration
 logging.basicConfig(
@@ -480,7 +480,7 @@ def run_pipeline(cfg: dict) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Full Productionized Price-Band Forecasting Pipeline")
     parser.add_argument("--config", type=str, default=None, help="Path to JSON file with config overrides.")
-    parser.add_argument("--backend", type=str, choices=["lightgbm", "xgboost"], default=None, help="Override backend model choice.")
+    parser.add_argument("--backend", type=str, choices=["lightgbm", "xgboost"], default="xgboost", help="Override backend model choice.")
     parser.add_argument("--plot-only", action="store_true", help="Render plot directly from saved predictions without retraining.")
     parser.add_argument("--ticker", type=str, default=None, help="Specific ticker to plot when using --plot-only.")
     args = parser.parse_args()

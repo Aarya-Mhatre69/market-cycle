@@ -22,4 +22,7 @@ def get_web_search_tool() -> Any | None:
     )
 
 
+def filter_tools(tools: list) -> list:
+    """Remove None entries from a tools list (e.g. when optional tools are unconfigured)."""
+    return [t for t in tools if t is not None]
 

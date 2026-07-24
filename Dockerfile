@@ -1,49 +1,41 @@
-###############################################################################
-# Stage 1 — build: install dependencies into a separate prefix
-# Using a full image here so gcc/build-essential are available for native exts.
-###############################################################################
-FROM python:3.12-slim AS builder
+# syntax=docker/dockerfile:1
 
-WORKDIR /build
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential gcc curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install uv, export deps from pyproject.toml, then pip-install into /install
-# so the runtime stage gets a clean, minimal copy.
-COPY pyproject.toml uv.lock ./
-RUN pip install --no-cache-dir uv \
-    && uv export --locked --no-dev --no-hashes --format requirements-txt -o requirements.txt \
-    && pip install --no-cache-dir --prefix=/install -r requirements.txt
-
-
-###############################################################################
-# Stage 2 — runtime: lean image, no build tools
-###############################################################################
-FROM python:3.12-slim AS runtime
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy
 
 WORKDIR /app
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PYTHONPATH=/app \
-    PORT=8000
+# Install only third-party dependencies first
+COPY pyproject.toml uv.lock ./
 
-# Pull in the installed packages from the builder stage.
-COPY --from=builder /install /usr/local
+RUN uv sync \
+    --frozen \
+    --no-dev \
+    --no-install-project \
+    --no-cache
 
-# Application source
-COPY main.py   .
-COPY src/      src/
-COPY config/   config/
+# Copy application
+COPY main.py .
+COPY src/ src/
+COPY config/ config/
+COPY models/ models/
 
-# Embed model artifacts — all files total ~1.3 MB, safe to bake in.
-COPY models/   models/
+# Install the project itself
+RUN uv sync \
+    --frozen \
+    --no-dev \
+    --no-cache
+
+# Create non-root user
+RUN useradd --system --create-home --shell /usr/sbin/nologin appuser \
+    && chown -R appuser:appuser /app
+
+USER appuser
 
 EXPOSE 8000
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+CMD ["uv", "run", "uvicorn", "main:app", "--host=0.0.0.0", "--port=8000"]

@@ -144,6 +144,7 @@ def load_ohlcv(
         max(common_dates).date(),
         len(combined)
     )
+    combined.to_csv("BOKAAA.csv")
     return combined
 
 

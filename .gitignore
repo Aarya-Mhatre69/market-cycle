@@ -28,3 +28,6 @@ data/
 
 # n8n
 n8n/
+
+*temp/
+*.egg-info/

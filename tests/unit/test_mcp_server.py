@@ -9,7 +9,7 @@ if os.getenv("RUN_LIVE_AGENT_TESTS") != "1":
         allow_module_level=True,
     )
 
-from src.shankh.mcp.server import app as server_app 
+from shankh.mcp.server import app as server_app 
 
 @pytest.fixture
 async def main_mcp_client():

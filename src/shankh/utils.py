@@ -60,31 +60,12 @@ def extract_text_content(content: Any) -> str:
 
 
 def extract_response_text(messages: List[Any]) -> str:
-    """
-    Extract non-empty text content from the latest AI/assistant message in a message list.
-    Only considers AIMessage instances (or dicts with role 'assistant') to avoid
-    echoing the user's own HumanMessage when the agent produces no output.
-    """
+    """Extract text from the last message. The last message is always the agent's final response."""
     if not messages:
         return ""
-
-    try:
-        from langchain_core.messages import AIMessage
-        ai_predicate = lambda m: isinstance(m, AIMessage)
-    except ImportError:
-        # Fallback: match by role attribute or dict key if langchain_core unavailable
-        def ai_predicate(m):
-            role = getattr(m, "role", None) or (m.get("role") if isinstance(m, dict) else None)
-            return role in ("assistant", "ai")
-
-    for msg in reversed(messages):
-        if not ai_predicate(msg):
-            continue
-        content = getattr(msg, "content", msg)
-        text = extract_text_content(content)
-        if text.strip():
-            return text
-    return ""
+    last = messages[-1]
+    content = getattr(last, "content", last)
+    return extract_text_content(content)
 
 
 def resolve_model(provider_hint: str = None) -> Any:

@@ -3,12 +3,12 @@ import logging
 
 from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.memory import MemorySaver
-from src.shankh.agents.agent import build_agent,build_default_pool
+from shankh.agents.agent import build_agent,build_default_pool
 
-from src.shankh.agents.market_tools import (
+from shankh.agents.market_tools import (
     get_market_analyst_tools,
 )
-from src.shankh.utils import extract_response_text, resolve_model,load_prompt
+from shankh.utils import extract_response_text, resolve_model,load_prompt
 
 
 logger = logging.getLogger(__name__)
@@ -38,4 +38,5 @@ def run_market_analysis(market_snapshot: dict, sector_data: dict, thread_id: str
         {"messages": [HumanMessage(content=prompt)]},
         config={"configurable": {"thread_id": thread_id}, "recursion_limit": 10},
     )
+    logger.info("market agent called")
     return extract_response_text(result.get("messages", []))

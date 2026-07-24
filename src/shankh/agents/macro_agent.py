@@ -1,15 +1,15 @@
 import json
 import logging
 
-from src.shankh.agents.agent import build_agent,build_default_pool
+from shankh.agents.agent import build_agent,build_default_pool
 
 from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.memory import MemorySaver
 
-from src.shankh.agents.macro_tools import (
+from shankh.agents.macro_tools import (
     get_macro_analyst_tools,
 )
-from src.shankh.utils import extract_response_text, resolve_model,load_prompt
+from shankh.utils import extract_response_text, resolve_model,load_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -33,8 +33,10 @@ def run_macro_analysis(macro_indicators: dict, thread_id: str = "macro-default")
         "You can use web search if you need live news context on RBI policy or global macro events. "
         "Provide your macro regime assessment using the exact required output structure."
     )
+
     result = agent.invoke(
         {"messages": [HumanMessage(content=prompt)]},
         config={"configurable": {"thread_id": thread_id}, "recursion_limit": 10},
     )
+    logger.info("macro agent called")
     return extract_response_text(result.get("messages", []))

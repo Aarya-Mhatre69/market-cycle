@@ -8,10 +8,10 @@ from typing import Dict, Any, Optional
 import pandas as pd
 import joblib
 
-from src.shankh.ml.market.config import CONFIG
-from src.shankh.ml.market.features import build_regime_features
-from src.shankh.ml.market.validation import validate_features
-from src.shankh.ml.market.model import HMMModel
+from shankh.ml.market.config import CONFIG
+from shankh.ml.market.features import build_regime_features
+from shankh.ml.market.validation import validate_features
+from shankh.ml.market.model import HMMModel
 
 logger = logging.getLogger(__name__)
 
@@ -80,5 +80,8 @@ def run_inference(df: pd.DataFrame, models_dir: Optional[Path] = None) -> Dict[s
         "regime_label": str(regime_df["regime_label"].iloc[-1]),
         "volatility": round(float(regime_df["mkt_volatility"].iloc[-1]), 2),
         "breadth_pct": round(float(regime_df["breadth_pct_above_20dma"].iloc[-1]), 2),
-        "historical_regimes": regime_df[["regime_state", "regime_label"]].tail(10).to_dict(orient="index")
+        "historical_regimes": {
+            str(k.date()) if hasattr(k, "date") else str(k): v
+            for k, v in regime_df[["regime_state", "regime_label"]].tail(10).to_dict(orient="index").items()
+        }
     }

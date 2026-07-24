@@ -9,9 +9,9 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 # Root paths  (resolved relative to this file → project-portable)
 # ---------------------------------------------------------------------------
-_SRC_ROOT = Path(__file__).resolve().parents[3]   # …/shankh/
+_SRC_ROOT = Path(__file__).resolve().parents[4]   # …/shankh/
 DATA_DIR   = _SRC_ROOT / "data" /"universe"
-MODELS_DIR = _SRC_ROOT / "models" / "price_band" / "pyro_glu"
+MODELS_DIR = _SRC_ROOT / "models" / "price_band" / "xgboost"
 ARTIFACTS_DIR = MODELS_DIR / "artifacts"
 
 # ---------------------------------------------------------------------------

@@ -1,14 +1,14 @@
 import json
 import logging
 
-from src.shankh.agents.agent import build_agent,build_default_pool
+from shankh.agents.agent import build_agent,build_default_pool
 from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.memory import MemorySaver
 
-from src.shankh.agents.company_tools import (
+from shankh.agents.company_tools import (
     get_company_analyst_tools,
 )
-from src.shankh.utils import extract_response_text, resolve_model,load_prompt
+from shankh.utils import extract_response_text,load_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -33,8 +33,10 @@ def run_company_analysis(symbol: str, context: dict | None = None, thread_id: st
         "peer context, forensic red flags, and relevant company news.\n\n"
         f"```json\n{json.dumps(payload, indent=2)}\n```"
     )
+
     result = agent.invoke(
         {"messages": [HumanMessage(content=prompt)]},
         config={"configurable": {"thread_id": thread_id}, "recursion_limit": 10},
     )
+    logger.infos("company agent called")
     return extract_response_text(result.get("messages", []))
