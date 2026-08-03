@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Optional
 
 import pandas as pd
-from shankh.ml.price_band.data_loader import load_ohlcv as pb_load_ohlcv
+from shankh.ml.company.data_loader import load_ohlcv as pb_load_ohlcv
 
 logger = logging.getLogger(__name__)
 

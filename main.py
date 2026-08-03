@@ -11,7 +11,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from shankh.agents.financial_advisor import FinancialAdvisorV2
+from shankh.agents.financial_advisor import FinancialAdvisor
 from shankh.utils import extract_text_content
 
 # -----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-advisor: FinancialAdvisorV2 | None = None
+advisor: FinancialAdvisor | None = None
 
 
 # -----------------------------------------------------------------------------
@@ -37,7 +37,7 @@ async def lifespan(app: FastAPI):
     global advisor
 
     try:
-        advisor = FinancialAdvisorV2()
+        advisor = FinancialAdvisor()
         logger.info("Financial Advisor initialized successfully.")
     except Exception:
         logger.exception("Failed to initialize Financial Advisor.")

@@ -2,7 +2,7 @@
 Full Productionized Training & Evaluation Pipeline for Price-Band Forecasting.
 
 Merges:
-- Multi-backend Quantile Regression Builders (LightGBM & XGBoost)
+- LightGBM Quantile Regression Builder
 - Walk-Forward Cross-Validation Splitter (Date-aligned, leak-free)
 - Chronological Early-Stopping Final Model Training
 - Per-Fold CV Metrics & Gain-Based Feature Importance Persistence
@@ -11,14 +11,11 @@ Merges:
 
 Usage
 -----
-# Full pipeline run with LightGBM:
-$ python train_pipeline.py --backend lightgbm
-
-# Full pipeline run with XGBoost:
-$ python train_pipeline.py --backend xgboost
+# Full pipeline run:
+$ python -m shankh.ml.company.train
 
 # Plot predictions directly from saved Parquet without retraining:
-$ python train_pipeline.py --plot-only --ticker INFY.NS
+$ python -m shankh.ml.company.train --plot-only --ticker INFY.NS
 """
 
 import argparse
@@ -34,19 +31,19 @@ import joblib
 import numpy as np
 import pandas as pd
 import lightgbm as lgb
-import xgboost as xgb
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 # Package module imports
-from shankh.ml.price_band.config import CONFIG
-from shankh.ml.price_band.data_loader import load_ohlcv
-from shankh.ml.price_band.evaluation import evaluate, save_eval_report, save_predictions
-from shankh.ml.price_band.features import add_features, get_feature_cols
-from shankh.ml.price_band.inference import predict_bands
-from shankh.ml.price_band.validation import Fold, walk_forward_folds
+from shankh.ml.company.config import CONFIG
+from shankh.ml.company.data_loader import load_ohlcv
+from shankh.ml.company.evaluation import evaluate, save_eval_report, save_predictions
+from shankh.ml.company.features import add_features, get_feature_cols
+from shankh.ml.company.inference import predict_bands
+from shankh.ml.company.model import build_model
+from shankh.ml.company.validation import Fold, walk_forward_folds
 
 # Logging Configuration
 logging.basicConfig(
@@ -95,110 +92,31 @@ def pinball_loss(y_true: np.ndarray, y_pred: np.ndarray, alpha: float) -> float:
 
 
 # ---------------------------------------------------------------------------
-# 3. Model Factory (LightGBM & XGBoost Builders)
+# 3. Model Factory (LightGBM)
 # ---------------------------------------------------------------------------
 
-def build_xgb_model(params: dict[str, Any], quantile: float = 0.84, seed: int = 42) -> xgb.XGBRegressor:
-    if not (0.0 < quantile < 1.0):
-        raise ValueError(f"quantile must be in (0, 1), got {quantile}")
-
-    return xgb.XGBRegressor(
-        n_estimators=params.get("n_estimators", 500),
-        learning_rate=params.get("learning_rate", 0.03),
-        max_depth=params.get("max_depth", 5),
-        min_child_weight=params.get("min_child_weight", 3),
-        subsample=params.get("subsample", 0.8),
-        colsample_bytree=params.get("colsample_bytree", 0.8),
-        gamma=params.get("gamma", 0.0),
-        reg_alpha=params.get("reg_alpha", 0.1),
-        reg_lambda=params.get("reg_lambda", 1.0),
-        objective="reg:quantileerror",
-        quantile_alpha=quantile,
-        tree_method=params.get("tree_method", "hist"),
-        eval_metric="quantile",
-        random_state=seed,
-        n_jobs=params.get("n_jobs", -1),
-    )
-
-
-def build_lgb_model(params: dict[str, Any], quantile: float = 0.84, seed: int = 42) -> lgb.LGBMRegressor:
-    if not (0.0 < quantile < 1.0):
-        raise ValueError(f"quantile must be in (0, 1), got {quantile}")
-
-    return lgb.LGBMRegressor(
-        n_estimators=params.get("n_estimators", 500),
-        learning_rate=params.get("learning_rate", 0.03),
-        num_leaves=params.get("num_leaves", 31),
-        max_depth=params.get("max_depth", -1),
-        min_child_samples=params.get("min_child_samples", 20),
-        subsample=params.get("subsample", 0.8),
-        subsample_freq=1,
-        colsample_bytree=params.get("colsample_bytree", 0.8),
-        reg_alpha=params.get("reg_alpha", 0.1),
-        reg_lambda=params.get("reg_lambda", 1.0),
-        min_split_gain=params.get("min_split_gain", 0.0),
-        objective="quantile",
-        alpha=quantile,
-        metric="quantile",
-        random_state=seed,
-        n_jobs=params.get("n_jobs", -1),
-        verbose=-1,
-    )
-
-
-def build_model(backend: str, params: dict[str, Any], quantile: float = 0.84, seed: int = 42):
-    backend = backend.lower().strip()
-    if backend in ("xgboost", "xgb"):
-        return build_xgb_model(params, quantile=quantile, seed=seed)
-    if backend in ("lightgbm", "lgb", "lgbm"):
-        return build_lgb_model(params, quantile=quantile, seed=seed)
-    raise ValueError(f"Unknown backend '{backend}'. Choose 'xgboost' or 'lightgbm'.")
-
-
-def _fit_model(model, backend: str, X_train, y_train, X_val, y_val, params: dict) -> None:
+def _fit_model(model:lgb.LGBMRegressor, X_train, y_train, X_val, y_val, params: dict) -> None:
     es_rounds = params.get("early_stopping_rounds", 50)
-    if backend in ("lightgbm", "lgb", "lgbm"):
-        callbacks = [
-            lgb.early_stopping(stopping_rounds=es_rounds, verbose=False),
-            lgb.log_evaluation(period=-1),
-        ]
-        # model.fit(X_train, y_train, eval_set=[(X_val, y_val)], callbacks=callbacks)
-        model.fit(X_train, y_train,eval_x=X_val, eval_y=y_val, callbacks=callbacks)
-    else:  # xgboost
-        # model.fit(X_train, y_train, eval_set=[(X_val, y_val)], verbose=False)
-        # model.fit(X_train, y_train, eval_set=[(X_val, y_val)], verbose=False)
-        model.fit(X_train, y_train,eval_x=X_val, eval_y=y_val, verbose=False)
+    callbacks = [
+        lgb.early_stopping(stopping_rounds=es_rounds, verbose=False),
+        lgb.log_evaluation(period=-1),
+    ]
+    model.fit(X_train, y_train, eval_X=X_val, eval_y=y_val, callbacks=callbacks)
 
 
 def _get_default_model_params(cfg: dict) -> dict[str, Any]:
-    backend = cfg["model"]["backend"].lower().strip()
-    if backend in ("lightgbm", "lgb", "lgbm"):
-        return cfg["model"].get("lgb_params", {
-            "n_estimators": 500,
-            "learning_rate": 0.03,
-            "num_leaves": 31,
-            "max_depth": 6,
-            "min_child_samples": 20,
-            "subsample": 0.8,
-            "colsample_bytree": 0.8,
-            "reg_alpha": 0.1,
-            "reg_lambda": 1.0,
-            "early_stopping_rounds": 50,
-        })
-    else:
-        return cfg["model"].get("xgb_params", {
-            "n_estimators": 500,
-            "learning_rate": 0.03,
-            "max_depth": 5,
-            "min_child_weight": 3,
-            "subsample": 0.8,
-            "colsample_bytree": 0.8,
-            "gamma": 0.0,
-            "reg_alpha": 0.1,
-            "reg_lambda": 1.0,
-            "early_stopping_rounds": 50,
-        })
-
+    return cfg["model"].get("lgb_params", {
+        "n_estimators": 500,
+        "learning_rate": 0.03,
+        "num_leaves": 31,
+        "max_depth": 6,
+        "min_child_samples": 20,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_alpha": 0.1,
+        "reg_lambda": 1.0,
+        "early_stopping_rounds": 50,
+    })
 
 
 def train_final_models(
@@ -207,7 +125,6 @@ def train_final_models(
     model_params: dict[str, Any],
     cfg: dict,
 ) -> Tuple[Any, Any]:
-    backend        = cfg["model"]["backend"]
     upper_quantile = cfg["model"]["upper_quantile"]
     lower_quantile = cfg["model"]["lower_quantile"]
     seed           = cfg["seed"]
@@ -223,14 +140,14 @@ def train_final_models(
     X_tr  = df.loc[train_mask, feature_cols]
     X_val = df.loc[val_mask, feature_cols]
 
-    upper_model = build_model(backend, model_params, quantile=upper_quantile, seed=seed)
-    lower_model = build_model(backend, model_params, quantile=lower_quantile, seed=seed)
+    upper_model = build_model(model_params, quantile=upper_quantile, seed=seed)
+    lower_model = build_model(model_params, quantile=lower_quantile, seed=seed)
 
-    logger.info("Fitting final upper-band model (%s, q=%.2f) ...", backend, upper_quantile)
-    _fit_model(upper_model, backend, X_tr, df.loc[train_mask, cfg["targets"]["upper"]].values, X_val, df.loc[val_mask, cfg["targets"]["upper"]].values, model_params)
+    logger.info("Fitting final upper-band model (q=%.2f) ...", upper_quantile)
+    _fit_model(upper_model, X_tr, df.loc[train_mask, cfg["targets"]["upper"]].values, X_val, df.loc[val_mask, cfg["targets"]["upper"]].values, model_params)
 
-    logger.info("Fitting final lower-band model (%s, q=%.2f) ...", backend, lower_quantile)
-    _fit_model(lower_model, backend, X_tr, df.loc[train_mask, cfg["targets"]["lower"]].values, X_val, df.loc[val_mask, cfg["targets"]["lower"]].values, model_params)
+    logger.info("Fitting final lower-band model (q=%.2f) ...", lower_quantile)
+    _fit_model(lower_model, X_tr, df.loc[train_mask, cfg["targets"]["lower"]].values, X_val, df.loc[val_mask, cfg["targets"]["lower"]].values, model_params)
 
     return upper_model, lower_model
 
@@ -242,7 +159,6 @@ def collect_cv_metrics(
     folds: List[Fold],
     cfg: dict,
 ) -> List[dict]:
-    backend        = cfg["model"]["backend"]
     upper_quantile = cfg["model"]["upper_quantile"]
     lower_quantile = cfg["model"]["lower_quantile"]
     seed           = cfg["seed"]
@@ -254,17 +170,17 @@ def collect_cv_metrics(
         y_u_tr, y_l_tr   = df.iloc[fold.train_idx][cfg["targets"]["upper"]].values, df.iloc[fold.train_idx][cfg["targets"]["lower"]].values
         y_u_val, y_l_val = df.iloc[fold.val_idx][cfg["targets"]["upper"]].values, df.iloc[fold.val_idx][cfg["targets"]["lower"]].values
 
-        u_model = build_model(backend, model_params, quantile=upper_quantile, seed=seed)
-        l_model = build_model(backend, model_params, quantile=lower_quantile, seed=seed)
+        u_model = build_model(model_params, quantile=upper_quantile, seed=seed)
+        l_model = build_model(model_params, quantile=lower_quantile, seed=seed)
 
-        _fit_model(u_model, backend, X_tr, y_u_tr, X_val, y_u_val, model_params)
-        _fit_model(l_model, backend, X_tr, y_l_tr, X_val, y_l_val, model_params)
+        _fit_model(u_model, X_tr, y_u_tr, X_val, y_u_val, model_params)
+        _fit_model(l_model, X_tr, y_l_tr, X_val, y_l_val, model_params)
 
         pred_u = u_model.predict(X_val)
         pred_l = l_model.predict(X_val)
 
         val_df = df.iloc[fold.val_idx].copy()
-        
+
         # Enforce band ordering & compute metrics
         band_upper = np.maximum(pred_u, pred_l)
         band_lower = np.minimum(pred_u, pred_l)
@@ -300,17 +216,12 @@ def save_artifacts(
     model_params: dict, cv_results: List[dict], cfg: dict
 ) -> None:
     art_cfg = cfg["artifacts"]
-    backend = cfg["model"]["backend"]
     art_dir = Path(art_cfg["artifacts_dir"])
     art_dir.mkdir(parents=True, exist_ok=True)
 
-    # Save Native Model File (.txt for LightGBM, .json for XGBoost)
-    if backend in ("lightgbm", "lgb", "lgbm"):
-        upper_model.booster_.save_model(str((art_dir / art_cfg["upper_model"]).with_suffix(".txt")))
-        lower_model.booster_.save_model(str((art_dir / art_cfg["lower_model"]).with_suffix(".txt")))
-    else:
-        upper_model.save_model(str((art_dir / art_cfg["upper_model"]).with_suffix(".json")))
-        lower_model.save_model(str((art_dir / art_cfg["lower_model"]).with_suffix(".json")))
+    # Save Native LightGBM Model Files (.txt)
+    upper_model.booster_.save_model(str((art_dir / art_cfg["upper_model"]).with_suffix(".txt")))
+    lower_model.booster_.save_model(str((art_dir / art_cfg["lower_model"]).with_suffix(".txt")))
 
     # Feature columns list
     joblib.dump(feature_cols, art_dir / art_cfg["feature_cols"])
@@ -318,7 +229,7 @@ def save_artifacts(
     # Model Hyperparameters JSON
     with open(art_dir / "model_parameters.json", "w") as f:
         json.dump({
-            "backend": backend,
+            "backend": "lightgbm",
             "upper_quantile": cfg["model"]["upper_quantile"],
             "lower_quantile": cfg["model"]["lower_quantile"],
             "parameters": model_params,
@@ -332,14 +243,10 @@ def save_artifacts(
 
 def save_feature_importance(upper_model, lower_model, feature_cols: List[str], cfg: dict) -> None:
     art_dir = Path(cfg["artifacts"]["artifacts_dir"])
-    backend = cfg["model"]["backend"]
 
     for label, model in [("upper", upper_model), ("lower", lower_model)]:
         try:
-            if backend in ("lightgbm", "lgb", "lgbm"):
-                imp_vals = model.booster_.feature_importance(importance_type="gain")
-            else:
-                imp_vals = model.feature_importances_
+            imp_vals = model.booster_.feature_importance(importance_type="gain")
             imp_df = pd.DataFrame({"feature": feature_cols, "importance": imp_vals}).sort_values("importance", ascending=False).reset_index(drop=True)
             out_path = art_dir / cfg["artifacts"]["feature_imp"].format(target=label)
             imp_df.to_csv(out_path, index=False)
@@ -444,7 +351,7 @@ def run_pipeline(cfg: dict) -> dict:
 
     # 3. Extract and save HIGHLY CORRELATED PAIRS (|rho| >= 0.85) for fast review
     upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-    
+
     high_corr_pairs = (
         upper_tri.stack()
         .reset_index()
@@ -457,7 +364,7 @@ def run_pipeline(cfg: dict) -> dict:
 
     high_corr_path = art_dir / "highly_correlated_feature_pairs.csv"
     high_corr_pairs.to_csv(high_corr_path, index=False)
-    
+
     logger.info(
         "Inspection: Found %d highly correlated feature pairs (|rho| >= 0.85). Saved to %s",
         len(high_corr_pairs),
@@ -482,7 +389,7 @@ def run_pipeline(cfg: dict) -> dict:
     )
 
     model_params = _get_default_model_params(cfg)
-    logger.info("STEP 5 — Model parameters configured for backend '%s': %s", cfg["model"]["backend"], model_params)
+    logger.info("STEP 5 — Model parameters configured: %s", model_params)
 
     logger.info("STEP 6 — Training final models on pre-test set with chronological holdout")
     upper_model, lower_model = train_final_models(pretrain_df, feature_cols, model_params, cfg)
@@ -506,7 +413,7 @@ def run_pipeline(cfg: dict) -> dict:
 
     try:
         preds_df = load_predictions(cfg)
-        out_plot_path = Path(cfg["artifacts"]["artifacts_dir"]) / f"prediction_plot_{cfg['model']['backend']}.png"
+        out_plot_path = Path(cfg["artifacts"]["artifacts_dir"]) / "prediction_plot_lightgbm.png"
         plot_predictions(preds_df, out_path=out_plot_path)
     except Exception as exc:
         logger.warning("Could not render prediction plot: %s", exc)
@@ -519,20 +426,16 @@ def run_pipeline(cfg: dict) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Full Productionized Price-Band Forecasting Pipeline")
     parser.add_argument("--config", type=str, default=None, help="Path to JSON file with config overrides.")
-    parser.add_argument("--backend", type=str, choices=["lightgbm", "xgboost"], default="lightgbm", help="Override backend model choice.")
     parser.add_argument("--plot-only", action="store_true", help="Render plot directly from saved predictions without retraining.")
     parser.add_argument("--ticker", type=str, default=None, help="Specific ticker to plot when using --plot-only.")
     args = parser.parse_args()
 
     cfg = _load_config(args.config)
 
-    if args.backend:
-        cfg["model"]["backend"] = args.backend
-
     if args.plot_only:
         logger.info("Plot-only mode activated. Loading saved Parquet table...")
         preds_df = load_predictions(cfg)
-        out_path = Path(cfg["artifacts"]["artifacts_dir"]) / f"prediction_plot_{cfg['model']['backend']}.png"
+        out_path = Path(cfg["artifacts"]["artifacts_dir"]) / "prediction_plot_lightgbm.png"
         plot_predictions(preds_df, ticker=args.ticker, out_path=out_path, show=True)
     else:
         run_pipeline(cfg)

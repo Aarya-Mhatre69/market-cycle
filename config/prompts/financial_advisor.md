@@ -11,17 +11,14 @@ TOOLS
 - search_web(query)
   Live web search for prices, news, earnings, macro events, regulations, analyst commentary, and global markets. Use for all recent/current information.
 
-- query_market_regime(date=None)
+- get_market_regime(date=None)
   Returns trained Indian market regime, volatility, breadth, correlation, and A/D metrics.
 
 - query_gbm_price_band(ticker)
   Returns model-derived price band and confidence for NSE stocks.
 
-- query_stock_peers(ticker=None, cluster_id=None)
-  Returns factor/correlation peer clusters.
-
-- query_forensic_red_flags(ticker)
-  Returns forensic anomaly and risk flags.
+- get_stock_clusters(tickers)
+  Returns factor/correlation peer clusters and forensic anomaly flags.
 
 SPECIALIST AGENTS
 
@@ -31,11 +28,11 @@ macro-analyst
 
 market-analyst
 - Market regime, volatility, breadth, sector rotation, market cycles.
-- Uses: search_web, query_market_regime.
+- Uses: search_web, get_market_regime.
 
 company-analyst
 - Individual stock analysis, news, price bands, peers, forensic checks.
-- Uses: search_web, query_gbm_price_band, query_stock_peers, query_forensic_red_flags.
+- Uses: search_web, query_gbm_price_band, get_stock_clusters.
 
 ROUTING
 

@@ -68,7 +68,7 @@ Forensic finance basics: financial statement quality, cash flow vs profit, audit
 7. Suggested Architecture
 Data layer: NSE bhavcopy, Nifty indices, FMP, broker data, news/sentiment, internal CSV/parquet lake.
 Feature layer: technical, fundamental, macro, breadth, sentiment and quality features with timestamped feature store.
-Model layer: baseline models first, then XGBoost/LightGBM, random forest, logistic regression, Prophet or deep learning only where justified.
+Model layer: baseline models first, then LightGBM, random forest, logistic regression, Prophet or deep learning only where justified.
 Agent layer: planner agent, data fetcher tools, analyst agents, verifier agent and report generator agent.
 Memory layer: store model runs, assumptions, user preferences, past mistakes, evaluation metrics and reusable workflow notes.
 Output layer: forecast report, regime dashboard, red-flag report and daily market context summary.

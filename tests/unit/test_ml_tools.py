@@ -1,27 +1,22 @@
 """
-Live integration tests for ML tool invocation via agents.
+Unit tests for the MCP-adapter tool wiring in the new decoupled architecture.
 
-Each test builds the real agent, sends a prompt that explicitly instructs
-it to call the ML model tool on real data, and asserts the response is
-non-empty and substantive.
+The legacy in-process analyst agents (market_agent / macro_agent / company_agent)
+were removed. ML tools now run in standalone FastMCP servers and are loaded into
+subagents via langchain_mcp_adapters in financial_advisor.py. These tests verify:
 
-Requirements:
-- Valid API keys in .env (MISTRAL_API_KEY or CEREBRAS_API_KEY or GOOGLE_API_KEY)
-- Trained model artifacts on disk for market/macro tools
-- Internet access for yfinance and web search
+  - MCP_SERVER_CONFIG points at the three decoupled ML servers.
+  - _partition_mcp_tools routes the fetched remote tools to the correct
+    analyst subagent buckets.
+
+Direct wrapper-tool invocation tests (via toolname.invoke()) live in test_tools.py.
 
 Run:
     uv run pytest tests/unit/test_ml_tools.py -v -s
 """
 
 import logging
-import os
-import pytest
-from dotenv import load_dotenv
-from langgraph.checkpoint.memory import MemorySaver
-from langchain_core.messages import HumanMessage
-
-load_dotenv()
+from langchain_core.tools import tool
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -31,184 +26,114 @@ logger = logging.getLogger(__name__)
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _invoke(agent, prompt: str, thread_id: str) -> str:
-    result = agent.invoke(
-        {"messages": [HumanMessage(content=prompt)]},
-        config={"configurable": {"thread_id": thread_id}, "recursion_limit": 15},
-    )
-    messages = result.get("messages", [])
-    last = messages[-1] if messages else None
-    content = getattr(last, "content", "") if last else ""
-    if isinstance(content, list):
-        content = " ".join(
-            b.get("text", "") if isinstance(b, dict) else str(b) for b in content
-        )
-    return str(content).strip()
+@tool
+def get_stock_clusters(tickers: str) -> str:
+    """Dummy macro MCP tool: cluster + forensic screen."""
+    return f"{{'tickers': {tickers!r}}}"
 
 
-# ---------------------------------------------------------------------------
-# Market agent — get_market_regime
-# ---------------------------------------------------------------------------
-
-class TestMarketAgentToolInvocation:
-
-    def test_market_regime_tool_called_with_real_data(self):
-        """
-        Build the market analyst agent and ask it to call get_market_regime
-        on live Nifty data. Asserts the response is non-empty and contains
-        market regime language.
-        """
-        from shankh.agents.market_agent import build_market_analyst_agent
-
-        agent = build_market_analyst_agent(checkpointer=MemorySaver())
-
-        prompt = (
-            "Use the get_market_regime tool to fetch the current Indian equity "
-            "market regime from live Nifty 50 data. "
-            "Report the regime label, volatility, and breadth. "
-            "Do not use web search — only the ML model tool."
-        )
-
-        response = _invoke(agent, prompt, thread_id="test-market-regime-live")
-
-        logger.info("Market agent response:\n%s", response)
-        assert len(response) > 50, f"Response too short: {response!r}"
-
-        lower = response.lower()
-        assert any(kw in lower for kw in ["regime", "volatility", "breadth", "market", "risk"]), \
-            f"Expected market regime language in response. Got:\n{response}"
+@tool
+def get_market_regime(query_date: str = None) -> str:
+    """Dummy market MCP tool: HMM regime."""
+    return "{'regime': 'defensive'}"
 
 
-# ---------------------------------------------------------------------------
-# Macro agent — get_stock_clusters
-# ---------------------------------------------------------------------------
-
-class TestMacroAgentToolInvocation:
-
-    def test_stock_cluster_tool_called_with_real_data(self):
-        """
-        Build the macro analyst agent and ask it to call get_stock_clusters
-        on live NSE data. Asserts the response contains cluster or anomaly info.
-        """
-        from shankh.agents.agent import build_agent, build_default_pool
-        from shankh.agents.macro_tools import get_macro_analyst_tools
-        from shankh.utils import load_prompt
-
-        agent = build_agent(
-            pool=build_default_pool(),
-            tools=get_macro_analyst_tools(),
-            system_prompt=load_prompt("macro_analyst"),
-            checkpointer=MemorySaver(),
-        )
-
-        prompt = (
-            "Use the get_stock_clusters tool to run live stock clustering on "
-            "the default NSE universe. "
-            "Report which cluster INFY.NS and TCS.NS belong to, and list any "
-            "forensic anomalies found. "
-            "Do not use web search — only the ML model tool."
-        )
-
-        response = _invoke(agent, prompt, thread_id="test-macro-clusters-live")
-
-        logger.info("Macro agent response:\n%s", response)
-        assert len(response) > 50, f"Response too short: {response!r}"
-
-        lower = response.lower()
-        assert any(kw in lower for kw in ["cluster", "infy", "tcs", "anomaly", "forensic", "group"]), \
-            f"Expected clustering language in response. Got:\n{response}"
+@tool
+def query_gbm_price_band(ticker: str, current_price: float = None) -> str:
+    """Dummy price-band MCP tool: LightGBM quantile band."""
+    return "{'band': 'high' , 'low': 100}"
 
 
-# ---------------------------------------------------------------------------
-# Company agent — query_gbm_price_band
-# ---------------------------------------------------------------------------
-
-class TestCompanyAgentPriceBandToolInvocation:
-
-    def test_price_band_tool_called_for_reliance(self):
-        """
-        Build the company analyst agent and ask it to call query_gbm_price_band
-        for RELIANCE.NS with live yfinance data. Asserts band prices are returned.
-        """
-        from shankh.agents.company_agent import build_company_analyst_agent
-
-        agent = build_company_analyst_agent(checkpointer=MemorySaver())
-
-        prompt = (
-            "Use the query_gbm_price_band tool to get the predicted next-day "
-            "high/low price band for RELIANCE.NS using live market data. "
-            "Report the predicted high price, low price, and band width. "
-            "Do not use web search — only the ML model tool."
-        )
-
-        response = _invoke(agent, prompt, thread_id="test-company-priceband-reliance")
-
-        logger.info("Company agent price-band response:\n%s", response)
-        assert len(response) > 50, f"Response too short: {response!r}"
-
-        lower = response.lower()
-        assert any(kw in lower for kw in ["price", "band", "high", "low", "reliance", "predicted", "inr"]), \
-            f"Expected price band language in response. Got:\n{response}"
+@tool
+def unrelated_tool() -> str:
+    """A tool that should NOT be routed to any analyst bucket."""
+    return "unrelated"
 
 
-# ---------------------------------------------------------------------------
-# Company agent — query_stock_peers
-# ---------------------------------------------------------------------------
-
-class TestCompanyAgentPeersToolInvocation:
-
-    def test_peers_tool_called_for_infy(self):
-        """
-        Build the company analyst agent and ask it to call query_stock_peers
-        for INFY.NS. Asserts peer group or cluster info is returned.
-        """
-        from shankh.agents.company_agent import build_company_analyst_agent
-
-        agent = build_company_analyst_agent(checkpointer=MemorySaver())
-
-        prompt = (
-            "Use the query_stock_peers tool to find the factor cluster and peer group "
-            "for INFY.NS. List the peers and report the cluster id. "
-            "Do not use web search — only the ML model tool."
-        )
-
-        response = _invoke(agent, prompt, thread_id="test-company-peers-infy")
-
-        logger.info("Company agent peers response:\n%s", response)
-        assert len(response) > 30, f"Response too short: {response!r}"
-
-        lower = response.lower()
-        assert any(kw in lower for kw in ["cluster", "peer", "infy", "group", "factor"]), \
-            f"Expected peer/cluster language in response. Got:\n{response}"
+@tool
+def search_web(query: str) -> str:
+    """Dummy Tavily web search tool."""
+    return f"search results for {query!r}"
 
 
-# ---------------------------------------------------------------------------
-# Company agent — query_forensic_red_flags
-# ---------------------------------------------------------------------------
+def _fake_web_search():
+    return search_web
 
-class TestCompanyAgentForensicsToolInvocation:
 
-    def test_forensic_tool_called_for_universe(self):
-        """
-        Build the company analyst agent and ask it to call query_forensic_red_flags
-        for the full universe. Asserts the response mentions anomalies or a clean bill.
-        """
-        from shankh.agents.company_agent import build_company_analyst_agent
+class TestMCPAdapterConfiguration:
 
-        agent = build_company_analyst_agent(checkpointer=MemorySaver())
+    def test_mcp_server_config_has_three_decoupled_servers(self):
+        from shankh.agents.financial_advisor import MCP_SERVER_CONFIG
 
-        prompt = (
-            "Use the query_forensic_red_flags tool to get the full forensic anomaly "
-            "screen for the trained stock universe. "
-            "Report how many stocks are flagged and list them. "
-            "Do not use web search — only the ML model tool."
-        )
+        assert set(MCP_SERVER_CONFIG) == {
+            "macro_server", "market_server", "price_band_server"
+        }
+        for name, cfg in MCP_SERVER_CONFIG.items():
+            assert "url" in cfg, f"{name} missing url"
+            assert cfg.get("transport") in ("streamable_http", "streamable-http"), \
+                f"{name} has invalid transport: {cfg.get('transport')}"
 
-        response = _invoke(agent, prompt, thread_id="test-company-forensics-universe")
+    def test_mcp_server_config_default_urls(self, monkeypatch):
+        import shankh.agents.financial_advisor as fa
 
-        logger.info("Company agent forensics response:\n%s", response)
-        assert len(response) > 30, f"Response too short: {response!r}"
+        monkeypatch.delenv("MACRO_MCP_URL", raising=False)
+        monkeypatch.delenv("MARKET_MCP_URL", raising=False)
+        monkeypatch.delenv("PRICE_BAND_MCP_URL", raising=False)
 
-        lower = response.lower()
-        assert any(kw in lower for kw in ["anomaly", "flag", "forensic", "screened", "stock", "universe"]), \
-            f"Expected forensic language in response. Got:\n{response}"
+        cfg = fa.MCP_SERVER_CONFIG
+        assert cfg["macro_server"]["url"] == "http://localhost:8001/mcp"
+        assert cfg["market_server"]["url"] == "http://localhost:8002/mcp"
+        assert cfg["price_band_server"]["url"] == "http://localhost:8003/mcp"
+
+
+class TestPartitionMCPTools:
+
+    def test_routes_remote_tools_to_analyst_buckets(self, monkeypatch):
+        import shankh.agents.financial_advisor as fa
+
+        monkeypatch.setattr(fa, "get_web_search_tool", _fake_web_search)
+
+        all_mcp_tools = [
+            get_stock_clusters,
+            get_market_regime,
+            query_gbm_price_band,
+            unrelated_tool,
+        ]
+        buckets = fa._partition_mcp_tools(all_mcp_tools)
+
+        macro_names = {t.name for t in buckets["macro"]}
+        market_names = {t.name for t in buckets["market"]}
+        company_names = {t.name for t in buckets["company"]}
+        supervisor_names = {t.name for t in buckets["supervisor"]}
+
+        assert "get_stock_clusters" in macro_names
+        assert "search_web" in macro_names
+
+        assert "get_market_regime" in market_names
+        assert "search_web" not in market_names
+
+        assert "query_gbm_price_band" in company_names
+        assert "get_stock_clusters" in company_names
+        assert "search_web" in company_names
+
+        assert "unrelated_tool" not in macro_names
+        assert "unrelated_tool" not in market_names
+        assert "unrelated_tool" not in company_names
+        assert "unrelated_tool" not in supervisor_names
+
+        assert "get_market_regime" in supervisor_names
+        assert "query_gbm_price_band" in supervisor_names
+        assert "get_stock_clusters" in supervisor_names
+        assert "search_web" in supervisor_names
+
+    def test_survives_missing_optional_tools(self, monkeypatch):
+        import shankh.agents.financial_advisor as fa
+
+        monkeypatch.setattr(fa, "get_web_search_tool", lambda: None)
+
+        buckets = fa._partition_mcp_tools([get_market_regime])
+
+        assert buckets["macro"] == []
+        assert {t.name for t in buckets["market"]} == {"get_market_regime"}
+        assert buckets["company"] == []
+        assert {t.name for t in buckets["supervisor"]} == {"get_market_regime"}

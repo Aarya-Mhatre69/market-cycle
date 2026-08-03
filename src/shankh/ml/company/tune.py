@@ -2,7 +2,7 @@
 Full Productionized Training & Evaluation Pipeline for Price-Band Forecasting.
 
 Merges:
-- Multi-backend Quantile Regression Builders (LightGBM & XGBoost)
+- LightGBM Quantile Regression Builder
 - Walk-Forward Cross-Validation Splitter (Date-aligned, leak-free)
 - Optuna Hyperparameter Optimization (Pinball loss minimization with pruning)
 - Chronological Early-Stopping Final Model Training
@@ -12,17 +12,14 @@ Merges:
 
 Usage
 -----
-# Full pipeline run with Optuna HPO (LightGBM):
-$ python train_pipeline.py --backend lightgbm --n-trials 30
-
-# Full pipeline run with XGBoost:
-$ python train_pipeline.py --backend xgboost --n-trials 40
+# Full pipeline run with Optuna HPO:
+$ python -m shankh.ml.company.tune --n-trials 30
 
 # Fast execution without HPO (using baseline config parameters):
-$ python train_pipeline.py --skip-hpo
+$ python -m shankh.ml.company.tune --skip-hpo
 
 # Plot predictions directly from saved Parquet without retraining:
-$ python train_pipeline.py --plot-only --ticker INFY.NS
+$ python -m shankh.ml.company.tune --plot-only --ticker INFY.NS
 """
 
 import argparse
@@ -40,18 +37,18 @@ import numpy as np
 import optuna
 import pandas as pd
 import lightgbm as lgb
-import xgboost as xgb
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from shankh.ml.price_band.config import CONFIG
-from shankh.ml.price_band.data_loader import load_ohlcv
-from shankh.ml.price_band.evaluation import evaluate, save_eval_report, save_predictions
-from shankh.ml.price_band.features import add_features, get_feature_cols
-from shankh.ml.price_band.inference import predict_bands
-from shankh.ml.price_band.validation import Fold, walk_forward_folds
+from shankh.ml.company.config import CONFIG
+from shankh.ml.company.data_loader import load_ohlcv
+from shankh.ml.company.evaluation import evaluate, save_eval_report, save_predictions
+from shankh.ml.company.features import add_features, get_feature_cols
+from shankh.ml.company.inference import predict_bands
+from shankh.ml.company.model import build_model
+from shankh.ml.company.validation import Fold, walk_forward_folds
 
 # Logging Configuration
 logging.basicConfig(
@@ -99,102 +96,30 @@ def pinball_loss(y_true: np.ndarray, y_pred: np.ndarray, alpha: float) -> float:
 
 
 
-def build_xgb_model(params: dict[str, Any], quantile: float = 0.84, seed: int = 42) -> xgb.XGBRegressor:
-    if not (0.0 < quantile < 1.0):
-        raise ValueError(f"quantile must be in (0, 1), got {quantile}")
-
-    return xgb.XGBRegressor(
-        n_estimators=params.get("n_estimators", 1000),
-        learning_rate=params.get("learning_rate", 0.03),
-        max_depth=params.get("max_depth", 5),
-        min_child_weight=params.get("min_child_weight", 3),
-        subsample=params.get("subsample", 0.8),
-        colsample_bytree=params.get("colsample_bytree", 0.8),
-        gamma=params.get("gamma", 0.0),
-        reg_alpha=params.get("reg_alpha", 0.1),
-        reg_lambda=params.get("reg_lambda", 1.0),
-        objective="reg:quantileerror",
-        quantile_alpha=quantile,
-        tree_method=params.get("tree_method", "hist"),
-        eval_metric="quantile",
-        random_state=seed,
-        n_jobs=params.get("n_jobs", -1),
-    )
-
-
-def build_lgb_model(params: dict[str, Any], quantile: float = 0.84, seed: int = 42) -> lgb.LGBMRegressor:
-    if not (0.0 < quantile < 1.0):
-        raise ValueError(f"quantile must be in (0, 1), got {quantile}")
-
-    return lgb.LGBMRegressor(
-        n_estimators=params.get("n_estimators", 1000),
-        learning_rate=params.get("learning_rate", 0.03),
-        num_leaves=params.get("num_leaves", 63),
-        max_depth=params.get("max_depth", -1),
-        min_child_samples=params.get("min_child_samples", 20),
-        subsample=params.get("subsample", 0.8),
-        subsample_freq=1,
-        colsample_bytree=params.get("colsample_bytree", 0.8),
-        reg_alpha=params.get("reg_alpha", 0.1),
-        reg_lambda=params.get("reg_lambda", 1.0),
-        min_split_gain=params.get("min_split_gain", 0.0),
-        objective="quantile",
-        alpha=quantile,
-        metric="quantile",
-        random_state=seed,
-        n_jobs=params.get("n_jobs", -1),
-        verbose=-1,
-    )
-
-
-def build_model(backend: str, params: dict[str, Any], quantile: float = 0.84, seed: int = 42):
-    backend = backend.lower().strip()
-    if backend in ("xgboost", "xgb"):
-        return build_xgb_model(params, quantile=quantile, seed=seed)
-    if backend in ("lightgbm", "lgb", "lgbm"):
-        return build_lgb_model(params, quantile=quantile, seed=seed)
-    raise ValueError(f"Unknown backend '{backend}'. Choose 'xgboost' or 'lightgbm'.")
-
-
-def _fit_model(model, backend: str, X_train, y_train, X_val, y_val, params: dict) -> None:
+def _fit_model(model:lgb.LGBMRegressor, X_train, y_train, X_val, y_val, params: dict) -> None:
     es_rounds = params.get("early_stopping_rounds", 50)
-    if backend in ("lightgbm", "lgb", "lgbm"):
-        callbacks = [
-            lgb.early_stopping(stopping_rounds=es_rounds, verbose=False),
-            lgb.log_evaluation(period=-1),
-        ]
-        model.fit(X_train, y_train, eval_set=[(X_val, y_val)], callbacks=callbacks)
-    else:  # xgboost
-        model.fit(X_train, y_train, eval_set=[(X_val, y_val)], verbose=False)
+    callbacks = [
+        lgb.early_stopping(stopping_rounds=es_rounds, verbose=False),
+        lgb.log_evaluation(period=-1),
+    ]
+    model.fit(X_train, y_train, eval_X=X_val, eval_y=y_val, callbacks=callbacks)
 
 
 
-def _sample_params(trial: optuna.Trial, backend: str, search_space: dict) -> dict[str, Any]:
-    params: dict[str, Any] = {}
-    if backend in ("lightgbm", "lgb", "lgbm"):
-        params["n_estimators"]      = trial.suggest_categorical("n_estimators", search_space["n_estimators"])
-        params["learning_rate"]     = trial.suggest_float("learning_rate", *search_space["learning_rate"], log=True)
-        params["num_leaves"]        = trial.suggest_categorical("num_leaves", search_space["num_leaves"])
-        params["max_depth"]         = trial.suggest_categorical("max_depth", search_space["max_depth"])
-        params["min_child_samples"] = trial.suggest_categorical("min_child_samples", search_space["min_child_samples"])
-        params["subsample"]         = trial.suggest_float("subsample", *search_space["subsample"])
-        params["colsample_bytree"]  = trial.suggest_float("colsample_bytree", *search_space["colsample_bytree"])
-        params["reg_alpha"]         = trial.suggest_float("reg_alpha", *search_space["reg_alpha"])
-        params["reg_lambda"]        = trial.suggest_float("reg_lambda", *search_space["reg_lambda"])
-        params["min_split_gain"]    = trial.suggest_float("min_split_gain", *search_space["min_split_gain"])
-        params["early_stopping_rounds"] = trial.suggest_categorical("early_stopping_rounds", search_space["early_stopping_rounds"])
-    else:  # xgboost
-        params["n_estimators"]      = trial.suggest_categorical("n_estimators", search_space["n_estimators"])
-        params["learning_rate"]     = trial.suggest_float("learning_rate", *search_space["learning_rate"], log=True)
-        params["max_depth"]         = trial.suggest_categorical("max_depth", search_space["max_depth"])
-        params["min_child_weight"]  = trial.suggest_categorical("min_child_weight", search_space["min_child_weight"])
-        params["subsample"]         = trial.suggest_float("subsample", *search_space["subsample"])
-        params["colsample_bytree"]  = trial.suggest_float("colsample_bytree", *search_space["colsample_bytree"])
-        params["gamma"]             = trial.suggest_float("gamma", *search_space["gamma"])
-        params["reg_alpha"]         = trial.suggest_float("reg_alpha", *search_space["reg_alpha"])
-        params["reg_lambda"]        = trial.suggest_float("reg_lambda", *search_space["reg_lambda"])
-        params["early_stopping_rounds"] = trial.suggest_categorical("early_stopping_rounds", search_space["early_stopping_rounds"])
-    return params
+def _sample_params(trial: optuna.Trial, search_space: dict) -> dict[str, Any]:
+    return {
+        "n_estimators":          trial.suggest_categorical("n_estimators", search_space["n_estimators"]),
+        "learning_rate":         trial.suggest_float("learning_rate", *search_space["learning_rate"], log=True),
+        "num_leaves":            trial.suggest_categorical("num_leaves", search_space["num_leaves"]),
+        "max_depth":             trial.suggest_categorical("max_depth", search_space["max_depth"]),
+        "min_child_samples":     trial.suggest_categorical("min_child_samples", search_space["min_child_samples"]),
+        "subsample":             trial.suggest_float("subsample", *search_space["subsample"]),
+        "colsample_bytree":      trial.suggest_float("colsample_bytree", *search_space["colsample_bytree"]),
+        "reg_alpha":             trial.suggest_float("reg_alpha", *search_space["reg_alpha"]),
+        "reg_lambda":            trial.suggest_float("reg_lambda", *search_space["reg_lambda"]),
+        "min_split_gain":        trial.suggest_float("min_split_gain", *search_space["min_split_gain"]),
+        "early_stopping_rounds": trial.suggest_categorical("early_stopping_rounds", search_space["early_stopping_rounds"]),
+    }
 
 
 def run_hpo(
@@ -205,10 +130,8 @@ def run_hpo(
     folds: List[Fold],
     cfg: dict,
 ) -> Tuple[optuna.Study, dict[str, Any]]:
-    backend      = cfg["model"]["backend"]
     optuna_cfg   = cfg["optuna"]
-    space_key    = f"{backend.replace('lightgbm','lgb').replace('xgboost','xgb')}_space"
-    search_space = cfg["model"][space_key]
+    search_space = cfg["model"]["lgb_space"]
     seed         = cfg["seed"]
 
     pruner = optuna.pruners.MedianPruner(n_warmup_steps=optuna_cfg.get("n_warmup_steps", 10))
@@ -217,7 +140,7 @@ def run_hpo(
     study = optuna.create_study(direction=optuna_cfg["direction"], sampler=sampler, pruner=pruner)
 
     def objective(trial: optuna.Trial) -> float:
-        params = _sample_params(trial, backend, search_space)
+        params = _sample_params(trial, search_space)
         fold_losses: List[float] = []
 
         for fold in folds:
@@ -226,8 +149,8 @@ def run_hpo(
             X_val   = df.iloc[fold.val_idx][feature_cols]
             y_val   = df.iloc[fold.val_idx][target_col].values
 
-            model = build_model(backend, params, quantile=quantile, seed=seed)
-            _fit_model(model, backend, X_train, y_train, X_val, y_val, params)
+            model = build_model(params, quantile=quantile, seed=seed)
+            _fit_model(model, X_train, y_train, X_val, y_val, params)
 
             preds = model.predict(X_val)
             fold_losses.append(pinball_loss(y_val, preds, alpha=quantile))
@@ -247,7 +170,7 @@ def run_hpo(
     )
 
     best_params = dict(study.best_trial.params)
-    logger.info("HPO [%s] complete | Best Pinball Loss = %.6f | Best Trial #%d", target_col, study.best_value, study.best_trial.number)
+    logger.info("HPO complete (%s) | Best Pinball Loss = %.6f | Best Trial #%d", target_col, study.best_value, study.best_trial.number)
     return study, best_params
 
 
@@ -259,7 +182,6 @@ def train_final_models(
     best_lower_params: dict[str, Any],
     cfg: dict,
 ) -> Tuple[Any, Any]:
-    backend        = cfg["model"]["backend"]
     upper_quantile = cfg["model"]["upper_quantile"]
     lower_quantile = cfg["model"]["lower_quantile"]
     seed           = cfg["seed"]
@@ -275,14 +197,14 @@ def train_final_models(
     X_tr  = df.loc[train_mask, feature_cols]
     X_val = df.loc[val_mask, feature_cols]
 
-    upper_model = build_model(backend, best_upper_params, quantile=upper_quantile, seed=seed)
-    lower_model = build_model(backend, best_lower_params, quantile=lower_quantile, seed=seed)
+    upper_model = build_model(best_upper_params, quantile=upper_quantile, seed=seed)
+    lower_model = build_model(best_lower_params, quantile=lower_quantile, seed=seed)
 
-    logger.info("Fitting final upper-band model (%s, q=%.2f) ...", backend, upper_quantile)
-    _fit_model(upper_model, backend, X_tr, df.loc[train_mask, cfg["targets"]["upper"]].values, X_val, df.loc[val_mask, cfg["targets"]["upper"]].values, best_upper_params)
+    logger.info("Fitting final upper-band model (q=%.2f) ...", upper_quantile)
+    _fit_model(upper_model, X_tr, df.loc[train_mask, cfg["targets"]["upper"]].values, X_val, df.loc[val_mask, cfg["targets"]["upper"]].values, best_upper_params)
 
-    logger.info("Fitting final lower-band model (%s, q=%.2f) ...", backend, lower_quantile)
-    _fit_model(lower_model, backend, X_tr, df.loc[train_mask, cfg["targets"]["lower"]].values, X_val, df.loc[val_mask, cfg["targets"]["lower"]].values, best_lower_params)
+    logger.info("Fitting final lower-band model (q=%.2f) ...", lower_quantile)
+    _fit_model(lower_model, X_tr, df.loc[train_mask, cfg["targets"]["lower"]].values, X_val, df.loc[val_mask, cfg["targets"]["lower"]].values, best_lower_params)
 
     return upper_model, lower_model
 
@@ -295,7 +217,6 @@ def collect_cv_metrics(
     folds: List[Fold],
     cfg: dict,
 ) -> List[dict]:
-    backend        = cfg["model"]["backend"]
     upper_quantile = cfg["model"]["upper_quantile"]
     lower_quantile = cfg["model"]["lower_quantile"]
     seed           = cfg["seed"]
@@ -307,17 +228,17 @@ def collect_cv_metrics(
         y_u_tr, y_l_tr   = df.iloc[fold.train_idx][cfg["targets"]["upper"]].values, df.iloc[fold.train_idx][cfg["targets"]["lower"]].values
         y_u_val, y_l_val = df.iloc[fold.val_idx][cfg["targets"]["upper"]].values, df.iloc[fold.val_idx][cfg["targets"]["lower"]].values
 
-        u_model = build_model(backend, best_upper_params, quantile=upper_quantile, seed=seed)
-        l_model = build_model(backend, best_lower_params, quantile=lower_quantile, seed=seed)
+        u_model = build_model(best_upper_params, quantile=upper_quantile, seed=seed)
+        l_model = build_model(best_lower_params, quantile=lower_quantile, seed=seed)
 
-        _fit_model(u_model, backend, X_tr, y_u_tr, X_val, y_u_val, best_upper_params)
-        _fit_model(l_model, backend, X_tr, y_l_tr, X_val, y_l_val, best_lower_params)
+        _fit_model(u_model, X_tr, y_u_tr, X_val, y_u_val, best_upper_params)
+        _fit_model(l_model, X_tr, y_l_tr, X_val, y_l_val, best_lower_params)
 
         pred_u = u_model.predict(X_val)
         pred_l = l_model.predict(X_val)
 
         val_df = df.iloc[fold.val_idx].copy()
-        
+
         # Enforce band ordering & compute metrics
         band_upper = np.maximum(pred_u, pred_l)
         band_lower = np.minimum(pred_u, pred_l)
@@ -355,17 +276,12 @@ def save_artifacts(
     cv_results: List[dict], cfg: dict
 ) -> None:
     art_cfg = cfg["artifacts"]
-    backend = cfg["model"]["backend"]
     art_dir = Path(art_cfg["artifacts_dir"])
     art_dir.mkdir(parents=True, exist_ok=True)
 
-    # Save Native Model File (.txt for LightGBM, .json for XGBoost)
-    if backend in ("lightgbm", "lgb", "lgbm"):
-        upper_model.booster_.save_model(str((art_dir / art_cfg["upper_model"]).with_suffix(".txt")))
-        lower_model.booster_.save_model(str((art_dir / art_cfg["lower_model"]).with_suffix(".txt")))
-    else:
-        upper_model.save_model(str((art_dir / art_cfg["upper_model"]).with_suffix(".json")))
-        lower_model.save_model(str((art_dir / art_cfg["lower_model"]).with_suffix(".json")))
+    # Save Native LightGBM Model Files (.txt)
+    upper_model.booster_.save_model(str((art_dir / art_cfg["upper_model"]).with_suffix(".txt")))
+    lower_model.booster_.save_model(str((art_dir / art_cfg["lower_model"]).with_suffix(".txt")))
 
     # Feature columns list
     joblib.dump(feature_cols, art_dir / art_cfg["feature_cols"])
@@ -373,7 +289,7 @@ def save_artifacts(
     # Optuna Best Parameters JSON
     with open(art_dir / art_cfg["optuna_best"], "w") as f:
         json.dump({
-            "backend": backend,
+            "backend": "lightgbm",
             "upper": {"params": best_upper_params, "pinball": study_upper.best_value if study_upper else None},
             "lower": {"params": best_lower_params, "pinball": study_lower.best_value if study_lower else None},
         }, f, indent=2)
@@ -394,14 +310,10 @@ def save_artifacts(
 
 def save_feature_importance(upper_model, lower_model, feature_cols: List[str], cfg: dict) -> None:
     art_dir = Path(cfg["artifacts"]["artifacts_dir"])
-    backend = cfg["model"]["backend"]
 
     for label, model in [("upper", upper_model), ("lower", lower_model)]:
         try:
-            if backend in ("lightgbm", "lgb", "lgbm"):
-                imp_vals = model.booster_.feature_importance(importance_type="gain")
-            else:
-                imp_vals = model.feature_importances_
+            imp_vals = model.booster_.feature_importance(importance_type="gain")
             imp_df = pd.DataFrame({"feature": feature_cols, "importance": imp_vals}).sort_values("importance", ascending=False).reset_index(drop=True)
             out_path = art_dir / cfg["artifacts"]["feature_imp"].format(target=label)
             imp_df.to_csv(out_path, index=False)
@@ -509,14 +421,13 @@ def run_pipeline(cfg: dict, skip_hpo: bool = False) -> dict:
 
     study_upper, study_lower = None, None
     if not skip_hpo:
-        logger.info("STEP 5 — Executing Optuna HPO (%d trials, backend: %s)", cfg["optuna"]["n_trials"], cfg["model"]["backend"])
+        logger.info("STEP 5 — Executing Optuna HPO (%d trials)", cfg["optuna"]["n_trials"])
         study_upper, best_upper_params = run_hpo(pretrain_df, feature_cols, cfg["targets"]["upper"], cfg["model"]["upper_quantile"], folds, cfg)
         study_lower, best_lower_params = run_hpo(pretrain_df, feature_cols, cfg["targets"]["lower"], cfg["model"]["lower_quantile"], folds, cfg)
     else:
         logger.info("STEP 5 — Skipping Optuna HPO; using default baseline search space parameters")
-        backend = cfg["model"]["backend"]
-        space_key = f"{backend.replace('lightgbm','lgb').replace('xgboost','xgb')}_space"
-        defaults = {k: v[0] if isinstance(v, list) else v[0] for k, v in cfg["model"][space_key].items()}
+        search_space = cfg["model"]["lgb_space"]
+        defaults = {k: v[0] if isinstance(v, list) else v[0] for k, v in search_space.items()}
         best_upper_params, best_lower_params = defaults, defaults
 
     logger.info("STEP 6 — Training final models on pre-test set with chronological holdout")
@@ -541,7 +452,7 @@ def run_pipeline(cfg: dict, skip_hpo: bool = False) -> dict:
 
     try:
         preds_df = load_predictions(cfg)
-        out_plot_path = Path(cfg["artifacts"]["artifacts_dir"]) / f"prediction_plot_{cfg['model']['backend']}.png"
+        out_plot_path = Path(cfg["artifacts"]["artifacts_dir"]) / "prediction_plot_lightgbm.png"
         plot_predictions(preds_df, out_path=out_plot_path)
     except Exception as exc:
         logger.warning("Could not render prediction plot: %s", exc)
@@ -554,7 +465,6 @@ def run_pipeline(cfg: dict, skip_hpo: bool = False) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Full Productionized Price-Band Forecasting Pipeline")
     parser.add_argument("--config", type=str, default=None, help="Path to JSON file with config overrides.")
-    parser.add_argument("--backend", type=str, choices=["lightgbm", "xgboost"], default=None, help="Override backend model choice.")
     parser.add_argument("--n-trials", type=int, default=None, help="Override number of Optuna HPO trials.")
     parser.add_argument("--skip-hpo", action="store_true", help="Skip Optuna HPO and fit baseline parameters quickly.")
     parser.add_argument("--plot-only", action="store_true", help="Render plot directly from saved predictions without retraining.")
@@ -563,15 +473,13 @@ def main() -> None:
 
     cfg = _load_config(args.config)
 
-    if args.backend:
-        cfg["model"]["backend"] = args.backend
     if args.n_trials:
         cfg["optuna"]["n_trials"] = args.n_trials
 
     if args.plot_only:
         logger.info("Plot-only mode activated. Loading saved Parquet table...")
         preds_df = load_predictions(cfg)
-        out_path = Path(cfg["artifacts"]["artifacts_dir"]) / f"prediction_plot_{cfg['model']['backend']}.png"
+        out_path = Path(cfg["artifacts"]["artifacts_dir"]) / "prediction_plot_lightgbm.png"
         plot_predictions(preds_df, ticker=args.ticker, out_path=out_path, show=True)
     else:
         run_pipeline(cfg, skip_hpo=args.skip_hpo)

@@ -17,7 +17,7 @@ Price Band Forecast ML Workflows
 
 Run existing ML workflows for price-band forecasting. Evaluate accuracy, error bands, feature importance, leakage risk, and market-condition dependency. 
 
-Python, pandas, scikit-learn, XGBoost/LightGBM, FMP, NSE bhavcopy, yfinance only as fallback, notebooks 
+Python, pandas, scikit-learn, LightGBM, FMP, NSE bhavcopy, yfinance only as fallback, notebooks 
 
 Improved forecast pipeline, baseline vs improved metrics, prediction report, feature documentation. 
 
@@ -58,7 +58,7 @@ Language: Python as the primary language; SQL for data storage and querying.
 
 Agent frameworks: LangGraph for controlled stateful workflows; CrewAI for role-based multi-agent experiments; n8n for visual orchestration and scheduled runs. 
 
-ML stack: pandas, NumPy, scikit-learn, XGBoost/LightGBM, statsmodels, PyTorch only if needed. 
+ML stack: pandas, NumPy, scikit-learn, LightGBM, statsmodels, PyTorch only if needed. 
 
 Data sources: NSE/BSE files, FMP APIs, Zerodha Kite where permitted, public filings, sector/index data, macro indicators, and curated news/event feeds. 
 

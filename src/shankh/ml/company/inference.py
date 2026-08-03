@@ -44,7 +44,7 @@ def predict_bands(
         slice thereof).  Must contain all columns in *feature_cols* plus
         ``close``, ``date``, ``ticker``.
     upper_model, lower_model
-        Fitted quantile regression models (LightGBM or XGBoost).
+        Fitted LightGBM quantile regression boosters.
     feature_cols : list[str]
         Ordered list of feature column names used during training.
 
@@ -60,7 +60,7 @@ def predict_bands(
     if missing:
         raise ValueError(f"Feature frame is missing columns: {missing}")
 
-    X     = df[feature_cols]          # DataFrame — preserves feature names for LightGBM/XGBoost
+    X     = df[feature_cols]          # DataFrame — preserves feature names for LightGBM
     close = df["close"].values
 
     raw_upper = upper_model.predict(X)
@@ -137,35 +137,27 @@ def predict_next_day_band(
 
 def load_models_and_features(cfg: dict) -> tuple[Any, Any, list[str]]:
     """
-    Load trained models and the feature column list from disk.
+    Load trained LightGBM boosters and the feature column list from disk.
 
     Returns
     -------
     (upper_model, lower_model, feature_cols)
     """
-    backend = cfg["model"]["backend"]
     art_dir = Path(cfg["artifacts"]["artifacts_dir"])
     art_cfg = cfg["artifacts"]
 
-    upper_model = _load_model(backend, art_dir / art_cfg["upper_model"])
-    lower_model = _load_model(backend, art_dir / art_cfg["lower_model"])
+    upper_model = _load_model(art_dir / art_cfg["upper_model"])
+    lower_model = _load_model(art_dir / art_cfg["lower_model"])
     feature_cols: list[str] = joblib.load(art_dir / art_cfg["feature_cols"])
 
     logger.info("Loaded models and %d feature columns from %s", len(feature_cols), art_dir)
     return upper_model, lower_model, feature_cols
 
 
-def _load_model(backend: str, base_path: Path) -> Any:
-    if backend in ("lightgbm", "lgb", "lgbm"):
-        import lightgbm as lgb
-        path = base_path.with_suffix(".txt")
-        return lgb.Booster(model_file=str(path))
-    else:
-        import xgboost as xgb
-        model = xgb.XGBRegressor()
-        path  = base_path.with_suffix(".json")
-        model.load_model(str(path))
-        return model
+def _load_model(base_path: Path) -> Any:
+    import lightgbm as lgb
+    path = base_path.with_suffix(".txt")
+    return lgb.Booster(model_file=str(path))
 
 
 def _enforce_band_ordering(

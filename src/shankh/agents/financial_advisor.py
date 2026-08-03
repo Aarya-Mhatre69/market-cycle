@@ -1,159 +1,100 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_openai import ChatOpenAI
+import asyncio
 import logging
 import os
-
+from typing import Dict 
 from dotenv import load_dotenv
 from deepagents import create_deep_agent
 from langchain_core.messages import HumanMessage
-from langchain_mistralai import ChatMistralAI
-from langchain_cerebras import ChatCerebras
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.memory import MemorySaver
 
-from shankh.ml.price_band.tool import query_gbm_price_band, query_gbm_price_band
-from shankh.agents.company_tools import (
-    get_company_analyst_tools,
-    query_forensic_red_flags,
-    query_stock_peers,
-)
-from shankh.agents.macro_tools import get_macro_analyst_tools
-from shankh.agents.market_tools import get_market_analyst_tools, query_market_regime
-from shankh.agents.shared_tools import (
-    get_web_search_tool,
-    filter_tools,
-)
-
-from shankh.utils import extract_response_text, resolve_model, load_prompt
-
+from shankh.agents.shared_tools import filter_tools, get_web_search_tool
+from shankh.utils import extract_response_text, load_prompt
 
 load_dotenv()
 
 logger = logging.getLogger(__name__)
 
+# Configurable MCP endpoints for decoupled ML processes
+MCP_SERVER_CONFIG = {
+    "macro_server": {
+        "url": os.getenv("MACRO_MCP_URL", "http://localhost:8001/mcp"),
+        "transport": "streamable_http",
+    },
+    "market_server": {
+        "url": os.getenv("MARKET_MCP_URL", "http://localhost:8002/mcp"),
+        "transport": "streamable_http",
+    },
+    "price_band_server": {
+        "url": os.getenv("PRICE_BAND_MCP_URL", "http://localhost:8003/mcp"),
+        "transport": "streamable_http",
+    },
+}
 
-def _build_subagents() -> list[dict]:
-    """Build specialized subagent definitions for the supervisor."""
-    return [
-        {
-            "name": "macro-analyst",
-            "description": (
-                "Indian macroeconomic analysis. Delegate RBI policy, repo rate, inflation, "
-                "CPI/WPI, bond yields, USDINR, crude oil, FII/DII flows, global markets, "
-                "and economic event questions."
-            ),
-            "system_prompt": load_prompt("macro_analyst"),
-            "tools": get_macro_analyst_tools(),
-            "model": resolve_model(provider_hint="mistral"),
-        },
-        {
-            "name": "market-analyst",
-            "description": (
-                "Indian equity market analysis. Delegate market state, volatility, breadth, "
-                "sector rotation, correlation, market cycle, and broad market environment questions."
-            ),
-            "system_prompt": load_prompt("market_analyst"),
-            "tools": get_market_analyst_tools(),
-            "model": resolve_model(provider_hint="cerebras"),
-        },
-        {
-            "name": "company-analyst",
-            "description": (
-                "Stock-level analysis. Delegate price forecasting, technical and fundamental context, "
-                "peer clustering, forensic screening, company news, and single-company research."
-            ),
-            "system_prompt": load_prompt("company_analyst"),
-            "tools": get_company_analyst_tools(),
-            "model": resolve_model(provider_hint="mistral"),
-        },
-    ]
-
-
-def get_advisor_tools() -> list:
-    """Supervisor tools: real production tools only, with deep reasoning delegated to subagents."""
-    return filter_tools([
-        get_web_search_tool(),
-        query_market_regime,
-        # query_gbm_price_band,
-        query_gbm_price_band,
-        query_stock_peers,
-        query_forensic_red_flags,
-    ])
-
-
-def build_financial_advisor_agent(checkpointer=None):
-    """Build the Financial Advisor supervisor agent with specialized subagents."""
-    if checkpointer is None:
-        checkpointer = MemorySaver()
-
-    return create_deep_agent(
-        model=resolve_model("mistral"),
-        tools=get_advisor_tools(),
-        system_prompt=load_prompt("financial_advisor"),
-        subagents=_build_subagents(),
-        checkpointer=checkpointer,
-    )
-
-
-class FinancialAdvisor:
-    """Interface to Shankh Financial Advisor."""
-
-    def __init__(self, checkpointer=None) -> None:
-        self._checkpointer = checkpointer or MemorySaver()
-        self._agent = build_financial_advisor_agent(self._checkpointer)
-
-    def ask(self, question: str, thread_id: str = "default", recursion_limit: int = 20) -> str:
-        config = {"configurable": {"thread_id": thread_id}, "recursion_limit": recursion_limit}
-        result = self._agent.invoke({"messages": [HumanMessage(content=question)]}, config)
-        messages = result.get("messages", [])
-        logger.info("agent returned %d messages", len(messages))
-        for i, m in enumerate(messages):
-            mtype = type(m).__name__
-            content = getattr(m, "content", "")
-            tool_calls = getattr(m, "tool_calls", None)
-            additional_kwargs = getattr(m, "additional_kwargs", {})
-            response_metadata = getattr(m, "response_metadata", {})
-            logger.info(
-                "  [%d] %s | content=%r | tool_calls=%r | additional_kwargs=%r | response_metadata=%r",
-                i, mtype,
-                str(content)[:200],
-                tool_calls,
-                str(additional_kwargs)[:200],
-                str(response_metadata)[:200],
-            )
-        return extract_response_text(messages)
-
-
-# ---------------------------------------------------------------------------
-# New: postgres-backed agent with direct model instances (Mistral supervisor,
-# Cerebras subagents). Old functions above are kept as fallback.
-# ---------------------------------------------------------------------------
 
 def _get_postgres_checkpointer():
-    """Return a PostgresSaver connected to DATABASE_URL, or None if unavailable."""
+    """Return a PostgresSaver connected to DATABASE_URL, or MemorySaver if unavailable."""
     db_url = os.getenv("DATABASE_URL")
     if not db_url:
         logger.warning("DATABASE_URL not set — falling back to MemorySaver")
-        return None
+        return MemorySaver()
     try:
         import psycopg
         from langgraph.checkpoint.postgres import PostgresSaver
+
         conn = psycopg.Connection.connect(db_url, autocommit=True)
         checkpointer = PostgresSaver(conn)
         checkpointer.setup()
         return checkpointer
     except Exception as exc:
-        logger.warning("Postgres checkpointer unavailable (%s) — falling back to MemorySaver", exc)
-        return None
+        logger.warning(
+            "Postgres checkpointer unavailable (%s) — falling back to MemorySaver", exc
+        )
+        return MemorySaver()
 
 
-def _build_subagents_v2() -> list[dict]:
-    """Subagents using direct Cerebras model instances."""
-    # cerebras_model = ChatCerebras(
-    #     model="gpt-oss-120b",
-    #     api_key=os.getenv("CEREBRAS_API_KEY"),
-    # )
-    cerebras_model=ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=os.environ["GOOGLE_API_KEY"])
+def _partition_mcp_tools(all_mcp_tools: list) -> Dict[str, list]:
+    """
+    Organizes tools retrieved dynamically via MCP into analyst subagent buckets.
+    """
+    tool_map = {tool.name: tool for tool in all_mcp_tools}
+    web_search = get_web_search_tool()
 
+    # Macro analyst tools (MCP Macro + Web Search)
+    macro_tools = filter_tools([web_search])
+    if "get_stock_clusters" in tool_map:
+        macro_tools.append(tool_map["get_stock_clusters"])
+
+    # Market analyst tools (MCP Market Regime)
+    market_tools = []
+    if "get_market_regime" in tool_map:
+        market_tools.append(tool_map["get_market_regime"])
+
+    # Company analyst tools (MCP Price Band + Stock Clusters + Web Search)
+    company_tools = filter_tools([web_search])
+    for tool_name in ["query_gbm_price_band", "get_stock_clusters"]:
+        if tool_name in tool_map:
+            company_tools.append(tool_map[tool_name])
+
+    # Supervisor tools (High-level entry points for quick routing)
+    supervisor_tools = filter_tools([
+        web_search,
+        tool_map.get("get_market_regime"),
+        tool_map.get("query_gbm_price_band"),
+        tool_map.get("get_stock_clusters"),
+    ])
+
+    return {
+        "macro": macro_tools,
+        "market": market_tools,
+        "company": company_tools,
+        "supervisor": supervisor_tools,
+    }
+
+
+def _build_subagents(llm: ChatOpenAI, tools_by_role: Dict[str, list]) -> list[dict]:
+    """Build specialized subagent definitions using dynamic MCP tool definitions."""
     return [
         {
             "name": "macro-analyst",
@@ -163,8 +104,8 @@ def _build_subagents_v2() -> list[dict]:
                 "and economic event questions."
             ),
             "system_prompt": load_prompt("macro_analyst"),
-            "tools": get_macro_analyst_tools(),
-            "model": cerebras_model,
+            "tools": tools_by_role["macro"],
+            "model": llm,
         },
         {
             "name": "market-analyst",
@@ -173,8 +114,8 @@ def _build_subagents_v2() -> list[dict]:
                 "sector rotation, correlation, market cycle, and broad market environment questions."
             ),
             "system_prompt": load_prompt("market_analyst"),
-            "tools": get_market_analyst_tools(),
-            "model": cerebras_model,
+            "tools": tools_by_role["market"],
+            "model": llm,
         },
         {
             "name": "company-analyst",
@@ -183,53 +124,92 @@ def _build_subagents_v2() -> list[dict]:
                 "peer clustering, forensic screening, company news, and single-company research."
             ),
             "system_prompt": load_prompt("company_analyst"),
-            "tools": get_company_analyst_tools(),
-            "model": cerebras_model,
+            "tools": tools_by_role["company"],
+            "model": llm,
         },
     ]
 
 
-def build_financial_advisor_agent_v2(checkpointer=None):
-    """Build the advisor using Mistral as supervisor, Cerebras as subagents, Postgres checkpointer."""
+async def build_financial_advisor_agent_async(
+    client: MultiServerMCPClient,
+    checkpointer=None,
+    model_name: str = "gpt-4o",
+):
+    """
+    Builds the Financial Advisor supervisor agent by fetching tools
+    dynamically from decoupled MCP servers over Streamable HTTP.
+    """
     if checkpointer is None:
-        checkpointer = _get_postgres_checkpointer() or MemorySaver()
+        checkpointer = _get_postgres_checkpointer()
 
-    mistral_model = ChatMistralAI(
-        model="mistral-large-latest",
-        api_key=os.getenv("MISTRAL_API_KEY"),
+    openai_model = ChatOpenAI(
+        model=model_name,
+        api_key=os.getenv("OPENAI_API_KEY"),
+        temperature=0,
     )
 
+    # 1. Fetch remote tools dynamically from all running MCP servers
+    mcp_tools = client.get_tools()
+    logger.info("Connected to MCP servers. Loaded %d remote tools.", len(mcp_tools))
+
+    # 2. Partition tools to subagents
+    tools_by_role = _partition_mcp_tools(mcp_tools)
+
+    # 3. Assemble subagents and supervisor
+    subagents = _build_subagents(openai_model, tools_by_role)
+
     return create_deep_agent(
-        model=mistral_model,
-        tools=get_advisor_tools(),
+        model=openai_model,
+        tools=tools_by_role["supervisor"],
         system_prompt=load_prompt("financial_advisor"),
-        subagents=_build_subagents_v2(),
+        subagents=subagents,
         checkpointer=checkpointer,
     )
 
 
-class FinancialAdvisorV2:
+class FinancialAdvisor:
     """
-    Production Financial Advisor.
-    - Mistral Large as supervisor
-    - Cerebras (llama-4-scout) as all subagents
-    - PostgreSQL checkpointer (falls back to MemorySaver if DB unavailable)
+    Decoupled Financial Advisor Interface.
+    Communicates with external ML processes over MCP (Streamable HTTP).
     """
 
-    def __init__(self) -> None:
-        self._checkpointer = _get_postgres_checkpointer() or MemorySaver()
-        self._agent = build_financial_advisor_agent_v2(self._checkpointer)
+    def __init__(self, checkpointer=None, model_name: str = "gpt-4o") -> None:
+        self._checkpointer = checkpointer or _get_postgres_checkpointer()
+        self._model_name = model_name
+        self._mcp_servers = MCP_SERVER_CONFIG
 
-    def ask(self, question: str, thread_id: str = "default", recursion_limit: int = 25) -> str:
-        config = {"configurable": {"thread_id": thread_id}, "recursion_limit": recursion_limit}
-        result = self._agent.invoke({"messages": [HumanMessage(content=question)]}, config)
-        messages = result.get("messages", [])
-        logger.info("v2 agent returned %d messages", len(messages))
-        for i, m in enumerate(messages):
-            logger.info(
-                "  [%d] %s | content=%r | tool_calls=%s",
-                i, type(m).__name__,
-                str(getattr(m, "content", ""))[:200],
-                bool(getattr(m, "tool_calls", None)),
+    async def ask_async(
+        self, question: str, thread_id: str = "default", recursion_limit: int = 25
+    ) -> str:
+        """Asynchronously connects to MCP servers, invokes agent, and returns response."""
+        async with MultiServerMCPClient(self._mcp_servers) as mcp_client:
+            agent = await build_financial_advisor_agent_async(
+                mcp_client,
+                checkpointer=self._checkpointer,
+                model_name=self._model_name,
             )
-        return extract_response_text(messages)
+
+            config = {
+                "configurable": {"thread_id": thread_id},
+                "recursion_limit": recursion_limit,
+            }
+
+            result = await agent.ainvoke(
+                {"messages": [HumanMessage(content=question)]}, config
+            )
+            messages = result.get("messages", [])
+            
+            logger.info("Agent returned %d messages", len(messages))
+            return extract_response_text(messages)
+
+    def ask(
+        self, question: str, thread_id: str = "default", recursion_limit: int = 25
+    ) -> str:
+        """Synchronous wrapper for ask_async."""
+        return asyncio.run(
+            self.ask_async(
+                question=question,
+                thread_id=thread_id,
+                recursion_limit=recursion_limit,
+            )
+        )

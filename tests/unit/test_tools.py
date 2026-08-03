@@ -30,7 +30,7 @@ DATE        = "2026-07-24"
 # ---------------------------------------------------------------------------
 
 def test_price_band_direct():
-    from shankh.ml.price_band.tool import query_gbm_price_band
+    from shankh.ml.company.tool import query_gbm_price_band
 
     logger.info("Invoking query_gbm_price_band(ticker=%s, date=%s)", TICKER, DATE)
     raw = query_gbm_price_band.invoke({"ticker": TICKER, "date": DATE})
@@ -89,39 +89,3 @@ def test_stock_clusters_direct():
         assert "cluster_id" in entry
         assert "peers_in_same_cluster" in entry
         assert "is_forensic_anomaly" in entry
-
-
-# ---------------------------------------------------------------------------
-# company — query_stock_peers (reads pre-trained artifact, single ticker)
-# ---------------------------------------------------------------------------
-
-def test_stock_peers_direct():
-    from shankh.agents.company_tools import query_stock_peers
-
-    logger.info("Invoking query_stock_peers(ticker=%s)", TICKER)
-    raw = query_stock_peers.invoke({"ticker": TICKER})
-    result = json.loads(raw)
-    logger.info("stock_peers result:\n%s", json.dumps(result, indent=2))
-
-    assert "error" not in result, f"Tool returned error: {result.get('error')}"
-    assert result["ticker"] == TICKER
-    assert "factor_cluster_id" in result
-    assert "peer_group_sample" in result
-
-
-# ---------------------------------------------------------------------------
-# company — query_forensic_red_flags (reads pre-trained artifact, single ticker)
-# ---------------------------------------------------------------------------
-
-def test_forensic_red_flags_direct():
-    from shankh.agents.company_tools import query_forensic_red_flags
-
-    logger.info("Invoking query_forensic_red_flags(ticker=%s)", TICKER)
-    raw = query_forensic_red_flags.invoke({"ticker": TICKER})
-    result = json.loads(raw)
-    logger.info("forensic_red_flags result:\n%s", json.dumps(result, indent=2))
-
-    assert "error" not in result, f"Tool returned error: {result.get('error')}"
-    assert result["ticker"] == TICKER
-    assert "is_forensic_anomaly" in result
-    assert "red_flag_summary" in result
