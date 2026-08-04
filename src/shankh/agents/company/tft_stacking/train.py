@@ -6,30 +6,17 @@ import json
 import logging
 from pathlib import Path
 import joblib
-
-# ---------------------------------------------------------------------------
-# Dynamic Import Alignment for PyTorch Lightning & PyTorch Forecasting
-# ---------------------------------------------------------------------------
 from pytorch_forecasting import TimeSeriesDataSet, TemporalFusionTransformer
 import torch
-# Inspect the exact base class module that TemporalFusionTransformer inherits from
-_tft_base_module = [cls.__module__ for cls in TemporalFusionTransformer.__mro__ if "LightningModule" in cls.__name__]
-
-if _tft_base_module and "lightning.pytorch" in _tft_base_module[0]:
-    import lightning.pytorch as pl
-    from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor, ModelCheckpoint
-    from lightning.pytorch.loggers import TensorBoardLogger
-else:
-    import pytorch_lightning as pl
-    from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor, ModelCheckpoint
-    from pytorch_lightning.loggers import TensorBoardLogger
-
-from shankh.ml.company.tft_stacking.config import CONFIG
-from shankh.ml.company.tft_stacking.dataset import prepare_tft_frame, create_tft_datasets
-from shankh.ml.company.tft_stacking.model import build_tft_model
-from shankh.ml.company.tft_stacking.eval import evaluate_tft
-from shankh.ml.company.data_loader import load_ohlcv
-from shankh.ml.company.features import add_features
+import lightning.pytorch as pl
+from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor, ModelCheckpoint
+from lightning.pytorch.loggers import TensorBoardLogger
+from shankh.agents.company.tft_stacking.config import CONFIG
+from shankh.agents.company.tft_stacking.dataset import prepare_tft_frame, create_tft_datasets
+from shankh.agents.company.tft_stacking.model import build_tft_model
+from shankh.agents.company.tft_stacking.eval import evaluate_tft
+from shankh.agents.company.data_loader import load_ohlcv
+from shankh.agents.company.features import add_features
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("train_tft_pipeline")

@@ -7,8 +7,8 @@ from deepagents import create_deep_agent
 from langchain_core.messages import HumanMessage
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_openai import ChatOpenAI
-from langgraph.checkpoint.memory import MemorySaver
-
+import psycopg
+from langgraph.checkpoint.postgres import PostgresSaver
 from shankh.agents.shared_tools import filter_tools, get_web_search_tool
 from shankh.utils import extract_response_text, load_prompt
 
@@ -36,22 +36,11 @@ MCP_SERVER_CONFIG = {
 def _get_postgres_checkpointer():
     """Return a PostgresSaver connected to DATABASE_URL, or MemorySaver if unavailable."""
     db_url = os.getenv("DATABASE_URL")
-    if not db_url:
-        logger.warning("DATABASE_URL not set — falling back to MemorySaver")
-        return MemorySaver()
-    try:
-        import psycopg
-        from langgraph.checkpoint.postgres import PostgresSaver
 
-        conn = psycopg.Connection.connect(db_url, autocommit=True)
-        checkpointer = PostgresSaver(conn)
-        checkpointer.setup()
-        return checkpointer
-    except Exception as exc:
-        logger.warning(
-            "Postgres checkpointer unavailable (%s) — falling back to MemorySaver", exc
-        )
-        return MemorySaver()
+    conn = psycopg.Connection.connect(db_url, autocommit=True)
+    checkpointer = PostgresSaver(conn)
+    checkpointer.setup()
+    return checkpointer
 
 
 def _partition_mcp_tools(all_mcp_tools: list) -> Dict[str, list]:

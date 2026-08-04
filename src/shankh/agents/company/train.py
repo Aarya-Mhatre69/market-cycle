@@ -12,10 +12,10 @@ Merges:
 Usage
 -----
 # Full pipeline run:
-$ python -m shankh.ml.company.train
+$ python -m shankh.agents.company.train
 
 # Plot predictions directly from saved Parquet without retraining:
-$ python -m shankh.ml.company.train --plot-only --ticker INFY.NS
+$ python -m shankh.agents.company.train --plot-only --ticker INFY.NS
 """
 
 import argparse
@@ -37,13 +37,13 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 # Package module imports
-from shankh.ml.company.config import CONFIG
-from shankh.ml.company.data_loader import load_ohlcv
-from shankh.ml.company.evaluation import evaluate, save_eval_report, save_predictions
-from shankh.ml.company.features import add_features, get_feature_cols
-from shankh.ml.company.inference import predict_bands
-from shankh.ml.company.model import build_model
-from shankh.ml.company.validation import Fold, walk_forward_folds
+from shankh.agents.company.config import CONFIG
+from shankh.agents.company.data_loader import load_ohlcv
+from shankh.agents.company.evaluation import evaluate, save_eval_report, save_predictions
+from shankh.agents.company.features import add_features, get_feature_cols
+from shankh.agents.company.inference import predict_bands
+from shankh.agents.company.model import build_model
+from shankh.agents.company.validation import Fold, walk_forward_folds
 
 # Logging Configuration
 logging.basicConfig(

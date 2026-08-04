@@ -21,10 +21,10 @@ import pandas as pd
 logging.basicConfig(level=logging.INFO, format="%(asctime)s  %(levelname)-8s  %(message)s")
 logger = logging.getLogger("backtest_q1_2024")
 
-from shankh.ml.company.config import CONFIG
-from shankh.ml.company.features import add_features
-from shankh.ml.company.inference import load_models_and_features, predict_bands
-from shankh.ml.company.train import plot_predictions
+from shankh.agents.company.config import CONFIG
+from shankh.agents.company.features import add_features
+from shankh.agents.company.inference import load_models_and_features, predict_bands
+from shankh.agents.company.train import plot_predictions
 
 _SEED = 42
 _START = "2024-01-01"

@@ -21,9 +21,9 @@ import pandas as pd
 import yfinance as yf
 from langchain_core.tools import tool
 
-from shankh.ml.company.config import CONFIG
-from shankh.ml.company.features import add_features
-from shankh.ml.company.inference import load_models_and_features, predict_next_day_band
+from shankh.agents.company.config import CONFIG
+from shankh.agents.company.features import add_features
+from shankh.agents.company.inference import load_models_and_features, predict_next_day_band
 
 logger = logging.getLogger(__name__)
 
@@ -145,7 +145,7 @@ def _execute_price_band_query(
         logger.exception("Model loading failed")
         return json.dumps({
             "error": f"Failed to load trained LightGBM models: {exc}",
-            "action_required": "Run training pipeline first: python -m shankh.ml.company.tune"
+            "action_required": "Run training pipeline first: python -m shankh.agents.company.tune"
         }, indent=2)
 
     # Verify all expected features are present

@@ -20,7 +20,7 @@ import pandas as pd
 import yfinance as yf
 from langchain_core.tools import tool
 
-from shankh.ml.market.inference import run_inference
+from shankh.agents.market.inference import run_inference
 
 logger = logging.getLogger(__name__)
 

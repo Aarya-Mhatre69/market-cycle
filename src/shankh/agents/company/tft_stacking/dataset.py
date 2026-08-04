@@ -8,7 +8,7 @@ import pandas as pd
 from pytorch_forecasting import TimeSeriesDataSet
 from pytorch_forecasting.data import GroupNormalizer, NaNLabelEncoder
 
-from shankh.ml.company.tft_stacking.meta_features import generate_layer1_meta_features
+from shankh.agents.company.tft_stacking.meta_features import generate_layer1_meta_features
 
 logger = logging.getLogger(__name__)
 

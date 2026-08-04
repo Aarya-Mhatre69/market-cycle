@@ -6,9 +6,8 @@ from langchain.agents import create_agent
 from langchain.agents.middleware import wrap_tool_call
 from langchain.messages import ToolMessage
 from langchain_openai import ChatOpenAI
-from langgraph.checkpoint.memory import InMemorySaver
 
-logger = logging.getLogger("openai_agent")
+logger = logging.getLogger()
 
 
 # =============================================================================
@@ -62,7 +61,7 @@ def build_agent(
         middleware=[
             handle_tool_errors,
         ],
-        checkpointer=checkpointer if checkpointer is not None else InMemorySaver(),
+        checkpointer=checkpointer,
     )
 
 

@@ -498,20 +498,3 @@ See **[DEPLOY.md](DEPLOY.md)** for a complete walkthrough:
 | [docs/product.md](docs/product.md) | Product brief: workstreams, tools, and deliverables. |
 | [docs/future_real_data_tools_todo.md](docs/future_real_data_tools_todo.md) | Roadmap for replacing yfinance with production market-data feeds. |
 | `src/shankh/ml/{macro,market,company}/README.md` | Deep math/model documentation per pipeline. |
-
----
-
-## Contributing
-
-Contributions are welcome. Please follow standard best practices:
-
-1. Create a new branch for your feature or fix.
-2. Add or update tests in `tests/` (unit for ML/MCP logic, integration only for live end-to-end flows).
-3. Run `uv run pytest` before submitting.
-4. Open a pull request with a clear description of the change.
-
----
-
-## Disclaimer
-
-Shankh is a research and analysis tool. Output is intended for educational and research purposes only — **not** personalized investment advice, and it never executes trades. Always do your own due diligence.

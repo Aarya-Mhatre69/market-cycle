@@ -11,9 +11,9 @@ import pandas as pd
 import yfinance as yf
 from fastmcp import FastMCP
 
-from shankh.ml.company.config import CONFIG
-from shankh.ml.company.features import add_features
-from shankh.ml.company.inference import load_models_and_features, predict_next_day_band
+from shankh.agents.company.config import CONFIG
+from shankh.agents.company.features import add_features
+from shankh.agents.company.inference import load_models_and_features, predict_next_day_band
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("mcp_price_band_server")

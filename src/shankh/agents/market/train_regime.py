@@ -11,12 +11,12 @@ import joblib
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-from shankh.ml.market.config import CONFIG
-from shankh.ml.market.data_loader import load_data
-from shankh.ml.market.features import build_regime_features
-from shankh.ml.market.validation import validate_features
-from shankh.ml.market.model import HMMModel
-from shankh.ml.market.evaluation import evaluate_regime
+from shankh.agents.market.config import CONFIG
+from shankh.agents.market.data_loader import load_data
+from shankh.agents.market.features import build_regime_features
+from shankh.agents.market.validation import validate_features
+from shankh.agents.market.model import HMMModel
+from shankh.agents.market.evaluation import evaluate_regime
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("train_regime")
@@ -61,10 +61,14 @@ def train_pipeline() -> Dict[str, Any]:
     logger.info("Training Hidden Markov Model for Regime Detection...")
     
     # 4. Train Model
+    # Updated feature columns array for HMM Training & Inference
     feature_cols = [
-        "mkt_volatility",
-        "breadth_pct_above_20dma",
-        "correlation_density",
+    "mkt_return_20d",          # Market Direction (+ vs -)
+    "parkinson_volatility",    # Fast Intraday Panic Volatility
+    "composite_breadth",       # Combined 20-DMA & 50-DMA Participation %
+    "ad_index",                # Daily Advance-Decline Spread (-1 to +1)
+    "volume_breadth_ratio",    # Log Up-Volume vs Down-Volume
+    "correlation_density",     # Systemic Correlation Density
     ]
 
     scaler = StandardScaler()

@@ -8,10 +8,10 @@ from typing import Dict, Any, Optional
 import pandas as pd
 import joblib
 
-from shankh.ml.market.config import CONFIG
-from shankh.ml.market.features import build_regime_features
-from shankh.ml.market.validation import validate_features
-from shankh.ml.market.model import HMMModel
+from shankh.agents.market.config import CONFIG
+from shankh.agents.market.features import build_regime_features
+from shankh.agents.market.validation import validate_features
+from shankh.agents.market.model import HMMModel
 
 logger = logging.getLogger(__name__)
 
@@ -31,10 +31,14 @@ def run_inference(df: pd.DataFrame, models_dir: Optional[Path] = None) -> Dict[s
     if not validate_features(regime_df):
         raise ValueError("Feature validation failed during inference.")
         
+    # Updated feature columns array for HMM Training & Inference
     feature_cols = [
-        "mkt_volatility",
-        "breadth_pct_above_20dma",
-        "correlation_density",
+    "mkt_return_20d",          # Market Direction (+ vs -)
+    "parkinson_volatility",    # Fast Intraday Panic Volatility
+    "composite_breadth",       # Combined 20-DMA & 50-DMA Participation %
+    "ad_index",                # Daily Advance-Decline Spread (-1 to +1)
+    "volume_breadth_ratio",    # Log Up-Volume vs Down-Volume
+    "correlation_density",     # Systemic Correlation Density
     ]
         
     # Load scaler

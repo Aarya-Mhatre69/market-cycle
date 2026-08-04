@@ -30,7 +30,7 @@ DATE        = "2026-07-24"
 # ---------------------------------------------------------------------------
 
 def test_price_band_direct():
-    from shankh.ml.company.tool import query_gbm_price_band
+    from shankh.agents.company.tools import query_gbm_price_band
 
     logger.info("Invoking query_gbm_price_band(ticker=%s, date=%s)", TICKER, DATE)
     raw = query_gbm_price_band.invoke({"ticker": TICKER, "date": DATE})
@@ -51,7 +51,7 @@ def test_price_band_direct():
 # ---------------------------------------------------------------------------
 
 def test_market_regime_direct():
-    from shankh.ml.market.tool import get_market_regime
+    from shankh.agents.market.tools import get_market_regime
 
     logger.info("Invoking get_market_regime(query_date=%s)", DATE)
     raw = get_market_regime.invoke({"query_date": DATE})
@@ -70,7 +70,7 @@ def test_market_regime_direct():
 # ---------------------------------------------------------------------------
 
 def test_stock_clusters_direct():
-    from shankh.ml.macro.tool import get_stock_clusters
+    from shankh.agents.macro.tools import get_stock_clusters
 
     logger.info("Invoking get_stock_clusters(tickers=%s)", TICKERS)
     raw = get_stock_clusters.invoke({"tickers": TICKERS})

@@ -12,10 +12,10 @@ import joblib
 import yfinance as yf
 from fastmcp import FastMCP
 
-from shankh.ml.macro.config import CONFIG
-from shankh.ml.macro.features import build_cluster_features
-from shankh.ml.macro.validation import validate_features
-from shankh.ml.macro.model import KMeansModel, IsolationForestModel
+from shankh.agents.macro.config import CONFIG
+from shankh.agents.macro.features import build_cluster_features
+from shankh.agents.macro.validation import validate_features
+from shankh.agents.macro.model import KMeansModel, IsolationForestModel
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("mcp_macro_server")
@@ -30,7 +30,7 @@ _PADDING_ANCHORS = [
 # ============================================================================
 # EAGER MODEL LOADING CONTAINER (Zero-Latency Inference)
 # ============================================================================
-class EagerMacroModelContainer:
+class MacroModelContainer:
     def __init__(self, models_dir: Path = None):
         models_dir = Path(models_dir or CONFIG["artifacts"]["models_dir"])
         logger.info("Eagerly pre-loading Macro Clustering & Anomaly models into RAM...")
@@ -80,7 +80,7 @@ class EagerMacroModelContainer:
         }
 
 # Instantiate eagerly at server startup
-CONTAINER = EagerMacroModelContainer()
+CONTAINER = MacroModelContainer()
 
 # ============================================================================
 # MCP SERVER INITIALIZATION & TOOL DEFINITION

@@ -25,7 +25,7 @@ def evaluate_tft(
     predictions = model.predict(test_dataloader, mode="quantiles", return_x=False)
     
     pred_lower_ret  = predictions[:, 0, 0].cpu().numpy()  # alpha = 0.16 (Index 0)
-    pred_median_ret = predictions[:, 0, 1].cpu().numpy()  # alpha = 0.50 (Index 1)
+    pred_median_ret = predictions[:, 0, 1].cpu().numpy()  # alpha = 0.50 (Index 1)  # noqa: F841
     pred_upper_ret  = predictions[:, 0, 2].cpu().numpy()  # alpha = 0.84 (Index 2)
 
     # Post-processing: Enforce upper >= lower

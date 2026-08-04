@@ -12,10 +12,10 @@ import joblib
 import yfinance as yf
 from fastmcp import FastMCP
 
-from shankh.ml.market.config import CONFIG
-from shankh.ml.market.features import build_regime_features
-from shankh.ml.market.validation import validate_features
-from shankh.ml.market.model import HMMModel
+from shankh.agents.market.config import CONFIG
+from shankh.agents.market.features import build_regime_features
+from shankh.agents.market.validation import validate_features
+from shankh.agents.market.model import HMMModel
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("mcp_market_server")
@@ -29,7 +29,7 @@ _NIFTY50_TICKERS = [
 # ============================================================================
 # EAGER MODEL LOADING CONTAINER
 # ============================================================================
-class EagerMarketRegimeContainer:
+class MarketRegimeContainer:
     def __init__(self, models_dir: Path = None):
         models_dir = Path(models_dir or CONFIG["artifacts"]["models_dir"])
         logger.info("Eagerly loading Market Regime HMM model into RAM...")
@@ -87,7 +87,7 @@ class EagerMarketRegimeContainer:
             }
         }
 
-CONTAINER = EagerMarketRegimeContainer()
+CONTAINER = MarketRegimeContainer()
 
 # ============================================================================
 # MCP SERVER INITIALIZATION & TOOL DEFINITION

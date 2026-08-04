@@ -13,13 +13,13 @@ Merges:
 Usage
 -----
 # Full pipeline run with Optuna HPO:
-$ python -m shankh.ml.company.tune --n-trials 30
+$ python -m shankh.agents.company.tune --n-trials 30
 
 # Fast execution without HPO (using baseline config parameters):
-$ python -m shankh.ml.company.tune --skip-hpo
+$ python -m shankh.agents.company.tune --skip-hpo
 
 # Plot predictions directly from saved Parquet without retraining:
-$ python -m shankh.ml.company.tune --plot-only --ticker INFY.NS
+$ python -m shankh.agents.company.tune --plot-only --ticker INFY.NS
 """
 
 import argparse
@@ -42,13 +42,13 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from shankh.ml.company.config import CONFIG
-from shankh.ml.company.data_loader import load_ohlcv
-from shankh.ml.company.evaluation import evaluate, save_eval_report, save_predictions
-from shankh.ml.company.features import add_features, get_feature_cols
-from shankh.ml.company.inference import predict_bands
-from shankh.ml.company.model import build_model
-from shankh.ml.company.validation import Fold, walk_forward_folds
+from shankh.agents.company.config import CONFIG
+from shankh.agents.company.data_loader import load_ohlcv
+from shankh.agents.company.evaluation import evaluate, save_eval_report, save_predictions
+from shankh.agents.company.features import add_features, get_feature_cols
+from shankh.agents.company.inference import predict_bands
+from shankh.agents.company.model import build_model
+from shankh.agents.company.validation import Fold, walk_forward_folds
 
 # Logging Configuration
 logging.basicConfig(

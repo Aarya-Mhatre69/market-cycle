@@ -11,12 +11,12 @@ import joblib
 import numpy as np
 from sklearn.preprocessing import RobustScaler
 
-from shankh.ml.macro.config import CONFIG
-from shankh.ml.macro.data_loader import load_data
-from shankh.ml.macro.features import build_cluster_features
-from shankh.ml.macro.validation import validate_features
-from shankh.ml.macro.model import KMeansModel, AgglomerativeModel, IsolationForestModel
-from shankh.ml.macro.evaluation import evaluate_clustering
+from shankh.agents.macro.config import CONFIG
+from shankh.agents.macro.data_loader import load_data
+from shankh.agents.macro.features import build_cluster_features
+from shankh.agents.macro.validation import validate_features
+from shankh.agents.macro.model import KMeansModel, AgglomerativeModel, IsolationForestModel
+from shankh.agents.macro.evaluation import evaluate_clustering
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("train_cluster")

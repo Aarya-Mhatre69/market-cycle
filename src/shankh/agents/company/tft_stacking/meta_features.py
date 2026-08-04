@@ -25,7 +25,7 @@ def generate_layer1_meta_features(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
     # 1. Layer 1a: Gaussian HMM (Market Regime)
     try:
         if (regime_dir / "regime_model.joblib").exists():
-            from shankh.ml.market.features import build_regime_features
+            from shankh.agents.market.features import build_regime_features
             
             logger.info("Loading Layer 1a HMM artifacts from %s", regime_dir)
             hmm_model = joblib.load(regime_dir / "regime_model.joblib")
@@ -55,7 +55,7 @@ def generate_layer1_meta_features(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
     # 2. Layer 1b: K-Means & Isolation Forest (Clustering)
     try:
         if (cluster_dir / "kmeans_cluster_model.joblib").exists():
-            from shankh.ml.macro.features import build_cluster_features
+            from shankh.agents.macro.features import build_cluster_features
             
             logger.info("Loading Layer 1b Clustering artifacts from %s", cluster_dir)
             cluster_scaler = joblib.load(cluster_dir / "cluster_scaler.joblib")
