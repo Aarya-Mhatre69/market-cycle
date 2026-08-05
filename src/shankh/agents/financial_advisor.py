@@ -56,7 +56,7 @@ def _partition_mcp_tools(all_mcp_tools: list) -> Dict[str, list]:
         macro_tools.append(tool_map["get_stock_clusters"])
 
     # Market analyst tools (MCP Market Regime)
-    market_tools = []
+    market_tools = filter_tools([web_search])
     if "get_market_regime" in tool_map:
         market_tools.append(tool_map["get_market_regime"])
 

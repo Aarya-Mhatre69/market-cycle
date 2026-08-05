@@ -11,6 +11,7 @@ from shankh.agents.company.data_loader import load_ohlcv as pb_load_ohlcv
 
 logger = logging.getLogger(__name__)
 
+
 def load_data(
     data_dir: str | Path,
     required_cols: Optional[list[str]] = None,

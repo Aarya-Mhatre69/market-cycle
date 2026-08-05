@@ -48,7 +48,7 @@ class KMeansModel(BaseModel):
 
 class AgglomerativeModel(BaseModel):
     def __init__(self, n_clusters: int, metric: str = "precomputed", linkage: str = "average", **kwargs):
-        self.model = AgglomerativeClustering(
+        self.model:AgglomerativeClustering = AgglomerativeClustering(
             n_clusters=n_clusters,
             metric=metric,
             linkage=linkage,

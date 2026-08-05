@@ -33,6 +33,7 @@ CONFIG: dict = {
     # ---- feature engineering -------------------------------------------
     "features": {
         "sma_period": 20,
+        "sma_long_period": 50,
         "correlation_window": 20,
         "min_day_data": 5,
         "annualization_factor": 252,

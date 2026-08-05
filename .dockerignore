@@ -10,7 +10,7 @@
 **/*.pyo
 
 # Local secrets — injected at runtime via Azure Container App environment variables
-
+*.env
 # Frontend — not part of this image
 frontend/
 
@@ -22,5 +22,3 @@ n8n/
 
 # Misc
 *.log
-suggestion.md
-supervisord.conf

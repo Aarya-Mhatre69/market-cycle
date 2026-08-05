@@ -1,14 +1,15 @@
 """
 Model wrappers for the market regime pipeline.
-Exposes a consistent interface: fit(), predict(), save(), load().
+Exposes a consistent interface: fit(), predict(), predict_proba(), save(), load().
 """
 import logging
+from pathlib import Path
 from typing import Any
 import joblib
-from pathlib import Path
 from hmmlearn.hmm import GaussianHMM
 
 logger = logging.getLogger(__name__)
+
 
 class BaseModel:
     def fit(self, X: Any, y: Any = None) -> 'BaseModel':
@@ -19,11 +20,11 @@ class BaseModel:
         
     def save(self, filepath: str | Path) -> None:
         joblib.dump(self.model, filepath)
-        logger.info(f"Model saved to {filepath}")
+        logger.info("Model saved to %s", filepath)
         
     def load(self, filepath: str | Path) -> None:
         self.model = joblib.load(filepath)
-        logger.info(f"Model loaded from {filepath}")
+        logger.info("Model loaded from %s", filepath)
 
 
 class HMMModel(BaseModel):
