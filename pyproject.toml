@@ -29,7 +29,8 @@ dependencies = [
     "yfinance>=1.5.2",
     "tensorboardx>=2.6.5",
     "fredapi>=0.5.2",
-    "neo4j>=6.2.0",
+    "gradio>=6.22.0",
+    "crewai>=1.15.12",
 ]
 
 

@@ -1,11 +1,11 @@
 import logging
 import os
 from typing import Any, Optional
-
-from langchain.agents import create_agent
 from langchain.agents.middleware import wrap_tool_call
 from langchain.messages import ToolMessage
 from langchain_openai import ChatOpenAI
+from langgraph.graph.state import CompiledStateGraph
+from deepagents import CompiledSubAgent, create_deep_agent
 
 logger = logging.getLogger()
 
@@ -34,13 +34,14 @@ def handle_tool_errors(request, handler):
 def build_agent(
     tools: Optional[list] = None,
     model_name: str = "gpt-4o",
-    temperature: float = 0.6,
+    temperature: float = 1.0,
     system_prompt: str = (
         "You are a capable, tool-using assistant. Call tools whenever they would "
         "give a more accurate, current, or verifiable answer than reasoning alone. "
         "Think step by step, use tools as needed, then give a direct final answer."
     ),
     checkpointer: Optional[Any] = None,
+    middlewares:Optional[Any]=None
 ):
     """Assemble the production agent powered exclusively by ChatOpenAI."""
     api_key = os.environ.get("OPENAI_API_KEY")
@@ -53,18 +54,31 @@ def build_agent(
         timeout=60,
         max_retries=2,
     )
-
-    return create_agent(
+    if middlewares :
+        middlewares.append[handle_tool_errors]
+    else:
+        middlewares = [handle_tool_errors]
+    return create_deep_agent(
         model=model,
         tools=tools or [],
         system_prompt=system_prompt,
-        middleware=[
-            handle_tool_errors,
-        ],
+        middleware=middlewares,
         checkpointer=checkpointer,
     )
 
 
+
+def make_subagent(
+    *,
+    name: str,
+    description: str,
+    agent:CompiledStateGraph
+):
+    return CompiledSubAgent(
+        name=name,
+        description=description,
+        runnable=agent,
+    )
 # =============================================================================
 # 3. Demo REPL
 # =============================================================================

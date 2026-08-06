@@ -12,10 +12,10 @@ import joblib
 import yfinance as yf
 from fastmcp import FastMCP
 
-from shankh.agents.market.config import CONFIG
-from shankh.agents.market.features import build_regime_features
-from shankh.agents.market.validation import validate_features
-from shankh.agents.market.model import HMMModel
+from shankh.agents.market.ml.regime_config import CONFIG
+from shankh.agents.market.ml.regime_features import build_regime_features
+from shankh.agents.market.ml.regime_validation import validate_features
+from shankh.agents.market.ml.regime_model import HMMModel
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("mcp_market_server")
@@ -56,7 +56,7 @@ class MarketRegimeContainer:
 
         logger.info("Market Regime HMM model eagerly loaded successfully.")
 
-    def run_eager_inference(self, df: pd.DataFrame) -> Dict[str, Any]:
+    def run_inference(self, df: pd.DataFrame) -> Dict[str, Any]:
         regime_df = build_regime_features(df, CONFIG["features"])
         if not validate_features(regime_df):
             raise ValueError("Feature validation failed during inference.")
@@ -129,7 +129,7 @@ def get_market_regime(query_date: Optional[str] = None) -> str:
     """
     try:
         df_raw = _fetch_universe_ohlcv(_NIFTY50_TICKERS)
-        result = CONTAINER.run_eager_inference(df_raw)
+        result = CONTAINER.run_inference(df_raw)
     except Exception as exc:
         return json.dumps({"error": str(exc)}, indent=2)
 

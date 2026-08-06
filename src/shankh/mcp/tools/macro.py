@@ -12,10 +12,10 @@ import joblib
 import yfinance as yf
 from fastmcp import FastMCP
 
-from shankh.agents.macro.config import CONFIG
-from shankh.agents.macro.features import build_cluster_features
-from shankh.agents.macro.validation import validate_features
-from shankh.agents.macro.model import KMeansModel, IsolationForestModel
+from shankh.agents.equity.cluster_config import CONFIG
+from shankh.agents.equity.cluster_features import build_cluster_features
+from shankh.agents.equity.cluster_validation import validate_features
+from shankh.agents.equity.cluster_model import KMeansModel, IsolationForestModel
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("mcp_macro_server")
@@ -54,7 +54,7 @@ class MacroModelContainer:
 
         logger.info("Macro models eagerly loaded into memory successfully.")
 
-    def run_eager_inference(self, df: pd.DataFrame) -> Dict[str, Any]:
+    def run_inference(self, df: pd.DataFrame) -> Dict[str, Any]:
         pivoted_prices, factor_df = build_cluster_features(df, CONFIG["features"])
         if not validate_features(factor_df, pivoted_prices):
             raise ValueError("Feature validation failed during inference.")
@@ -136,7 +136,7 @@ def get_stock_clusters(tickers: str) -> str:
 
     try:
         df_raw = _fetch_ohlcv(fetch_list)
-        result = CONTAINER.run_eager_inference(df_raw)
+        result = CONTAINER.run_inference(df_raw)
     except Exception as exc:
         return json.dumps({"error": str(exc)}, indent=2)
 

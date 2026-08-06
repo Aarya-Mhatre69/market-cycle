@@ -28,9 +28,9 @@ app = FastMCP("ShankhFinancialAdvisor")
 try:
     advisor = FinancialAdvisor()
     logger.info("Successfully initialized the Financial Advisor agent.")
-except Exception:
+except Exception as e:
     logger.exception("Failed to initialize the Financial Advisor agent.")
-    raise
+    print(e)
 
 
 @app.tool()

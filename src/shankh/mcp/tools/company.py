@@ -11,9 +11,9 @@ import pandas as pd
 import yfinance as yf
 from fastmcp import FastMCP
 
-from shankh.agents.company.config import CONFIG
-from shankh.agents.company.features import add_features
-from shankh.agents.company.inference import load_models_and_features, predict_next_day_band
+from shankh.agents.equity.pb_config import CONFIG
+from shankh.agents.equity.pb_features import add_features
+from shankh.agents.equity.pb_inference import load_models_and_features, predict_next_day_band
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("mcp_price_band_server")
@@ -23,7 +23,7 @@ _HISTORY_DAYS = 200
 # ============================================================================
 # EAGER MODEL LOADING CONTAINER
 # ============================================================================
-class EagerPriceBandContainer:
+class PriceBandContainer:
     def __init__(self):
         logger.info("Eagerly loading LightGBM Quantile Regression Boosters...")
 
@@ -36,7 +36,7 @@ class EagerPriceBandContainer:
 
         logger.info("Price Band boosters eagerly loaded into memory successfully.")
 
-    def run_eager_inference(
+    def run_inference(
         self,
         df_feat: pd.DataFrame,
         current_price: Optional[float] = None,
@@ -78,7 +78,7 @@ class EagerPriceBandContainer:
             },
         }
 
-CONTAINER = EagerPriceBandContainer()
+CONTAINER = PriceBandContainer()
 
 # ============================================================================
 # MCP SERVER INITIALIZATION & TOOLS
@@ -111,7 +111,7 @@ def _execute_query(ticker: str, current_price: Optional[float]) -> str:
         if df_feat.empty:
             return json.dumps({"error": "Empty feature set generated."}, indent=2)
 
-        res = CONTAINER.run_eager_inference(df_feat, current_price)
+        res = CONTAINER.run_inference(df_feat, current_price)
         res["ticker"] = ticker_clean
         return json.dumps(res, indent=2)
     except Exception as exc:

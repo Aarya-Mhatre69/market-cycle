@@ -332,9 +332,9 @@ Predicts the **next trading day's high/low price band** for NSE stocks using two
 **Training** uses date-aligned **walk-forward cross-validation** (5 folds, 1-day purging gap to prevent lookahead, ~5-year warmup).
 
 ```bash
-uv run python -m shankh.ml.company.train            # full pipeline (train + eval + plots)
-uv run python -m shankh.ml.company.tune             # Optuna HPO
-uv run python -m shankh.ml.company.train --plot-only --ticker INFY.NS   # plot saved predictions
+uv run python -m shankh.ml.equity.train            # full pipeline (train + eval + plots)
+uv run python -m shankh.ml.equity.tune             # Optuna HPO
+uv run python -m shankh.ml.equity.train --plot-only --ticker INFY.NS   # plot saved predictions
 uv run python scripts/backtest_q1_2024.py           # backtest trained models on Q1 2024
 ```
 

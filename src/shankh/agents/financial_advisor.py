@@ -32,6 +32,22 @@ MCP_SERVER_CONFIG = {
     },
 }
 
+MACRO_TOOL_NAMES = [
+    "get_stock_clusters",
+]
+MARKET_TOOL_NAMES = [
+    "get_market_regime",
+]
+COMPANY_TOOL_NAMES = [
+    "query_gbm_price_band",
+    "get_stock_clusters",
+]
+SUPERVISOR_TOOL_NAMES = [
+    "get_market_regime",
+    "query_gbm_price_band",
+    "get_stock_clusters",
+]
+
 
 def _get_postgres_checkpointer():
     """Return a PostgresSaver connected to DATABASE_URL, or MemorySaver if unavailable."""
@@ -41,45 +57,6 @@ def _get_postgres_checkpointer():
     checkpointer = PostgresSaver(conn)
     checkpointer.setup()
     return checkpointer
-
-
-def _partition_mcp_tools(all_mcp_tools: list) -> Dict[str, list]:
-    """
-    Organizes tools retrieved dynamically via MCP into analyst subagent buckets.
-    """
-    tool_map = {tool.name: tool for tool in all_mcp_tools}
-    web_search = get_web_search_tool()
-
-    # Macro analyst tools (MCP Macro + Web Search)
-    macro_tools = filter_tools([web_search])
-    if "get_stock_clusters" in tool_map:
-        macro_tools.append(tool_map["get_stock_clusters"])
-
-    # Market analyst tools (MCP Market Regime)
-    market_tools = filter_tools([web_search])
-    if "get_market_regime" in tool_map:
-        market_tools.append(tool_map["get_market_regime"])
-
-    # Company analyst tools (MCP Price Band + Stock Clusters + Web Search)
-    company_tools = filter_tools([web_search])
-    for tool_name in ["query_gbm_price_band", "get_stock_clusters"]:
-        if tool_name in tool_map:
-            company_tools.append(tool_map[tool_name])
-
-    # Supervisor tools (High-level entry points for quick routing)
-    supervisor_tools = filter_tools([
-        web_search,
-        tool_map.get("get_market_regime"),
-        tool_map.get("query_gbm_price_band"),
-        tool_map.get("get_stock_clusters"),
-    ])
-
-    return {
-        "macro": macro_tools,
-        "market": market_tools,
-        "company": company_tools,
-        "supervisor": supervisor_tools,
-    }
 
 
 def _build_subagents(llm: ChatOpenAI, tools_by_role: Dict[str, list]) -> list[dict]:
@@ -141,8 +118,16 @@ async def build_financial_advisor_agent_async(
     mcp_tools = client.get_tools()
     logger.info("Connected to MCP servers. Loaded %d remote tools.", len(mcp_tools))
 
-    # 2. Partition tools to subagents
-    tools_by_role = _partition_mcp_tools(mcp_tools)
+    # 2. Assign fetched MCP tools to analyst role buckets
+    tool_map = {tool.name: tool for tool in mcp_tools}
+    web_search = get_web_search_tool()
+
+    tools_by_role = {
+        "macro": filter_tools([web_search] + [tool_map.get(name) for name in MACRO_TOOL_NAMES]),
+        "market": filter_tools([web_search] + [tool_map.get(name) for name in MARKET_TOOL_NAMES]),
+        "company": filter_tools([web_search] + [tool_map.get(name) for name in COMPANY_TOOL_NAMES]),
+        "supervisor": filter_tools([web_search] + [tool_map.get(name) for name in SUPERVISOR_TOOL_NAMES]),
+    }
 
     # 3. Assemble subagents and supervisor
     subagents = _build_subagents(openai_model, tools_by_role)
