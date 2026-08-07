@@ -10,7 +10,7 @@ import logging
 import os
 
 from fastmcp import FastMCP
-from shankh.agents.financial_advisor import FinancialAdvisor
+from shankh.agents.supervisor import ResearchAssistantOrchestrator
 
 from shankh.utils import extract_text_content
 
@@ -22,11 +22,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Initialize the FastMCP server
-app = FastMCP("ShankhFinancialAdvisor")
+app = FastMCP("Shankh Research Assistant")
 
 # Initialize the underlying agent
 try:
-    advisor = FinancialAdvisor()
+    advisor = ResearchAssistantOrchestrator()
     logger.info("Successfully initialized the Financial Advisor agent.")
 except Exception as e:
     logger.exception("Failed to initialize the Financial Advisor agent.")

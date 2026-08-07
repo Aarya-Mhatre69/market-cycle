@@ -1,283 +1,104 @@
-# 🔍 Stock Clustering & Forensic Anomaly Detection Model Notes
+# Shankh Macro Analyst Agent
+`src/shankh/agents/macro/`
 
-## 1. Model Overview & Purpose
-
-The **Stock Clustering and Forensic Anomaly Pipeline** provides unsupervised portfolio risk analytics and outlier screening across an equity trading universe.
-
-Unlike prediction models that output a single target price or market mood, this pipeline analyzes **multi-asset interactions** to perform two distinct functions:
-
-1. **Portfolio Diversification**: Groups stocks into distinct risk personalities and price co-movement structures so portfolios are not over-concentrated in identical risk profiles.
-2. **Forensic Outlier Screening**: Detects structural anomalies (e.g., price manipulation, illiquidity traps, extreme drawdown risk) before stocks are added to a trading strategy.
+The **Shankh Macro Analyst Agent** is a specialized, domain-pure quantitative research engine designed for top-down Indian macroeconomic synthesis, institutional liquidity tracking, cross-asset yield analysis, and global market cue integration.
 
 ---
 
-# 2. Pipeline Architecture
+## 1. Executive Summary & Capabilities
 
-The pipeline consists of **three complementary unsupervised models**. Each solves a different mathematical problem while answering a different portfolio management question.
+### What It Does
+* **Top-Down Macro Synthesis:** Evaluates domestic growth drivers, monetary policy stances, inflation dynamics, and currency movements.
+* **Institutional Liquidity Tracking:** Monitors Foreign Institutional Investor (FII/FPI) and Domestic Institutional Investor (DII) cash net flows and directional market bias.
+* **Cross-Asset Yield Spread Engine:** Dynamically calculates the **US-India 10Y Yield Differential** ($\text{IN10Y} - \text{US10Y}$) and the US $10\text{Y}-2\text{Y}$ Yield Curve Slope to flag capital flight risks.
+* **Commodity & Forex Velocity Analysis:** Analyzes 5-day and 20-day Rate of Change (ROC %) and trend directional momentum for Brent Crude, WTI Crude, Gold, USD/INR, and the US Dollar Index (DXY).
+* **Dual-Country Economic Calendar Integration:** Isolates high-impact upcoming economic releases from both **India (IN)** and the **United States (US)**.
 
-```text
-                               STOCK UNIVERSE
-                                     │
-                    Historical Prices & Risk Features
-                                     │
-                      Feature Engineering + Scaling
-                                     │
-         ┌───────────────────────────┼───────────────────────────┐
-         │                           │                           │
-         ▼                           ▼                           ▼
-┌────────────────────┐     ┌────────────────────┐     ┌────────────────────────┐
-│ AGGLOMERATIVE      │     │ K-MEANS            │     │ ISOLATION FOREST       │
-├────────────────────┤     ├────────────────────┤     ├────────────────────────┤
-│ Price Co-Movement  │     │ Risk Personality   │     │ Anomaly Detection      │
-│                    │     │                    │     │                        │
-│ "Who moves         │     │ "Who acts          │     │ "Who is                │
-│  together?"        │     │  alike?"           │     │  dangerous?"           │
-└────────────────────┘     └────────────────────┘     └────────────────────────┘
+---
+
+## 2. When to Use the Macro Agent
+
+| Use Case / Workflow | Agent Application |
+| :--- | :--- |
+| **Morning Market Briefs** | Synthesizing overnight US Fed cues, Crude Oil velocity, and FII flows before domestic market open. |
+| **Asset Allocation Meetings** | Evaluating capital flight risks based on US-India yield spread compression ($<200 \text{ bps}$). |
+| **RBI / FOMC Policy Reviews** | Analyzing interest rate trajectory transmission to domestic equity profit margins. |
+| **Portfolio Risk Audits** | Assessing macro headwind risks (e.g., surging Brent Crude + depreciating Rupee). |
+
+---
+
+## 3. What It Can Answer vs. What It Cannot Answer
+
+### What It Can Answer
+* *"What is the current US-India 10Y yield spread and what does it imply for capital flows?"*
+* *"How is recent Brent Crude oil price velocity impacting domestic inflation expectations?"*
+* *"What are FII and DII net cash positions over the latest trading sessions?"*
+* *"What high-impact domestic and US economic calendar events are scheduled this week?"*
+* *"Synthesize a complete Executive Macro Brief with current regime classification."*
+
+### What It CANNOT Answer (Strict Scope Boundaries)
+* ❌ **No Single-Stock Advice:** Never answers questions about individual equity tickers (e.g., *"Should I buy Reliance or Infosys?"*).
+* ❌ **No Single-Company Financials:** Does not analyze single-stock earnings, margins, or balance sheets.
+* ❌ **No Direct Trade Execution / Unsupervised Advice:** Operating strictly as a human-supervised research assistant, it never issues guaranteed buy/sell price targets.
+
+---
+
+## 4. Tools & Data Sources Matrix
+
+The Macro Agent operates using 5 specialized tools defined in `macro_tools.py`:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                              MACRO TOOL & DATA SOURCE MATRIX                           │
+├───────────────────────────────┬──────────────────────────────────┬─────────────────────┤
+│ Tool Name                     │ Primary External Data Source     │ Extracted Metrics   │
+├───────────────────────────────┼──────────────────────────────────┼─────────────────────┤
+│ `get_fii_dii_flows`           │ NSE Participant Feeds            │ FII Cash Net (₹ Cr),│
+│                               │                                  │ DII Cash Net (₹ Cr),│
+│                               │                                  │ Combined Flow, Bias │
+├───────────────────────────────┼──────────────────────────────────┼─────────────────────┤
+│ `get_indian_macro_indicators` │ FRED API (`DGS10`, `DGS2`,       │ US-India 10Y Spread,│
+│                               │ `INDIRLTLT01STM`, `INDCPI...`)   │ US Yield Curve Slope│
+│                               │                                  │ RBI Repo Rate (6.5%)│
+├───────────────────────────────┼──────────────────────────────────┼─────────────────────┤
+│ `get_forex_and_commodities`   │ FMP API & `yfinance`             │ USD/INR, Brent, WTI,│
+│                               │                                  │ Gold, DXY Spot +    │
+│                               │                                  │ 5D/20D ROC %        │
+├───────────────────────────────┼──────────────────────────────────┼─────────────────────┤
+│ `get_economic_calendar`       │ Financial Modeling Prep (FMP)    │ High-Impact IN & US │
+│                               │ Economic Calendar API            │ Catalyst Releases   │
+├───────────────────────────────┼──────────────────────────────────┼─────────────────────┤
+│ `search_web`                  │ Tavily Search API                │ Qualitative RBI/Fed │
+│                               │                                  │ MPC Statements &    │
+│                               │                                  │ Geopolitical News   │
+└───────────────────────────────┴──────────────────────────────────┴─────────────────────┘
 ```
 
 ---
 
-## A. Agglomerative Hierarchical Clustering (Price Co-Movement)
+## 5. Machine Learning Architecture (Current vs. Planned)
 
-**Purpose**
+### Current ML Implementation (`src/shankh/agents/macro/ml/`)
+* **Baseline Regularized Regressors:** Linear/Ridge models fitted on monthly FRED macroeconomic time-series ($N \approx 240$ monthly rows over 20 years).
+* **Role:** Estimates baseline trend expectations for inflation and yield series.
 
-Groups stocks according to **daily price co-movement** (timing and synchronicity).
-
-**Input**
-
-An $M \times M$ pairwise **Correlation Distance Matrix**
-
-$$
-d=\sqrt{2(1-\rho)}
-$$
-
-where $\rho$ is the Pearson correlation between stock returns.
-
-**Linkage Method**
-
-- Average linkage
-- Precomputed distance matrix
-
-**Why it is needed**
-
-Stocks belonging to the same sector or ETF basket frequently move together. Even if two companies are fundamentally different, highly correlated price movement can create hidden concentration risk within a portfolio.
+### Planned Future ML Architecture
+* **MIDAS Nowcasting Engine (Mixed-Data Sampling):**  
+  Bridges daily high-frequency financial market velocity (Brent Crude 5D/20D ROC, USD/INR, US 10Y Treasuries) with lagged monthly macro targets (CPI Inflation, GDP Growth).
+* **Dynamic Factor Models (DFM):**  
+  Extracts unobserved common macro factors from high-density cross-asset time-series to update real-time GDP and inflation probabilities daily.
 
 ---
 
-## B. K-Means Clustering (Statistical Risk Personality)
+## 6. Output Standard & Compliance
 
-**Purpose**
+The Macro Agent formats every output as a standardized **Executive Macro Brief** with six mandatory Markdown sections:
 
-Groups stocks according to their long-term statistical characteristics rather than daily synchronization.
+1. `### 1. Macro Regime & Assessment` (Regime: `BULLISH_EXPANSION`, `BEARISH_CONTRACTION`, `STAGFLATIONARY_PRESSURE`, `HIGH_VOLATILITY_RISK_OFF`, or `CONSOLIDATING_NEUTRAL`)
+2. `### 2. Institutional Flows & Liquidity`
+3. `### 3. Fixed Income & Cross-Asset Spreads`
+4. `### 4. Forex & Commodity Velocity`
+5. `### 5. Economic Calendar & Global Cues`
+6. `### 6. Key Macro Risk Factors`
 
-**Input**
-
-A scaled
-
-$$
-N \times 9
-$$
-
-multi-factor feature matrix using **RobustScaler**.
-
-**Default Number of Clusters**
-
-$$
-K = 4
-$$
-
-**Why it is needed**
-
-Two stocks may never move together on the same day yet still possess nearly identical:
-
-- volatility
-- beta
-- drawdown characteristics
-- momentum profile
-- return distribution
-
-K-Means identifies these shared "risk personalities" to improve portfolio diversification.
-
----
-
-## C. Isolation Forest (Forensic Anomaly Detection)
-
-**Purpose**
-
-Acts as a **sanity filter** by identifying statistically abnormal stocks.
-
-**Input**
-
-The same scaled
-
-$$
-N \times 9
-$$
-
-feature matrix used by K-Means.
-
-**Contamination Rate**
-
-```text
-0.10
-```
-
-meaning approximately the most abnormal **10%** of observations are flagged.
-
-**Why it is needed**
-
-Unlike clustering algorithms, Isolation Forest is designed specifically for anomaly detection.
-
-K-Means is forced to assign **every stock** to some cluster—even fraudulent, illiquid, or manipulated securities.
-
-Isolation Forest instead isolates these unusual observations using random decision trees and flags them for manual review.
-
-Predictions are:
-
-- `1` → Normal
-- `-1` → Anomaly
-
----
-
-# 3. Input Features & Preprocessing
-
-## Scaling Strategy — RobustScaler
-
-Traditional Z-score normalization (`StandardScaler`) uses the mean and standard deviation, both of which are highly sensitive to extreme market outliers.
-
-Instead, this pipeline uses **RobustScaler**, which scales using the median and interquartile range (IQR).
-
-$$
-x_{\text{scaled}}
-=
-\frac{x-\mathrm{Median}(x)}
-{\mathrm{IQR}(x)}
-$$
-
-This produces more stable feature distributions in the presence of extreme returns.
-
----
-
-## Multi-Factor Features (`factor_df`)
-
-| Feature | Mathematical Formula | Category | Description |
-|----------|----------------------|----------|-------------|
-| **ann_return** | $\text{mean}(r_t)\times252$ | Return Profile | Annualized log return. |
-| **ann_vol** | $\text{std}(r_t)\times\sqrt{252}$ | Volatility | Annualized volatility. |
-| **sharpe** | $\frac{\text{ann\_return}-0.065}{\text{ann\_vol}+10^{-6}}$ | Risk-Adjusted | Sharpe ratio using a 6.5% risk-free rate. |
-| **skewness** | $\text{skew}(r_t)$ | Tail Risk | Measures asymmetry of returns. |
-| **max_drawdown** | $\min\left(\frac{\text{Peak}_t-P_t}{\text{Peak}_t}\right)$ | Tail Risk | Largest historical peak-to-trough decline. |
-| **beta** | $\frac{\operatorname{Cov}(r_{\text{stock}},r_{\text{market}})}{\operatorname{Var}(r_{\text{market}})}$ | Market Sensitivity | Sensitivity to the equal-weight market portfolio. |
-| **dist_20dma** | $\frac{P_t-\text{SMA}_{20}}{\text{SMA}_{20}}$ | Trend | Distance from the 20-day moving average. |
-| **rsi_14** | $100-\frac{100}{1+\text{RS}_{14}}$ | Momentum | Relative Strength Index. |
-| **atr_pct** | $\frac{\text{ATR}_{14}}{P_t}$ | Volatility | ATR expressed as a percentage of price. |
-
----
-
-# 4. Model Outputs
-
-The inference pipeline (`run_inference()`) returns a JSON object similar to:
-
-```json
-{
-  "kmeans_factor_clusters": {
-    "RELIANCE.NS": 0,
-    "TCS.NS": 2,
-    "INFY.NS": 2,
-    "PENNY_STOCK.NS": 1
-  },
-  "flagged_forensic_anomalies": [
-    "PENNY_STOCK.NS"
-  ]
-}
-```
-
-### `kmeans_factor_clusters`
-
-Maps every stock to its assigned behavioral cluster.
-
-Example:
-
-```text
-Cluster 0 → Defensive
-Cluster 1 → High Volatility
-Cluster 2 → Growth
-Cluster 3 → Cyclical
-```
-
-(The numeric labels themselves have no intrinsic meaning.)
-
----
-
-### `flagged_forensic_anomalies`
-
-Contains the list of securities classified as anomalies by Isolation Forest.
-
-These should be manually investigated before inclusion in any portfolio.
-
----
-
-# 5. Unsupervised Evaluation Metrics
-
-Because no ground-truth labels exist, cluster quality is evaluated using geometric separation metrics.
-
-| Metric | Mathematical Definition | Goal | Interpretation |
-|---------|-------------------------|------|----------------|
-| **Silhouette Score** | $S=\frac{b-a}{\max(a,b)}$ | Maximize | Measures how well each point fits within its own cluster relative to neighboring clusters. Values above 0.25 generally indicate meaningful structure. |
-| **Davies–Bouldin Index** | $DB=\frac{1}{K}\sum\max\left(\frac{\sigma_i+\sigma_j}{d(c_i,c_j)}\right)$ | Minimize | Ratio of within-cluster spread to between-cluster separation. Lower values indicate better clustering. |
-| **Calinski–Harabasz Index** | $\frac{\text{Between-Cluster Variance}}{\text{Within-Cluster Variance}}$ | Maximize | Higher values indicate compact and well-separated clusters. |
-
----
-
-# 6. Why Three Different Models?
-
-Each algorithm answers a fundamentally different investment question.
-
-| Portfolio Question | Model | Mathematical Input | Benefit |
-|--------------------|-------|--------------------|----------|
-| **Which stocks move together every day?** | Agglomerative Clustering | Correlation Distance Matrix | Prevents hidden correlation concentration. |
-| **Which stocks have similar long-term risk characteristics?** | K-Means | Scaled Multi-Factor Feature Matrix | Improves diversification across risk profiles. |
-| **Which stocks appear statistically abnormal?** | Isolation Forest | Scaled Multi-Factor Feature Matrix | Detects potentially manipulated, illiquid, or structurally unusual securities. |
-
----
-
-# 7. End-to-End Workflow
-
-```text
-                      Historical OHLCV Data
-                               │
-                               ▼
-                    Feature Engineering Pipeline
-                               │
-                               ▼
-                     RobustScaler Transformation
-                               │
-        ┌──────────────────────┼──────────────────────┐
-        │                      │                      │
-        ▼                      ▼                      ▼
- Agglomerative          K-Means Clustering    Isolation Forest
-   Clustering              (Risk Types)      (Anomaly Detection)
-        │                      │                      │
-        └──────────────┬───────┴──────────────┬───────┘
-                       ▼                      ▼
-             Cluster Assignments     Anomaly Flags
-                       │
-                       ▼
-          Portfolio Construction & Risk Review
-```
-
----
-
-# 8. Summary
-
-The pipeline combines three complementary unsupervised learning techniques:
-
-- **Agglomerative Clustering** discovers stocks that exhibit similar price movement patterns.
-- **K-Means Clustering** groups stocks by long-term statistical risk characteristics.
-- **Isolation Forest** identifies structurally abnormal securities that warrant further investigation.
-
-Together, these models provide a more robust foundation for portfolio construction by simultaneously addressing:
-
-- correlation risk,
-- factor diversification,
-- and forensic anomaly detection.
+Every numerical figure is sourced strictly from tool execution payloads with mandatory non-advisory compliance disclaimers appended.

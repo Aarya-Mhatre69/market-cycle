@@ -32,7 +32,7 @@ class TestMacroAgentExecutiveWorkflow:
         """
         agent = build_macro_agent()
 
-        complex_ceo_prompt = (
+        task_prompt = (
             "Provide an executive-level macroeconomic synthesis for Indian equities for our CIO investment committee. "
             "Your analysis must address four critical pillars:\n"
             "1. Institutional Liquidity: Analyze daily FII/DII cash net flows and institutional market bias.\n"
@@ -45,7 +45,7 @@ class TestMacroAgentExecutiveWorkflow:
             "and a final 'Portfolio Risk Stance' (Risk-On, Risk-Off, or Neutral). Do not include stock recommendations."
         )
 
-        response = agent.invoke({"messages": [("user", complex_ceo_prompt)]})
+        response = agent.invoke({"messages": [("user", task_prompt)]})
 
         assert "messages" in response, "Agent response must contain messages list"
         messages = response["messages"]

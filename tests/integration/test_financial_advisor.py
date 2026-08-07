@@ -1,33 +1,30 @@
 """
-tests/test_financial_advisor_integration.py
-Live integration tests for the Shankh Financial Advisor and its sub-agents.
-Runs end-to-end execution loops against live LLM providers and search endpoints.
+Live Integration Tests for Shankh Research Assistant Orchestrator and Specialized Subagents.
+
+Executes end-to-end multi-agent execution trajectories against live LLM providers and
+MCP tools over streamable HTTP.
 """
 
 import os
 import pytest
-
-from shankh.agents.financial_advisor import FinancialAdvisor
 from dotenv import load_dotenv
-load_dotenv()  # Load environment variables from .env file
-# Mark all tests in this module as live integration tests requiring active credentials
+from shankh.agents.supervisor import ResearchAssistantOrchestrator
+
+load_dotenv()
+
 RUN_LIVE_AGENT_TESTS = os.getenv("RUN_LIVE_AGENT_TESTS") == "1"
-HAS_REQUIRED_KEYS = all(
-    os.getenv(k) for k in ["GOOGLE_API_KEY", "MISTRALAI_API_KEY", "CEREBRAS_API_KEY", "TAVILY_API_KEY"]
-)
+HAS_REQUIRED_KEYS = bool(os.getenv("OPENAI_API_KEY"))
 
 if not RUN_LIVE_AGENT_TESTS or not HAS_REQUIRED_KEYS:
     pytest.skip(
-        "Skipping live integration tests. Set RUN_LIVE_AGENT_TESTS=1 and required API keys to enable.",
+        "Skipping live orchestrator integration tests. Set RUN_LIVE_AGENT_TESTS=1 "
+        "and OPENAI_API_KEY in environment to execute.",
         allow_module_level=True,
     )
 
 
 def _get_text_content(response) -> str:
-    """
-    Extracts plain text content from both structured block lists
-    and standard raw string payloads for evaluation.
-    """
+    """Extracts plain text content from string, dictionary, or block list payloads."""
     if isinstance(response, str):
         return response
     if isinstance(response, list):
@@ -43,81 +40,90 @@ def _get_text_content(response) -> str:
     return str(response)
 
 
-def test_live_financial_advisor_market_snapshot():
+def test_live_orchestrator_macro_delegation():
     """
-    Verifies that the orchestrator compiles correctly, evaluates the question,
-    invokes the real market snapshot tool, and parses the returned mock metrics.
+    Verifies multi-agent delegation by requiring the orchestrator to route a macro query
+    to the specialized Macro Analyst subagent (`macro-analyst`), execute underlying tools
+    (`get_indian_macro_indicators`, `get_fii_dii_flows`), and return a structured brief.
     """
-    advisor = FinancialAdvisor()
-    thread_id = "live-snapshot-test"
-    
+    orchestrator = ResearchAssistantOrchestrator()
+    thread_id = "live-orchestrator-macro-test"
+
     question = (
-        "Can you check the current market snapshot and tell me how the NIFTY 50 "
-        "and India VIX are looking today?"
+        "Consult your specialized macro analyst subagent to conduct an executive synthesis "
+        "of the Indian rate environment, US-India 10Y yield spread, and recent FII/DII flow trends."
     )
-    
-    response = advisor.ask(question, thread_id=thread_id)
-    
-    print("\n--- [LIVE RUN] Market Snapshot Response ---")
+
+    response = orchestrator.ask(question, thread_id=thread_id)
+
+    print("\n--- [LIVE RUN] Macro Delegation Response ---")
     print(response)
-    
-    # Assert that the response container is of a valid type
-    assert isinstance(response, (str, list, dict))
-    
+
+    assert isinstance(response, (str, list, dict)), "Response must be a string, list, or dict"
+
     text_content = _get_text_content(response)
-    assert len(text_content) > 0
-    
-    # Verify the LLM correctly synthesized the output with returned data markers
-    assert any(term in text_content.lower() for term in ["nifty", "vix", "snapshot"])
+    assert len(text_content) > 200, "Macro brief response must be detailed (>200 chars)"
+
+    required_terms = ["fii", "dii", "yield", "rate"]
+    assert any(
+        term in text_content.lower() for term in required_terms
+    ), f"Response missing required macro concepts: {required_terms}"
 
 
-def test_live_financial_advisor_macro_delegation():
+def test_live_orchestrator_market_breadth_and_cycle_delegation():
     """
-    Verifies nested multi-agent delegation by forcing the orchestrator to call 
-    the specialized Macro Analyst sub-agent tool, execute its internal tools, 
-    and return the structured evaluation to the supervisor.
+    Verifies multi-agent routing to Market Breadth (`breadth-analyst`) and Market Cycle
+    (`cycle-analyst`) subagents to evaluate 150-ticker participation and Fed Model ERP.
     """
-    advisor = FinancialAdvisor()
-    thread_id = "live-macro-test"
-    
+    orchestrator = ResearchAssistantOrchestrator()
+    thread_id = "live-orchestrator-market-test"
+
     question = (
-        "Please consult your specialized macro analyst sub-agent to conduct "
-        "a deep analysis of the current rate environment and institutional flow trends."
+        "Delegate to your specialized breadth and cycle subagents to evaluate:\n"
+        "1. Percentage of 150 universe stocks trading above 50-day and 200-day DMA.\n"
+        "2. Current Nifty 50 P/E percentile and Fed Model Equity Risk Premium (ERP) spread."
     )
-    
-    response = advisor.ask(question, thread_id=thread_id)
-    
-    print("\n--- [LIVE RUN] Macro Analyst Delegation Response ---")
+
+    response = orchestrator.ask(question, thread_id=thread_id)
+
+    print("\n--- [LIVE RUN] Market Breadth & Cycle Delegation Response ---")
     print(response)
-    
-    assert isinstance(response, (str, list, dict))
-    
+
+    assert isinstance(response, (str, list, dict)), "Response must be a string, list, or dict"
+
     text_content = _get_text_content(response)
-    assert len(text_content) > 0
-    
-    # Verify that the final text contains structured components generated by the sub-agent
-    assert any(term in text_content.lower() for term in ["regime", "rates", "flow", "assessment"])
+    assert len(text_content) > 200, "Market brief response must be detailed (>200 chars)"
+
+    required_terms = ["dma", "breadth", "equity risk premium", "p/e"]
+    assert any(
+        term in text_content.lower() for term in required_terms
+    ), f"Response missing required market breadth/cycle concepts: {required_terms}"
 
 
-def test_live_financial_advisor_web_search():
+def test_live_orchestrator_single_stock_tools_and_web_search():
     """
-    Verifies that the supervisor can trigger a live TavilySearch web query,
-    retrieve raw internet content, and synthesize it into a readable research summary.
+    Verifies that the orchestrator can execute direct single-stock tools (`get_stock_clusters`,
+    `query_gbm_price_band`) and web search (`search_web`) for single-stock research queries.
     """
-    advisor = FinancialAdvisor()
-    thread_id = "live-search-test"
-    
+    orchestrator = ResearchAssistantOrchestrator()
+    thread_id = "live-orchestrator-stock-test"
+
     question = (
-        "Search the web for any recent news or analyst commentary regarding "
-        "the Indian central bank (RBI) monetary policy and summarize the top finding."
+        "Analyze RELIANCE.NS. Fetch its next-day price band prediction, check its factor "
+        "peer cluster, and search the web for recent major corporate announcements."
     )
-    
-    response = advisor.ask(question, thread_id=thread_id)
-    
-    print("\n--- [LIVE RUN] Tavily Search Response ---")
+
+    response = orchestrator.ask(question, thread_id=thread_id)
+
+    print("\n--- [LIVE RUN] Single Stock & Search Response ---")
     print(response)
-    
-    assert isinstance(response, (str, list, dict))
-    
+
+    assert isinstance(response, (str, list, dict)), "Response must be a string, list, or dict"
+
     text_content = _get_text_content(response)
-    assert len(text_content) > 0
+    assert len(text_content) > 200, "Stock report response must be detailed (>200 chars)"
+
+    required_terms = ["reliance", "price", "band"]
+    assert any(
+        term in text_content.lower() for term in required_terms
+    ), f"Response missing single-stock query markers: {required_terms}"

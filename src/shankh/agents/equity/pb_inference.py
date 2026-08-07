@@ -91,21 +91,6 @@ def _load_model(base_path: Path) -> Any:
     return lgb.Booster(model_file=str(path))
 
 
-def _enforce_band_ordering(
-    raw_upper: np.ndarray,
-    raw_lower: np.ndarray,
-) -> Tuple[np.ndarray, np.ndarray]:
-    """Guarantee band_upper ≥ band_lower with minimum half-width."""
-    upper = np.maximum(raw_upper, raw_lower)
-    lower = np.minimum(raw_upper, raw_lower)
-
-    min_half = _MIN_HALF_WIDTH_FRAC
-    mid      = (upper + lower) / 2.0
-    half     = (upper - lower) / 2.0
-    half_adj = np.maximum(half, min_half)
-
-    return mid + half_adj, mid - half_adj
-
 def predict_next_day_band(
     row: dict[str, float],
     upper_model: Any,
@@ -136,7 +121,7 @@ def predict_next_day_band(
     raw_lower = float(lower_model.predict(x)[0])
 
     upper_ret, lower_ret = _enforce_band_ordering(
-        np.array([raw_upper]), np.array([raw_lower]), np.array([close])
+        np.array([raw_upper]), np.array([raw_lower])
     )
     upper_ret = float(upper_ret[0])
     lower_ret = float(lower_ret[0])
@@ -162,7 +147,6 @@ def _load_model(base_path: Path) -> Any:
 def _enforce_band_ordering(
     raw_upper: np.ndarray,
     raw_lower: np.ndarray,
-    close: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray]:
     """
     Guarantee that band_upper ≥ band_lower and that the band has a

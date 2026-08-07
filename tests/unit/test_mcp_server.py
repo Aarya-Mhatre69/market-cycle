@@ -1,60 +1,72 @@
-import pytest
+"""
+Integration Tests for Main Research Assistant MCP Server.
+
+Tests end-to-end execution of `query_research_assistant` over the FastMCP
+client transport layer.
+
+Run:
+    RUN_LIVE_AGENT_TESTS=1 pytest tests/integration/test_mcp_main_server.py -v -s
+"""
+
+import json
 import os
+import pytest
 from fastmcp.client import Client
 from fastmcp.client.transports import FastMCPTransport
 
-if os.getenv("RUN_LIVE_AGENT_TESTS") != "1":
+if os.getenv("OPENAI_API_KEY"):
     pytest.skip(
-        "Set RUN_LIVE_AGENT_TESTS=1 to run live MCP agent tests.",
+        "Set OPENAI_API_KEY to run live MCP main server tests.",
         allow_module_level=True,
     )
 
-from shankh.mcp.server import app as server_app 
+from shankh.mcp.server import mcp as server_mcp
+
 
 @pytest.fixture
 async def main_mcp_client():
-    """
-    Fixture that spins up the FastMCP client wrapping our local MCP server.
-    """
-    async with Client(transport=server_app) as client:
+    """Fixture spinning up FastMCP client wrapping local Main Orchestrator MCP server."""
+    async with Client(transport=server_mcp) as client:
         yield client
 
+
 @pytest.mark.asyncio
-async def test_ask_financial_advisor_nvda_price(main_mcp_client: Client[FastMCPTransport]):
+async def test_query_research_assistant_mcp_endpoint(
+    main_mcp_client: Client[FastMCPTransport],
+):
     """
-    Test the MCP server's financial advisor tool by querying the server using the FastMCP Client.
-    This tests the actual MCP server workflow (tool resolution, parameter passing).
-    
-    Note: Requires appropriate environment variables (e.g., GOOGLE_API_KEY, TAVILY_API_KEY).
+    Test main MCP server by querying research assistant tool using FastMCP Client.
+    Validates end-to-end multi-agent resolution and non-advisory compliance.
     """
-    # Call the tool through the MCP client layer
     result = await main_mcp_client.call_tool(
-        name="ask_financial_advisor", 
+        name="query_research_assistant",
         arguments={
-            "question": "What is the current price of NVDA stock?",
-            "thread_id": "test-mcp-nvda"
-        }
+            "question": "What is the current US-India 10Y yield spread and market regime?",
+            "thread_id": "test-mcp-orchestrator",
+        },
     )
-    
-    assert result is not None, "Expected a result from the MCP tool call"
-    
-    # FastMCP Client usually exposes the return value via `result.data` or `result.content`
-    if hasattr(result, "data"):
-        response_text = str(result.data)
+
+    assert result is not None, "Expected result from MCP server tool call"
+
+    if hasattr(result, "data") and result.data is not None:
+        raw_text = str(result.data)
     elif hasattr(result, "content"):
-        # For standard MCP SDK compatibility
         if isinstance(result.content, list):
-            response_text = "".join(
-                str(block.text) if hasattr(block, "text") else str(block) 
-                for block in result.content
+            raw_text = "".join(
+                str(b.text) if hasattr(b, "text") else str(b) for b in result.content
             )
         else:
-            response_text = str(result.content)
+            raw_text = str(result.content)
     else:
-        response_text = str(result)
-        
-    assert len(response_text) > 0, "Response text should not be empty"
-    
-    response_upper = response_text.upper()
-    assert "NVDA" in response_upper or "NVIDIA" in response_upper, \
-        f"Expected response to mention NVDA or NVIDIA. Got: {response_text}"
+        raw_text = str(result)
+
+    payload = json.loads(raw_text)
+    assert payload.get("status") == "success"
+
+    response_text = payload.get("response", "")
+    assert len(response_text) > 200, "Response text should be detailed (>200 chars)"
+
+    text_lower = response_text.lower()
+    assert any(
+        term in text_lower for term in ["yield", "spread", "regime", "percent"]
+    ), f"Expected response to contain macro/regime markers. Got: {response_text}"

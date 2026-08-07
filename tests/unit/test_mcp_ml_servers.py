@@ -1,26 +1,17 @@
 """
-FastMCP Client tests for the three decoupled ML MCP servers.
+FastMCP Client Unit Tests for Decoupled Pure ML Model MCP Servers.
 
-Follows the FastMCP testing pattern (testmcp.md): each server's FastMCP app is
-wrapped in an in-process Client, then tools are listed and invoked exactly the
-way an agent would call them over MCP — but without any agent code.
-
-Servers under test:
-  - shankh.mcp.tools.macro   -> get_stock_clusters        (KMeans + IsolationForest)
-  - shankh.mcp.tools.market  -> get_market_regime         (HMM regime)
-  - shankh.mcp.tools.company -> query_gbm_price_band      (LightGBM quantile)
-
-These are live tests: they hit yfinance for real OHLCV and run the trained
-models. If artifacts are missing the server module itself raises on import.
+Tests the FastMCP servers for Equity ML (`shankh.mcp.tools.equity`) and
+Market Regime ML (`shankh.mcp.tools.market`) by wrapping FastMCP app instances
+in in-process Client transports.
 
 Run:
-    uv run pytest tests/unit/test_mcp_ml_servers.py -v -s
+    pytest tests/unit/test_mcp_ml_servers.py -v -s
 """
 
 import importlib
 import json
 import logging
-
 import pytest
 from fastmcp.client import Client
 from fastmcp.client.transports import FastMCPTransport
@@ -34,7 +25,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 def _load_server(module_name: str):
-    """Import an MCP server module (eagerly loads its models); skip if artifacts missing."""
+    """Import an MCP server module; skip if model artifacts are uninitialized."""
     try:
         return importlib.import_module(f"shankh.mcp.tools.{module_name}").mcp
     except FileNotFoundError as exc:
@@ -44,7 +35,7 @@ def _load_server(module_name: str):
 
 
 def _result_text(result) -> str:
-    """Extract the tool's returned JSON string from a FastMCP call_tool result."""
+    """Extract returned JSON string payload from a FastMCP call_tool result."""
     if hasattr(result, "data") and result.data is not None:
         return str(result.data)
     if hasattr(result, "content"):
@@ -59,7 +50,7 @@ def _result_text(result) -> str:
 
 
 async def _call_and_parse(client: Client[FastMCPTransport], name: str, arguments: dict) -> dict:
-    """Invoke a tool and return the parsed JSON payload; skip on tool-level errors."""
+    """Invoke tool over FastMCP Client transport and parse returned JSON payload."""
     result = await client.call_tool(name=name, arguments=arguments)
     payload = json.loads(_result_text(result))
     if isinstance(payload, dict) and payload.get("error"):
@@ -68,12 +59,12 @@ async def _call_and_parse(client: Client[FastMCPTransport], name: str, arguments
 
 
 # ---------------------------------------------------------------------------
-# Fixtures
+# FastMCP Client Fixtures
 # ---------------------------------------------------------------------------
 
 @pytest.fixture
-async def macro_mcp_client():
-    async with Client(transport=_load_server("macro")) as client:
+async def equity_mcp_client():
+    async with Client(transport=_load_server("equity")) as client:
         yield client
 
 
@@ -83,49 +74,65 @@ async def market_mcp_client():
         yield client
 
 
-@pytest.fixture
-async def company_mcp_client():
-    async with Client(transport=_load_server("company")) as client:
-        yield client
-
-
 # ---------------------------------------------------------------------------
-# Macro server — get_stock_clusters
+# Equity Pure ML Server Tests (LightGBM Price Band & KMeans/IsolationForest)
 # ---------------------------------------------------------------------------
 
-class TestMacroServer:
+class TestEquityMLServer:
+    """Unit tests for pure equity ML models (Price Band & Clustering)."""
 
-    async def test_lists_get_stock_clusters_tool(self, macro_mcp_client: Client[FastMCPTransport]):
-        tools = await macro_mcp_client.list_tools()
-        assert any(t.name == "get_stock_clusters" for t in tools)
+    async def test_lists_equity_ml_tools(self, equity_mcp_client: Client[FastMCPTransport]):
+        tools = await equity_mcp_client.list_tools()
+        tool_names = [t.name for t in tools]
+        assert "query_gbm_price_band" in tool_names
+        assert "get_stock_clusters" in tool_names
 
-    async def test_get_stock_clusters_runs_clustering_model(
-        self, macro_mcp_client: Client[FastMCPTransport]
+    async def test_query_gbm_price_band_runs_conformal_lightgbm(
+        self, equity_mcp_client: Client[FastMCPTransport]
     ):
         payload = await _call_and_parse(
-            macro_mcp_client,
+            equity_mcp_client,
+            name="query_gbm_price_band",
+            arguments={"ticker": "RELIANCE.NS"},
+        )
+
+        assert payload.get("model_backend") == "lightgbm"
+        assert payload.get("conformal_calibration_applied") is True
+        assert "conformal_q_adjustment" in payload
+
+        band = payload.get("lightgbm_predicted_price_band")
+        assert band is not None, f"No LightGBM price band in payload: {payload}"
+        assert band["predicted_high_price_inr"] >= band["predicted_low_price_inr"]
+        assert "expected_band_width_pct" in band
+
+    async def test_get_stock_clusters_runs_kmeans_and_isolation_forest(
+        self, equity_mcp_client: Client[FastMCPTransport]
+    ):
+        payload = await _call_and_parse(
+            equity_mcp_client,
             name="get_stock_clusters",
             arguments={"tickers": "INFY.NS,TCS.NS,RELIANCE.NS"},
         )
 
         assert "ticker_analysis" in payload
-        assert "flagged_forensic_anomalies" in payload
+        assert "flagged_technical_outliers" in payload
 
         for tkr in ("INFY.NS", "TCS.NS", "RELIANCE.NS"):
             entry = payload["ticker_analysis"].get(tkr)
             assert entry is not None, f"{tkr} missing from ticker_analysis"
             assert "cluster_id" in entry
             assert "peers_in_same_cluster" in entry
-            assert "is_forensic_anomaly" in entry
+            assert "is_technical_outlier" in entry
 
 
 # ---------------------------------------------------------------------------
-# Market server — get_market_regime
+# Market Pure ML Server Tests (Gaussian HMM Market Regime)
 # ---------------------------------------------------------------------------
 
-class TestMarketServer:
+class TestMarketMLServer:
+    """Unit tests for pure market regime ML models (Gaussian HMM)."""
 
-    async def test_lists_get_market_regime_tool(self, market_mcp_client: Client[FastMCPTransport]):
+    async def test_lists_market_regime_tool(self, market_mcp_client: Client[FastMCPTransport]):
         tools = await market_mcp_client.list_tools()
         assert any(t.name == "get_market_regime" for t in tools)
 
@@ -139,33 +146,7 @@ class TestMarketServer:
         )
 
         assert "regime_label" in payload
-        assert "volatility" in payload
+        assert "volatility_annualized" in payload
         assert "breadth_pct" in payload
         assert "correlation_density" in payload
         assert "date" in payload
-
-
-# ---------------------------------------------------------------------------
-# Company server — query_gbm_price_band
-# ---------------------------------------------------------------------------
-
-class TestCompanyServer:
-
-    async def test_lists_query_gbm_price_band_tool(self, company_mcp_client: Client[FastMCPTransport]):
-        tools = await company_mcp_client.list_tools()
-        assert any(t.name == "query_gbm_price_band" for t in tools)
-
-    async def test_query_gbm_price_band_runs_lightgbm_models(
-        self, company_mcp_client: Client[FastMCPTransport]
-    ):
-        payload = await _call_and_parse(
-            company_mcp_client,
-            name="query_gbm_price_band",
-            arguments={"ticker": "RELIANCE.NS"},
-        )
-
-        assert payload.get("model_backend") == "lightgbm"
-        band = payload.get("lightgbm_predicted_price_band")
-        assert band is not None, f"No LightGBM price band in payload: {payload}"
-        assert band["predicted_high_price_inr"] >= band["predicted_low_price_inr"]
-        assert "expected_band_width_pct" in band
