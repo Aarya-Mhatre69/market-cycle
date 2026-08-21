@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 
 from langchain_tavily import TavilySearch
 

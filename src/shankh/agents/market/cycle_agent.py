@@ -10,6 +10,8 @@ from shankh.utils import load_prompt
 from shankh.agents.market.cycle_tools import (
     get_market_cycle_metrics,
     get_liquidity_and_credit_cycle,
+    get_cycle_price_structure,
+    get_market_cycle_synthesis,
 )
 from shankh.agents.agent import build_agent
 
@@ -25,6 +27,8 @@ def build_cycle_agent(checkpointer: Optional[Any] = None):
         Compiled LangGraph agent runner configured with cycle tools and prompt.
     """
     tools = [
+        get_market_cycle_synthesis,
+        get_cycle_price_structure,
         get_market_cycle_metrics,
         get_liquidity_and_credit_cycle,
     ]

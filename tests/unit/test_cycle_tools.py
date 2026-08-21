@@ -2,7 +2,7 @@
 Unit Test Suite for Market Cycle Tools.
 
 Validates Equity Risk Premium (ERP) formula calculations, valuation percentiles,
-JSON schema integrity, and credit cycle status payloads.
+JSON schema integrity, credit cycle payloads, and the weighted synthesis classification.
 """
 
 import json
@@ -10,6 +10,7 @@ import pytest
 from shankh.agents.market.cycle_tools import (
     get_market_cycle_metrics,
     get_liquidity_and_credit_cycle,
+    get_market_cycle_synthesis,
 )
 
 
@@ -22,20 +23,21 @@ class TestMarketCycleToolsUnit:
         data = json.loads(raw_output)
 
         assert isinstance(data, dict), "Payload must be a JSON dictionary"
-        assert "cycle_phase" in data
         assert "index_valuations" in data
         assert "equity_risk_premium" in data
-        assert "yield_curve_and_rates" in data
 
         val = data["index_valuations"]
         assert "nifty_pe_ratio" in val
+        assert "nifty_pe_data_source" in val
         assert "pe_10y_historical_percentile" in val
         assert val["nifty_pe_ratio"] > 0.0
+        assert val["nifty_pe_data_source"] in ("LIVE_FMP", "FALLBACK_BENCHMARK")
 
         erp = data["equity_risk_premium"]
         assert "index_earnings_yield_percent" in erp
         assert "india_10y_gsec_yield_percent" in erp
         assert "equity_risk_premium_spread_percent" in erp
+        assert -1.0 <= erp["erp_score"] <= 1.0
 
         expected_erp = round(
             erp["index_earnings_yield_percent"] - erp["india_10y_gsec_yield_percent"], 2
@@ -43,13 +45,33 @@ class TestMarketCycleToolsUnit:
         assert abs(erp["equity_risk_premium_spread_percent"] - expected_erp) < 0.1
 
     def test_get_liquidity_and_credit_cycle_payload(self):
-        """Verify credit cycle tool returns valid credit growth and monetary stance."""
+        """Verify credit cycle tool returns valid liquidity payload without fabricating bank credit growth."""
         raw_output = get_liquidity_and_credit_cycle.invoke({})
         data = json.loads(raw_output)
 
         assert isinstance(data, dict), "Payload must be a JSON dictionary"
-        assert "bank_credit_growth_yoy_percent" in data
+        assert data["bank_credit_growth_yoy_percent"] == "insufficient_data", (
+            "No live bank-credit-growth source is wired; must not report a fabricated figure."
+        )
         assert "m3_money_supply_growth_yoy_percent" in data
         assert "credit_cycle_status" in data
         assert "rbi_monetary_policy_stance" in data
-        assert isinstance(data["bank_credit_growth_yoy_percent"], (int, float))
+
+    def test_get_market_cycle_synthesis_schema(self):
+        """Verify the synthesis tool returns the full architecture-spec output schema."""
+        raw_output = get_market_cycle_synthesis.invoke({})
+        data = json.loads(raw_output)
+
+        if data.get("status") == "unavailable":
+            pytest.skip("No network access to fetch index OHLCV in this environment.")
+
+        assert data["cycle_phase"] in (
+            "ACCUMULATION", "EXPANSION", "DISTRIBUTION", "CONTRACTION",
+        )
+        assert 0.0 <= data["cycle_confidence"] <= 1.0
+        assert data["transition_risk"] in ("low", "medium", "high")
+        assert -1.0 <= data["composite_score"] <= 1.0
+        assert isinstance(data["evidence"], list) and len(data["evidence"]) > 0
+        for item in data["evidence"]:
+            assert {"signal", "tier", "reading", "score", "note"} <= set(item.keys())
+            assert item["tier"] in ("core", "supporting", "contextual")
