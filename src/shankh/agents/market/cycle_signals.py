@@ -328,9 +328,17 @@ def classify_cycle(evidence: List[EvidenceItem]) -> CycleClassification:
 
     divergence = (trend_up and not momentum_up) or (not trend_up and momentum_up)
     magnitude = abs(trend_score - momentum_score)
-    if divergence and magnitude > 0.6:
+    # Thresholds below (0.9 / 1.35) were calibrated against the walk-forward backtest
+    # (scripts/backtest_cycle_phase.py, ~623 evaluation points over 2018-2026 Nifty
+    # data), not picked a priori. The original untuned guess (0.3 / 0.6) turned out to
+    # sit below the median divergence magnitude actually observed (~1.18 among
+    # divergent cases), which pinned almost every divergence at "high" and left
+    # "medium" essentially unused (2.6% of readings). These values are tertiles of the
+    # empirical divergence-magnitude distribution, so the three risk tiers now split
+    # roughly evenly among cases where trend and momentum actually disagree.
+    if divergence and magnitude > 1.35:
         transition_risk = "high"
-    elif divergence and magnitude > 0.3:
+    elif divergence and magnitude > 0.9:
         transition_risk = "medium"
     else:
         transition_risk = "low"

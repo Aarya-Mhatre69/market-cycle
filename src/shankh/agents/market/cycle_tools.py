@@ -17,6 +17,7 @@ import logging
 import os
 from typing import Any, Dict, List, Optional
 
+import numpy as np
 import pandas as pd
 import requests
 import yfinance as yf
@@ -271,11 +272,70 @@ def get_liquidity_and_credit_cycle() -> str:
     return json.dumps(result, indent=2)
 
 
+_EARNINGS_BASKET = [
+    "RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "INFY.NS", "ICICIBANK.NS",
+    "HINDUNILVR.NS", "SBIN.NS", "BAJFINANCE.NS", "BHARTIARTL.NS", "KOTAKBANK.NS",
+    "LT.NS", "AXISBANK.NS", "MARUTI.NS", "SUNPHARMA.NS", "TITAN.NS",
+]
+
+
+@tool
+def get_index_earnings_momentum() -> str:
+    """
+    Fetch aggregate YoY quarterly earnings growth across a representative large-cap
+    basket, as a proxy for index-level earnings momentum (the 4th cycle pillar
+    alongside valuation, momentum, and liquidity).
+
+    No index-level earnings-revision API is available for free; this uses yfinance's
+    per-stock quarterly earnings growth averaged across a fixed basket of 15 large-cap
+    names spanning financials, IT, energy, autos, and consumer — no API key required.
+
+    Returns:
+        JSON string with mean YoY earnings growth %, basket coverage, and a score.
+        Reports insufficient_data if fewer than 5 of the 15 basket names return data.
+    """
+    growth_rates: List[float] = []
+
+    for ticker_symbol in _EARNINGS_BASKET:
+        try:
+            info = yf.Ticker(ticker_symbol).get_info()
+            growth = info.get("earningsQuarterlyGrowth")
+            if growth is not None and isinstance(growth, (int, float)):
+                growth_rates.append(float(growth))
+        except Exception as exc:
+            logger.warning("yfinance earnings growth fetch failed for %s: %s", ticker_symbol, exc)
+
+    coverage = len(growth_rates)
+    if coverage < 5:
+        return json.dumps(
+            {
+                "earnings_momentum_yoy_percent": "insufficient_data",
+                "basket_coverage": f"{coverage}/{len(_EARNINGS_BASKET)}",
+                "note": "Fewer than 5 of 15 basket names returned earnings data.",
+            },
+            indent=2,
+        )
+
+    mean_growth_pct = round(float(np.mean(growth_rates)) * 100.0, 2)
+    earnings_score = float(max(-1.0, min(1.0, mean_growth_pct / 20.0)))
+
+    result = {
+        "earnings_momentum_yoy_percent": mean_growth_pct,
+        "basket_coverage": f"{coverage}/{len(_EARNINGS_BASKET)}",
+        "earnings_score": round(earnings_score, 3),
+        "data_source": "LIVE_YFINANCE_BASKET_PROXY",
+        "note": "Equal-weighted average of quarterly YoY earnings growth across a 15-name large-cap basket, not a true float-weighted index figure.",
+    }
+    return json.dumps(result, indent=2)
+
+
 @tool
 def get_market_cycle_synthesis() -> str:
     """
     Combine Core price-structure signals (ZigZag, STC, trend context), valuation (ERP),
-    and liquidity (M3 growth) into a single weighted Market Cycle classification.
+    liquidity (M3 growth), and earnings momentum into a single weighted Market Cycle
+    classification — the four pillars (valuation, momentum, liquidity, earnings)
+    required by the project brief.
 
     This is the primary tool for answering "what cycle phase is the market in" — it
     performs the deterministic composite scoring itself so the classification is
@@ -287,8 +347,10 @@ def get_market_cycle_synthesis() -> str:
     """
     price_structure_raw = get_market_cycle_metrics.invoke({})
     liquidity_raw = get_liquidity_and_credit_cycle.invoke({})
+    earnings_raw = get_index_earnings_momentum.invoke({})
     valuation = json.loads(price_structure_raw)
     liquidity = json.loads(liquidity_raw)
+    earnings = json.loads(earnings_raw)
 
     df = _fetch_index_ohlcv()
     evidence: List[EvidenceItem] = []
@@ -323,6 +385,14 @@ def get_market_cycle_synthesis() -> str:
             "M3 money supply growth YoY vs 9% expansionary threshold.",
         ))
 
+    if earnings.get("earnings_momentum_yoy_percent") != "insufficient_data":
+        evidence.append(EvidenceItem(
+            "earnings_momentum", "supporting",
+            f"{earnings['earnings_momentum_yoy_percent']}% YoY ({earnings['basket_coverage']} basket coverage)",
+            earnings["earnings_score"],
+            "Equal-weighted average YoY quarterly earnings growth across a 15-name large-cap basket proxy.",
+        ))
+
     if not evidence:
         return json.dumps({"error": "No signals available to classify cycle.", "status": "unavailable"}, indent=2)
 
@@ -344,6 +414,7 @@ def get_market_cycle_synthesis() -> str:
             "price_data": as_of_date,
             "valuation": erp.get("india_10y_gsec_data_source", "unknown"),
             "liquidity": liquidity.get("m3_data_source", "unknown"),
+            "earnings": earnings.get("data_source", "insufficient_data"),
         },
     }
     return json.dumps(result, indent=2)

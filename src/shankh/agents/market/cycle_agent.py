@@ -11,6 +11,7 @@ from shankh.agents.market.cycle_tools import (
     get_market_cycle_metrics,
     get_liquidity_and_credit_cycle,
     get_cycle_price_structure,
+    get_index_earnings_momentum,
     get_market_cycle_synthesis,
 )
 from shankh.agents.agent import build_agent
@@ -31,6 +32,7 @@ def build_cycle_agent(checkpointer: Optional[Any] = None):
         get_cycle_price_structure,
         get_market_cycle_metrics,
         get_liquidity_and_credit_cycle,
+        get_index_earnings_momentum,
     ]
     system_prompt = load_prompt("market_cycle")
     middlewares = None

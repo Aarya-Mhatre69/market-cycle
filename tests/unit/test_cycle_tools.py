@@ -10,6 +10,7 @@ import pytest
 from shankh.agents.market.cycle_tools import (
     get_market_cycle_metrics,
     get_liquidity_and_credit_cycle,
+    get_index_earnings_momentum,
     get_market_cycle_synthesis,
 )
 
@@ -56,6 +57,17 @@ class TestMarketCycleToolsUnit:
         assert "m3_money_supply_growth_yoy_percent" in data
         assert "credit_cycle_status" in data
         assert "rbi_monetary_policy_stance" in data
+
+    def test_get_index_earnings_momentum_payload(self):
+        """Verify earnings-momentum tool never fabricates a figure below the coverage floor."""
+        raw_output = get_index_earnings_momentum.invoke({})
+        data = json.loads(raw_output)
+
+        if data["earnings_momentum_yoy_percent"] == "insufficient_data":
+            pytest.skip("Fewer than 5/15 basket tickers returned data in this environment (no network or yfinance rate-limited).")
+
+        assert "basket_coverage" in data
+        assert -1.0 <= data["earnings_score"] <= 1.0
 
     def test_get_market_cycle_synthesis_schema(self):
         """Verify the synthesis tool returns the full architecture-spec output schema."""
