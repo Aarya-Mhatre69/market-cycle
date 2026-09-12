@@ -1,0 +1,22 @@
+Subject: Market Cycle Agent — accuracy overhaul results (backtest + indicator comparison)
+
+Hi team,
+
+Sharing results from the Market Cycle Agent accuracy work — the core phase-classification mechanism was found to be flipping labels every ~11 trading days on backtest (166 phase changes across 626 points), which is noise, not cycles. Root cause and fix:
+
+- Phase was decided by only 2 of the 4 claimed pillars, with no memory between readings.
+- Fix: a real weighted vote across all 4 pillars + a 5-consecutive-reading confirmation filter before a phase change is accepted.
+- Result: phase changes cut from 166 to 40 on the same data; mean phase duration went from ~11 to ~46 trading days.
+
+Also evaluated all 5 reference indicators (ZigZag, STC already existed; added Candlestick Recognition, Harmonic Patterns, Gann Time Cycles) against the same backtest. Two of the three new ones — Candlestick and Gann — showed no real edge and zero effect when added to the model; Harmonic Patterns looks promising (best signal-to-noise of the five) but on too few samples to adopt yet. Full comparison and the "why" behind each threshold is in the two writeups below.
+
+Also extended coverage from the Nifty 50 index to all NSE-listed stocks (~2,200 classified) using the same validated mechanism per stock.
+
+Two reference docs, both viewable in-browser:
+- Playbook (full results, before/after charts, indicator verdicts): https://claude.ai/code/artifact/dbcf87b4-77be-46bf-a449-f641686c7d31
+- Phase Decision Flow (exactly how one stock's data becomes a phase label): https://claude.ai/code/artifact/46ecb2cc-ea3d-45df-a6d0-64af860a5384
+
+Happy to walk through any of this live — let me know a good time.
+
+Thanks,
+Aarya

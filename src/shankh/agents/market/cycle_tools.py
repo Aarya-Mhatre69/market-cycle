@@ -12,9 +12,11 @@ Agent's tools (get_indian_macro_indicators), not recomputed here, to avoid two a
 independently fetching the same series and silently disagreeing.
 """
 
+import contextvars
 import json
 import logging
 import os
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import numpy as np
@@ -24,8 +26,11 @@ import yfinance as yf
 from langchain_core.tools import tool
 
 from shankh.agents.market.cycle_signals import (
+    CycleClassification,
     EvidenceItem,
+    HysteresisState,
     classify_cycle,
+    classify_cycle_stateful,
     compute_stc,
     compute_trend_context,
     compute_zigzag,
@@ -33,13 +38,113 @@ from shankh.agents.market.cycle_signals import (
 
 logger = logging.getLogger(__name__)
 
+# Per-session API key override — lets a UI (e.g. the Streamlit sidebar) supply keys
+# at runtime instead of requiring FMP_API_KEY/FRED_API_KEY in the server's own .env.
+# Deliberately NOT `os.environ[...] = value`: this module can be shared by multiple
+# concurrent users (e.g. a dashboard deployed for a team), and mutating process-wide
+# env vars would leak one viewer's key into another viewer's concurrent request.
+# contextvars.ContextVar isolates by thread/async-task instead — correct for
+# Streamlit, which runs each browser session's script execution on its own thread.
+_fmp_key_override: "contextvars.ContextVar[Optional[str]]" = contextvars.ContextVar("fmp_key_override", default=None)
+_fred_key_override: "contextvars.ContextVar[Optional[str]]" = contextvars.ContextVar("fred_key_override", default=None)
+
+
+def set_session_api_keys(fmp_api_key: Optional[str] = None, fred_api_key: Optional[str] = None) -> None:
+    """
+    Called once per script run by a UI (e.g. cycle_dashboard.py's sidebar) to supply
+    API keys for the current session/thread only. Passing None for a key leaves any
+    existing override for it unchanged; pass "" explicitly to clear an override and
+    fall back to the server's own environment variable.
+    """
+    if fmp_api_key is not None:
+        _fmp_key_override.set(fmp_api_key or None)
+    if fred_api_key is not None:
+        _fred_key_override.set(fred_api_key or None)
+
+
+def _get_fmp_api_key() -> Optional[str]:
+    return _fmp_key_override.get() or os.getenv("FMP_API_KEY")
+
+
+def _get_fred_api_key() -> Optional[str]:
+    return _fred_key_override.get() or os.getenv("FRED_API_KEY")
+
+# Phase 2 hysteresis (accuracy-roadmap): min_dwell=5 is the calibrated, adopted value
+# (see scripts/calibrate_min_dwell.py — chosen on the 2018-2020 calibration window,
+# confirmed on 2021-2023 validation, never re-tuned against the 2024+ test slice).
+_HYSTERESIS_MIN_DWELL = 5
+
+# Live phase-confirmation state persists across calls to get_market_cycle_synthesis
+# (roadmap Phase 2 implementation note: "needs a clear owner decision on where state
+# lives, e.g. in the backtest loop vs. a persisted last-known-phase for live use").
+# A single local JSON file is the smallest defensible choice for a single-process
+# deployment at this stage — data/ is already the repo's convention for local,
+# git-ignored state (see breadth_tools.py's data/universe/ cache).
+_STATE_DIR = Path(__file__).resolve().parents[4] / "data"
+_STATE_FILE = _STATE_DIR / "cycle_phase_state.json"
+
+
+def _load_hysteresis_state() -> "tuple[HysteresisState, Optional[str]]":
+    if _STATE_FILE.exists():
+        try:
+            payload = json.loads(_STATE_FILE.read_text(encoding="utf-8"))
+            state = HysteresisState(
+                confirmed_phase=payload.get("confirmed_phase"),
+                candidate_phase=payload.get("candidate_phase"),
+                candidate_count=payload.get("candidate_count", 0),
+            )
+            return state, payload.get("as_of_date")
+        except Exception as exc:
+            logger.warning("Failed to load persisted cycle phase state (%s); starting fresh.", exc)
+    return HysteresisState(), None
+
+
+def _save_hysteresis_state(state: HysteresisState, as_of_date: str) -> None:
+    _STATE_DIR.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "confirmed_phase": state.confirmed_phase,
+        "candidate_phase": state.candidate_phase,
+        "candidate_count": state.candidate_count,
+        "as_of_date": as_of_date,
+    }
+    _STATE_FILE.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+def _classify_with_persisted_hysteresis(evidence: List[EvidenceItem], as_of_date: str) -> CycleClassification:
+    """
+    Applies the hysteresis-confirmed classification using state persisted across
+    process/tool-call boundaries, advancing the dwell count at most once per distinct
+    `as_of_date` — calling this twice for the same trading day (e.g. a dashboard
+    refresh) must not double-count that day's evidence toward phase confirmation.
+    """
+    state, last_date = _load_hysteresis_state()
+
+    if as_of_date != "unavailable" and as_of_date != last_date:
+        classification, new_state = classify_cycle_stateful(evidence, state, min_dwell=_HYSTERESIS_MIN_DWELL)
+        _save_hysteresis_state(new_state, as_of_date)
+        return classification
+
+    # Same trading day as the last recorded update (or date unavailable) — report the
+    # already-confirmed phase without re-running hysteresis a second time for today.
+    raw = classify_cycle(evidence)
+    return CycleClassification(
+        cycle_phase=state.confirmed_phase or raw.cycle_phase,
+        cycle_confidence=raw.cycle_confidence,
+        transition_risk=raw.transition_risk,
+        transition_watch=raw.transition_watch,
+        composite_score=raw.composite_score,
+        evidence=raw.evidence,
+        pending_phase=state.candidate_phase,
+        dwell_progress=f"{state.candidate_count}/{_HYSTERESIS_MIN_DWELL}" if state.candidate_phase else None,
+    )
+
 _HTTP_TIMEOUT = 10.0
 _INDEX_HISTORY_DAYS = 420  # >= 200DMA warmup + lookback margin
 
 
 def _fetch_index_ohlcv(days: int = _INDEX_HISTORY_DAYS) -> Optional[pd.DataFrame]:
     """Fetch daily Nifty 50 OHLCV. Tries FMP (existing key) first, falls back to yfinance."""
-    fmp_api_key = os.getenv("FMP_API_KEY")
+    fmp_api_key = _get_fmp_api_key()
 
     if fmp_api_key:
         try:
@@ -101,6 +206,11 @@ def get_cycle_price_structure() -> str:
         EvidenceItem("stc", "core", f"{stc.value} ({stc.direction})", stc.score, stc.note),
         EvidenceItem("trend_context", "core", f"{trend.price_vs_sma200_pct:+.1f}% vs 200DMA", trend.score, trend.note),
     ]
+    # Deliberately the raw (stateless, un-hysteresised) read — this tool is documented
+    # as a component-level detail breakdown, not the source of truth for the reported
+    # phase (get_market_cycle_synthesis is, via the persisted hysteresis filter). Field
+    # is named accordingly so it isn't mistaken for the confirmed live phase, which can
+    # legitimately differ from this raw read while a phase change is pending.
     classification = classify_cycle(evidence)
 
     result = {
@@ -115,11 +225,47 @@ def get_cycle_price_structure() -> str:
                 "note": trend.note,
             },
         },
-        "core_only_cycle_phase": classification.cycle_phase,
+        "core_only_cycle_phase_raw": classification.cycle_phase,
         "core_only_confidence": classification.cycle_confidence,
         "core_only_composite_score": classification.composite_score,
+        "note": "This is the raw, un-hysteresised instantaneous read from Core signals only. "
+                "It can legitimately differ from get_market_cycle_synthesis's cycle_phase, which is "
+                "the hysteresis-confirmed source of truth.",
     }
     return json.dumps(result, indent=2)
+
+
+def _compute_pe_percentile(current_pe: float, historical_pe: Optional[List[float]]) -> Any:
+    """
+    Real rolling percentile: what fraction of `historical_pe` is <= `current_pe`.
+    Pure function, unit-tested independently of any data fetch — see
+    tests/unit/test_cycle_tools.py::test_compute_pe_percentile_*.
+
+    Returns "insufficient_data" (not a guess) if fewer than 252 historical points
+    (~1 trading year — a genuine "10-year percentile" needs far more, but this is the
+    floor below which a percentile claim isn't defensible at all) are available.
+    """
+    if not historical_pe or len(historical_pe) < 252:
+        return "insufficient_data"
+    arr = np.array(historical_pe, dtype=float)
+    return round(float((arr <= current_pe).mean() * 100.0), 1)
+
+
+def _fetch_historical_pe_series() -> Optional[List[float]]:
+    """
+    Attempts to fetch ~10 years of historical Nifty 50 P/E ratio. No free, reliably
+    machine-readable INDEX-level (as opposed to per-company) historical P/E API was
+    found/validated for this integration — FMP's ratios/ratios-ttm endpoints are
+    documented for individual companies, not indices, and this repo's FMP_API_KEY
+    additionally returns 401 Invalid API KEY on every endpoint tested as of this
+    writing (a separate, pre-existing issue — see get_market_cycle_metrics's comment).
+    Returns None (honest "no data", not a synthetic estimate) until a real source is
+    wired in. NSE India's public historical P/E/P/B/dividend-yield archive is the
+    most likely real path forward but needs its own build-vs-buy evaluation (same
+    category of decision already flagged for bank credit growth) before being added
+    here — deliberately not scraped in as a fragile, undocumented dependency.
+    """
+    return None
 
 
 @tool
@@ -133,7 +279,7 @@ def get_market_cycle_metrics() -> str:
         source labels (LIVE vs FALLBACK_BENCHMARK) so downstream consumers know which
         figures are real-time and which are static placeholders pending a data source.
     """
-    fmp_api_key = os.getenv("FMP_API_KEY")
+    fmp_api_key = _get_fmp_api_key()
 
     pe_ratio, pe_source = 22.40, "FALLBACK_BENCHMARK"
     pb_ratio, pb_source = 3.85, "FALLBACK_BENCHMARK"
@@ -166,7 +312,7 @@ def get_market_cycle_metrics() -> str:
         except Exception as exc:
             logger.warning("FMP ratios-ttm API failed: %s. Using benchmark proxy for P/B and yield.", exc)
 
-    fred_api_key = os.getenv("FRED_API_KEY")
+    fred_api_key = _get_fred_api_key()
     if fred_api_key:
         try:
             from fredapi import Fred
@@ -181,14 +327,19 @@ def get_market_cycle_metrics() -> str:
     earnings_yield = round((1.0 / pe_ratio) * 100.0, 2)
     erp_percent = round(earnings_yield - india_10y_yield, 2)
 
-    if pe_ratio > 23.0:
-        pe_percentile = 82.0
-    elif pe_ratio > 21.0:
-        pe_percentile = 68.0
-    elif pe_ratio < 18.0:
-        pe_percentile = 25.0
-    else:
-        pe_percentile = 50.0
+    # Phase 4 (accuracy roadmap, P1): this used to be 4 hardcoded thresholds
+    # (>23->82, >21->68, <18->25, else 50) despite the prompt and README both calling
+    # it a "10-Year Historical Percentile" — a spec/implementation mismatch flagged in
+    # the audit (Section 3.2). Fixed to a real rolling percentile against actual
+    # historical Nifty P/E, computed by _compute_pe_percentile. No free API endpoint
+    # for historical INDEX-level P/E was found/validated in this environment (FMP's
+    # ratios endpoints are per-company; the FMP_API_KEY configured here also currently
+    # returns 401 Invalid API KEY on every endpoint tested, live index OHLCV included —
+    # a separate, pre-existing key issue worth checking independently of this fix).
+    # Rather than keep a fabricated-looking percentile, this now honestly reports
+    # insufficient_data when no real historical P/E series is available — matching the
+    # same policy already used for bank credit growth in get_liquidity_and_credit_cycle.
+    pe_percentile = _compute_pe_percentile(pe_ratio, _fetch_historical_pe_series())
 
     erp_score = float(max(-1.0, min(1.0, erp_percent / 2.0)))
 
@@ -232,7 +383,7 @@ def get_liquidity_and_credit_cycle() -> str:
         JSON string containing M3 money supply growth YoY %, credit cycle status
         (or insufficient_data), and RBI liquidity stance.
     """
-    fred_api_key = os.getenv("FRED_API_KEY")
+    fred_api_key = _get_fred_api_key()
     m3_growth_yoy: Optional[float] = None
     m3_source = "UNAVAILABLE"
 
@@ -396,7 +547,11 @@ def get_market_cycle_synthesis() -> str:
     if not evidence:
         return json.dumps({"error": "No signals available to classify cycle.", "status": "unavailable"}, indent=2)
 
-    classification = classify_cycle(evidence)
+    # Phase 2 (accuracy roadmap): the reported cycle_phase is hysteresis-confirmed using
+    # state persisted across calls (data/cycle_phase_state.json), not a raw per-call read
+    # — this is what actually fixes the whipsaw problem for the live agent, not just the
+    # backtest. See _classify_with_persisted_hysteresis and cycle_signals.classify_cycle_stateful.
+    classification = _classify_with_persisted_hysteresis(evidence, as_of_date)
 
     result = {
         "as_of_date": as_of_date,
@@ -406,6 +561,8 @@ def get_market_cycle_synthesis() -> str:
         "transition_risk": classification.transition_risk,
         "transition_watch": classification.transition_watch,
         "composite_score": classification.composite_score,
+        "pending_phase": classification.pending_phase,
+        "dwell_progress": classification.dwell_progress,
         "evidence": [
             {"signal": e.signal, "tier": e.tier, "reading": e.reading, "score": e.score, "note": e.note}
             for e in classification.evidence

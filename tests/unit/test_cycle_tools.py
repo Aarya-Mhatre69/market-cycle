@@ -8,6 +8,7 @@ JSON schema integrity, credit cycle payloads, and the weighted synthesis classif
 import json
 import pytest
 from shankh.agents.market.cycle_tools import (
+    _compute_pe_percentile,
     get_market_cycle_metrics,
     get_liquidity_and_credit_cycle,
     get_index_earnings_momentum,
@@ -87,3 +88,29 @@ class TestMarketCycleToolsUnit:
         for item in data["evidence"]:
             assert {"signal", "tier", "reading", "score", "note"} <= set(item.keys())
             assert item["tier"] in ("core", "supporting", "contextual")
+
+
+class TestComputePePercentile:
+    """accuracy-roadmap Phase 4: real rolling P/E percentile, replacing the 4
+    hardcoded threshold buckets that silently mismatched the prompt/README's
+    '10-Year Historical Percentile' claim."""
+
+    def test_insufficient_history_reports_honestly(self):
+        assert _compute_pe_percentile(22.0, None) == "insufficient_data"
+        assert _compute_pe_percentile(22.0, [20.0] * 100) == "insufficient_data"
+
+    def test_current_value_at_known_percentile(self):
+        history = list(range(1, 253))  # 1..252, uniform
+        # current_pe=126 -> exactly half the history (1..126) is <= 126 -> 50th percentile.
+        result = _compute_pe_percentile(126, [float(x) for x in history])
+        assert 49.0 <= result <= 51.0
+
+    def test_extreme_high_pe_reads_near_100th_percentile(self):
+        history = [float(x) for x in range(1, 253)]
+        result = _compute_pe_percentile(1000.0, history)
+        assert result == 100.0
+
+    def test_extreme_low_pe_reads_near_0th_percentile(self):
+        history = [float(x) for x in range(1, 253)]
+        result = _compute_pe_percentile(0.0, history)
+        assert result == 0.0

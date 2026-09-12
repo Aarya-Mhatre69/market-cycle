@@ -1,0 +1,5 @@
+Recall @ 15-day lead: 46.4% (13/28 turns)
+precision_elevated_reading_is_near_a_real_turn: 0.207
+base_rate_of_elevated_readings_overall: 0.373
+share_of_all_days_that_are_near_a_turn: 0.215
+lift_over_random: 0.96

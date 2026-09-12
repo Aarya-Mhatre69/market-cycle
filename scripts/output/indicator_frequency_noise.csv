@@ -1,0 +1,6 @@
+indicator,fire_rate,reversal_rate_within_3pts
+ZigZag,0.722,0.038
+STC,0.995,0.605
+Candlestick Recognition,0.491,0.397
+Harmonic Patterns,0.014,0.0
+Gann Time Cycles,0.136,0.024

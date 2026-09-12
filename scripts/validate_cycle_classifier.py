@@ -144,6 +144,15 @@ def main():
     parser.add_argument("--label-window", type=int, default=10, help="Bars each side for local-extrema detection")
     parser.add_argument("--min-move-pct", type=float, default=8.0, help="Minimum %% move to count as a major turn")
     parser.add_argument("--lead-days", type=int, default=15, help="Calendar days of advance warning credited")
+    parser.add_argument(
+        "--min-dwell", type=int, default=5,
+        help="Phase 2 hysteresis dwell count passed to run_walk_forward. Default 5 is the "
+             "calibrated, adopted value — see backtest_cycle_phase.py --min-dwell.",
+    )
+    parser.add_argument(
+        "--report-suffix", default="",
+        help="Suffix appended to validation_report.txt so A/B runs don't overwrite each other.",
+    )
     args = parser.parse_args()
 
     _OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -152,8 +161,8 @@ def main():
     df = fetch_history(args.start)
     logger.info("Fetched %d bars (%s to %s).", len(df), df["date"].iloc[0].date(), df["date"].iloc[-1].date())
 
-    logger.info("Running walk-forward classification...")
-    results = run_walk_forward(df, step=args.step)
+    logger.info("Running walk-forward classification (min_dwell=%d)...", args.min_dwell)
+    results = run_walk_forward(df, step=args.step, min_dwell=args.min_dwell)
     logger.info("Produced %d evaluation points.", len(results))
 
     logger.info("Labeling major turns independently (window=%d bars, min_move=%.1f%%)...", args.label_window, args.min_move_pct)
@@ -203,7 +212,7 @@ def main():
         "quoting a single number as definitive."
     )
 
-    report_path = _OUTPUT_DIR / "validation_report.txt"
+    report_path = _OUTPUT_DIR / f"validation_report{args.report_suffix}.txt"
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(f"Recall @ {args.lead_days}-day lead: {recall_report['recall']:.1%} ({recall_report['hits']}/{recall_report['total_turns']} turns)\n")
         for k, v in precision_report.items():

@@ -1,0 +1,6 @@
+rank,indicator,lift,recall,fired_count,reliable_sample,verdict
+1,Candlestick Recognition,1.05,0.571,308,True,"DROP from the phase vote. Noisy (40% reversal within 3 points), forward returns run backwards from expectation (bearish bucket beats bullish), zero ablation impact."
+2,ZigZag,1.0,0.571,453,True,"CORE (existing) — feeds the directional axis. Solo lift isn't the right test for it (its job is classification, not standalone early warning)."
+3,STC,1.0,0.75,624,True,"CORE (existing) — feeds the momentum axis. Fires on ~99.5% of points at this threshold (its score rarely sits exactly at 0), which likely inflates its solo recall without real skill — read its row with that caveat."
+4,Gann Time Cycles,0.98,0.25,85,True,"DROP. Statistically random (lift 0.99), zero ablation impact — matches the roadmap's own expectation that this is the least empirically-grounded of the five."
+,Harmonic Patterns,2.44,0.036,9,False,"WATCH, don't weight into production yet. Most promising number (lift 2.44) but only 9 total firings — too small a sample to trust. Revisit once more history accumulates."

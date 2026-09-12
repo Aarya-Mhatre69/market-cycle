@@ -38,7 +38,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from shankh.agents.market.cycle_signals import (
     EvidenceItem,
+    HysteresisState,
     classify_cycle,
+    classify_cycle_stateful,
+    compute_candlestick_patterns,
+    compute_gann_time_cycles,
+    compute_harmonic_patterns,
     compute_stc,
     compute_trend_context,
     compute_zigzag,
@@ -63,32 +68,56 @@ REFERENCE_TURNS = [
 ]
 
 
-def fetch_history(start: str) -> pd.DataFrame:
-    hist = yf.Ticker("^NSEI").history(start=start, interval="1d")
+def fetch_history(start: str, ticker: str = "^NSEI") -> pd.DataFrame:
+    """`ticker` defaults to the Nifty 50 index; pass e.g. 'RELIANCE.NS' to run this
+    same walk-forward backtest on an individual stock instead — same mechanism,
+    same no-lookahead discipline, just a different price series."""
+    hist = yf.Ticker(ticker).history(start=start, interval="1d")
     if hist.empty:
-        raise RuntimeError("yfinance returned no data for ^NSEI — check network access.")
+        raise RuntimeError(f"yfinance returned no data for {ticker} — check the symbol or network access.")
     df = hist.reset_index()[["Date", "Open", "High", "Low", "Close", "Volume"]]
     df.columns = ["date", "open", "high", "low", "close", "volume"]
     df["date"] = pd.to_datetime(df["date"]).dt.tz_localize(None)
     return df.sort_values("date").reset_index(drop=True)
 
 
-def run_walk_forward(df: pd.DataFrame, step: int) -> pd.DataFrame:
+def run_walk_forward(df: pd.DataFrame, step: int, min_dwell: int = 1) -> pd.DataFrame:
+    """
+    Walk-forward Core-tier classification.
+
+    `min_dwell` controls the Phase 2 hysteresis filter (scripts/backtest_cycle_phase.py
+    --min-dwell / cycle_signals.classify_cycle_stateful): min_dwell=1 confirms every
+    raw axis-vote read immediately (no hysteresis — isolates Phase 2's "axis vote"
+    change from its "hysteresis" change for independent A/B comparison against the
+    pre-Phase-2 baseline); min_dwell>1 requires that many consecutive raw reads in
+    the same direction before a phase change is confirmed, directly targeting the
+    ~11-trading-day whipsaw found in the baseline backtest.
+    """
     rows = []
     n = len(df)
+    state = HysteresisState()
     for i in range(_MIN_WARMUP_BARS, n, step):
         window = df.iloc[: i + 1]
 
         zz = compute_zigzag(window)
         stc = compute_stc(window["close"])
         trend = compute_trend_context(window["close"])
+        # Phase 3 (accuracy roadmap): the 3 new indicators are computed and logged
+        # for the comparison/ablation study (scripts/evaluate_indicators.py) but are
+        # NOT added to `evidence` here — they don't vote on the phase until the
+        # evaluation says they earn it (roadmap Phase 3: "no indicator is added to
+        # the core/supporting tier without backtest evidence it earns that weight").
+        candles = compute_candlestick_patterns(window)
+        harmonic = compute_harmonic_patterns(window)
+        gann = compute_gann_time_cycles(window)
 
         evidence: List[EvidenceItem] = [
             EvidenceItem("zigzag", "core", zz.structure, zz.score, zz.note),
             EvidenceItem("stc", "core", f"{stc.value} ({stc.direction})", stc.score, stc.note),
             EvidenceItem("trend_context", "core", f"{trend.price_vs_sma200_pct:+.1f}%", trend.score, trend.note),
         ]
-        result = classify_cycle(evidence)
+        raw_result = classify_cycle(evidence)
+        result, state = classify_cycle_stateful(evidence, state, min_dwell=min_dwell)
 
         rows.append({
             "date": window["date"].iloc[-1],
@@ -99,6 +128,28 @@ def run_walk_forward(df: pd.DataFrame, step: int) -> pd.DataFrame:
             "composite_score": result.composite_score,
             "zigzag_structure": zz.structure,
             "stc_value": stc.value,
+            # Per-signal scores (Phase 1 of the accuracy roadmap) — logged so indicator
+            # comparison / ablation work (Phase 3) and the 4-pillar-vote mechanism (Phase 2)
+            # can be evaluated against this same walk-forward history without re-running it.
+            # Purely additive: does not change any column produced before this point.
+            "zigzag_score": zz.score,
+            "stc_score": stc.score,
+            "trend_score": trend.score,
+            "trend_price_vs_sma200_pct": trend.price_vs_sma200_pct,
+            "trend_sma50_vs_sma200_pct": trend.sma50_vs_sma200_pct,
+            "stc_direction": stc.direction,
+            # Phase 2: raw (stateless, un-hysteresised) read vs the hysteresis-confirmed
+            # phase actually reported — lets before/after and pending-vs-confirmed be
+            # inspected directly from the CSV without re-running the backtest.
+            "raw_phase": raw_result.cycle_phase,
+            "raw_transition_risk": raw_result.transition_risk,
+            # Phase 3: new-indicator scores, logged but not voting (see comment above).
+            "candlestick_score": candles.score,
+            "candlestick_patterns": ",".join(sorted({p["pattern"] for p in candles.patterns})),
+            "harmonic_pattern": harmonic.pattern or "",
+            "harmonic_score": harmonic.score,
+            "gann_score": gann.score,
+            "gann_active_cycle_days": gann.active_cycle_days if gann.active_cycle_days is not None else "",
         })
 
         if (i - _MIN_WARMUP_BARS) % (step * 100) == 0:
@@ -124,7 +175,8 @@ def check_reference_turns(results: pd.DataFrame) -> None:
         print(f"  classified phase at nearest evaluation point: {phase_at_turn}")
 
 
-def make_chart(results: pd.DataFrame, out_path: Path) -> None:
+def make_chart(results: pd.DataFrame, out_path: Path, title: str = "Market Cycle Core Classifier — Walk-Forward Backtest (Nifty 50)",
+                ylabel: str = "Nifty 50 Close", show_reference_turns: bool = True) -> None:
     phase_colors = {
         "EXPANSION": "#2E7D32",
         "DISTRIBUTION": "#F9A825",
@@ -139,13 +191,16 @@ def make_chart(results: pd.DataFrame, out_path: Path) -> None:
         mask = results["cycle_phase"] == phase
         ax.scatter(results.loc[mask, "date"], results.loc[mask, "close"], s=8, color=color, label=phase, zorder=2)
 
-    for date_str, label in REFERENCE_TURNS:
-        target = pd.Timestamp(date_str)
-        if results["date"].min() <= target <= results["date"].max():
-            ax.axvline(target, color="grey", linestyle="--", alpha=0.5, zorder=1)
+    if show_reference_turns:
+        # Nifty-specific public turn dates — only meaningful as an overlay on the
+        # index itself, not on an individual stock's price path.
+        for date_str, label in REFERENCE_TURNS:
+            target = pd.Timestamp(date_str)
+            if results["date"].min() <= target <= results["date"].max():
+                ax.axvline(target, color="grey", linestyle="--", alpha=0.5, zorder=1)
 
-    ax.set_title("Market Cycle Core Classifier — Walk-Forward Backtest (Nifty 50)")
-    ax.set_ylabel("Nifty 50 Close")
+    ax.set_title(title)
+    ax.set_ylabel(ylabel)
     ax.legend(loc="upper left", fontsize=9)
     fig.tight_layout()
     fig.savefig(out_path, dpi=150)
@@ -156,37 +211,72 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--start", default="2018-01-01", help="History start date (YYYY-MM-DD)")
     parser.add_argument("--step", type=int, default=3, help="Evaluate every N trading days (speed/resolution tradeoff)")
+    parser.add_argument(
+        "--min-dwell", type=int, default=5,
+        help="Phase 2 hysteresis: consecutive same-direction raw reads required to confirm a phase "
+             "change. Default 5 is the calibrated, adopted value (scripts/calibrate_min_dwell.py; "
+             "chosen on the 2018-2020 calibration window, confirmed on 2021-2023 validation, never "
+             "re-tuned against the 2024+ test slice) — cuts mean phase duration whipsaw from ~11 to "
+             "~46 trading days. Pass 1 to recover the pre-hysteresis (axis-vote-only) read.",
+    )
+    parser.add_argument(
+        "--out-suffix", default="",
+        help="Suffix appended to output filenames (e.g. '_dwell3') so A/B runs don't overwrite each other. "
+             "Auto-derived from --ticker when that's set and this is left blank.",
+    )
+    parser.add_argument(
+        "--ticker", default=None,
+        help="Run this same walk-forward backtest on an individual stock instead of the Nifty 50 index, "
+             "e.g. --ticker RELIANCE.NS. Same mechanism (axis-vote + hysteresis), same no-lookahead "
+             "discipline, just a different price series. Reference-turn overlay is skipped (those dates "
+             "are Nifty-specific, not meaningful for an individual stock).",
+    )
     args = parser.parse_args()
 
     _OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    logger.info("Fetching Nifty 50 daily history from %s...", args.start)
-    df = fetch_history(args.start)
+    ticker = args.ticker or "^NSEI"
+    out_suffix = args.out_suffix or (f"_{args.ticker.split('.')[0]}" if args.ticker else "")
+
+    logger.info("Fetching daily history for %s from %s...", ticker, args.start)
+    df = fetch_history(args.start, ticker=ticker)
     logger.info("Fetched %d daily bars (%s to %s).", len(df), df["date"].iloc[0].date(), df["date"].iloc[-1].date())
 
-    logger.info("Running walk-forward classification (step=%d bars)...", args.step)
-    results = run_walk_forward(df, step=args.step)
+    logger.info("Running walk-forward classification (step=%d bars, min_dwell=%d)...", args.step, args.min_dwell)
+    results = run_walk_forward(df, step=args.step, min_dwell=args.min_dwell)
     logger.info("Produced %d evaluation points.", len(results))
 
-    csv_path = _OUTPUT_DIR / "cycle_backtest_history.csv"
+    csv_path = _OUTPUT_DIR / f"cycle_backtest_history{out_suffix}.csv"
     results.to_csv(csv_path, index=False)
     logger.info("History saved to %s", csv_path)
 
-    chart_path = _OUTPUT_DIR / "cycle_backtest_chart.png"
-    make_chart(results, chart_path)
+    chart_path = _OUTPUT_DIR / f"cycle_backtest_chart{out_suffix}.png"
+    if args.ticker:
+        make_chart(
+            results, chart_path,
+            title=f"Market Cycle Classifier — Walk-Forward Backtest ({args.ticker})",
+            ylabel=f"{args.ticker} Close",
+            show_reference_turns=False,
+        )
+    else:
+        make_chart(results, chart_path)
 
     phase_dist = results["cycle_phase"].value_counts(normalize=True).round(3).to_dict()
     risk_dist = results["transition_risk"].value_counts(normalize=True).round(3).to_dict()
     n_phase_changes = (results["cycle_phase"] != results["cycle_phase"].shift(1)).sum() - 1
+    mean_run_length_points = len(results) / (n_phase_changes + 1) if n_phase_changes >= 0 else float("nan")
+    mean_run_length_days = mean_run_length_points * args.step
 
     print("\n" + "=" * 78)
     print("SUMMARY")
     print("=" * 78)
+    print(f"Mean phase run length: {mean_run_length_points:.1f} evaluation points (~{mean_run_length_days:.1f} trading days)")
     print(f"Evaluation points: {len(results)}  |  Phase changes over the window: {n_phase_changes}")
     print(f"Phase distribution: {phase_dist}")
     print(f"Transition-risk distribution: {risk_dist}")
 
-    check_reference_turns(results)
+    if not args.ticker:
+        check_reference_turns(results)
 
     print("\n" + "=" * 78)
     print("HOW TO READ THIS")

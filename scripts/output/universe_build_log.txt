@@ -1,0 +1,89 @@
+2026-09-04 22:10:33,899 INFO: Fetching NSE equity universe list...
+2026-09-04 22:10:36,830 INFO: Universe: 2570 tickers.
+2026-09-04 22:10:36,830 INFO: Fetching shared macro readings (liquidity, India 10Y yield)...
+2026-09-04 22:10:36,892 INFO: liquidity_score=None, india_10y_yield=7.02 (source=FALLBACK_BENCHMARK)
+2026-09-04 22:10:36,892 INFO: Batch-downloading OHLCV (this is the slow step for a full-universe run)...
+2026-09-04 22:10:45,060 INFO: OHLCV batch 0-75: 61/75 tickers usable so far.
+2026-09-04 22:10:48,173 INFO: OHLCV batch 75-150: 125/150 tickers usable so far.
+2026-09-04 22:10:50,451 INFO: OHLCV batch 150-225: 189/225 tickers usable so far.
+2026-09-04 22:10:52,726 INFO: OHLCV batch 225-300: 257/300 tickers usable so far.
+2026-09-04 22:10:55,322 INFO: OHLCV batch 300-375: 319/375 tickers usable so far.
+2026-09-04 22:10:57,582 INFO: OHLCV batch 375-450: 384/450 tickers usable so far.
+2026-09-04 22:11:00,809 INFO: OHLCV batch 450-525: 443/525 tickers usable so far.
+2026-09-04 22:11:03,191 INFO: OHLCV batch 525-600: 511/600 tickers usable so far.
+2026-09-04 22:11:04,784 INFO: OHLCV batch 600-675: 574/675 tickers usable so far.
+2026-09-04 22:11:06,350 INFO: OHLCV batch 675-750: 641/750 tickers usable so far.
+2026-09-04 22:11:08,765 INFO: OHLCV batch 750-825: 708/825 tickers usable so far.
+2026-09-04 22:11:10,562 INFO: OHLCV batch 825-900: 772/900 tickers usable so far.
+2026-09-04 22:11:12,234 INFO: OHLCV batch 900-975: 838/975 tickers usable so far.
+2026-09-04 22:11:13,989 INFO: OHLCV batch 975-1050: 907/1050 tickers usable so far.
+2026-09-04 22:11:16,002 ERROR: HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: JAYKAY-RE1.NS"}}}
+2026-09-04 22:11:17,105 ERROR: $JAYKAY-RE1.NS: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+2026-09-04 22:11:17,105 ERROR: 
+1 Failed download:
+2026-09-04 22:11:17,105 ERROR: ['JAYKAY-RE1.NS']: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+2026-09-04 22:11:17,343 INFO: OHLCV batch 1050-1125: 973/1125 tickers usable so far.
+2026-09-04 22:11:20,235 INFO: OHLCV batch 1125-1200: 1041/1200 tickers usable so far.
+2026-09-04 22:11:22,383 INFO: OHLCV batch 1200-1275: 1100/1275 tickers usable so far.
+2026-09-04 22:11:24,405 INFO: OHLCV batch 1275-1350: 1160/1350 tickers usable so far.
+2026-09-04 22:11:26,761 INFO: OHLCV batch 1350-1425: 1228/1425 tickers usable so far.
+2026-09-04 22:11:29,123 INFO: OHLCV batch 1425-1500: 1284/1500 tickers usable so far.
+2026-09-04 22:11:31,429 INFO: OHLCV batch 1500-1575: 1351/1575 tickers usable so far.
+2026-09-04 22:11:33,795 INFO: OHLCV batch 1575-1650: 1414/1650 tickers usable so far.
+2026-09-04 22:11:35,496 INFO: OHLCV batch 1650-1725: 1476/1725 tickers usable so far.
+2026-09-04 22:11:37,311 INFO: OHLCV batch 1725-1800: 1540/1800 tickers usable so far.
+2026-09-04 22:11:39,248 INFO: OHLCV batch 1800-1875: 1612/1875 tickers usable so far.
+2026-09-04 22:11:40,757 INFO: OHLCV batch 1875-1950: 1675/1950 tickers usable so far.
+2026-09-04 22:11:43,335 INFO: OHLCV batch 1950-2025: 1738/2025 tickers usable so far.
+2026-09-04 22:11:45,019 INFO: OHLCV batch 2025-2100: 1794/2100 tickers usable so far.
+2026-09-04 22:11:46,741 INFO: OHLCV batch 2100-2175: 1862/2175 tickers usable so far.
+2026-09-04 22:11:48,815 INFO: OHLCV batch 2175-2250: 1922/2250 tickers usable so far.
+2026-09-04 22:11:50,412 INFO: OHLCV batch 2250-2325: 1986/2325 tickers usable so far.
+2026-09-04 22:11:52,137 INFO: OHLCV batch 2325-2400: 2053/2400 tickers usable so far.
+2026-09-04 22:11:53,927 INFO: OHLCV batch 2400-2475: 2113/2475 tickers usable so far.
+2026-09-04 22:11:55,603 INFO: OHLCV batch 2475-2550: 2174/2550 tickers usable so far.
+2026-09-04 22:11:56,191 INFO: OHLCV batch 2550-2570: 2192/2570 tickers usable so far.
+2026-09-04 22:11:56,191 INFO: OHLCV usable for 2192/2570 tickers.
+2026-09-04 22:11:56,191 INFO: Fetching fundamentals for 2192 tickers (threaded)...
+2026-09-04 22:12:15,597 INFO: Fundamentals: 200/2192 tickers processed (200 usable).
+2026-09-04 22:27:57,194 INFO: Fundamentals: 400/2192 tickers processed (400 usable).
+2026-09-04 22:28:14,578 INFO: Fundamentals: 600/2192 tickers processed (600 usable).
+2026-09-04 22:28:32,695 INFO: Fundamentals: 800/2192 tickers processed (800 usable).
+2026-09-04 22:28:55,265 INFO: Fundamentals: 1000/2192 tickers processed (1000 usable).
+2026-09-04 22:29:15,166 INFO: Fundamentals: 1200/2192 tickers processed (1200 usable).
+2026-09-04 22:29:32,474 INFO: Fundamentals: 1400/2192 tickers processed (1400 usable).
+2026-09-04 22:29:49,637 INFO: Fundamentals: 1600/2192 tickers processed (1600 usable).
+2026-09-04 22:30:07,008 INFO: Fundamentals: 1800/2192 tickers processed (1800 usable).
+2026-09-04 22:30:57,587 INFO: Fundamentals: 2000/2192 tickers processed (1955 usable).
+2026-09-04 22:31:04,940 ERROR: HTTP Error 401: {"finance":{"result":null,"error":{"code":"Unauthorized","description":"Invalid Crumb"}}}
+2026-09-04 22:32:32,521 ERROR: HTTP Error 401: {"finance":{"result":null,"error":{"code":"Unauthorized","description":"User is unable to access this feature - https://bit.ly/yahoo-finance-api-feedback"}}}
+2026-09-04 22:33:12,734 ERROR: HTTP Error 401: {"finance":{"result":null,"error":{"code":"Unauthorized","description":"User is unable to access this feature - https://bit.ly/yahoo-finance-api-feedback"}}}
+2026-09-04 22:33:12,750 ERROR: HTTP Error 401: {"finance":{"result":null,"error":{"code":"Unauthorized","description":"User is unable to access this feature - https://bit.ly/yahoo-finance-api-feedback"}}}
+2026-09-04 22:33:17,211 INFO: Fundamentals usable for 1955/2192 tickers.
+2026-09-04 22:33:17,211 INFO: Cross-sectional P/E percentile base: 1668 tickers with a valid, positive P/E.
+2026-09-04 22:33:25,634 INFO: Saved 2192 classified tickers to C:\Users\aarya\OneDrive\Desktop\InfinityPool\shankh-finagent\data\universe_cycle\latest.csv
+
+==============================================================================
+SUMMARY
+==============================================================================
+Universe requested: 2570  |  OHLCV usable: 2192  |  Fundamentals usable: 1955  |  Classified: 2192
+
+Phase distribution:
+cycle_phase
+CONTRACTION     0.297
+EXPANSION       0.271
+ACCUMULATION    0.239
+DISTRIBUTION    0.194
+
+Sector coverage (top 10):
+sector
+Industrials               407
+Consumer Cyclical         367
+Basic Materials           332
+Unknown                   241
+Financial Services        212
+Technology                148
+Consumer Defensive        136
+Healthcare                135
+Real Estate                78
+Communication Services     63

@@ -1,0 +1,16 @@
+indicator,zigzag_score,ACCUMULATION,CONTRACTION,DISTRIBUTION,EXPANSION,stc_score,candlestick_score,harmonic_score,gann_score
+ZigZag,bearish,0.471,0.603,0.081,0.085,,,,
+ZigZag,bullish,0.118,0.176,0.561,0.756,,,,
+ZigZag,neutral,0.412,0.221,0.359,0.158,,,,
+STC,,0.441,0.471,0.547,0.483,bearish,,,
+STC,,0.539,0.529,0.448,0.517,bullish,,,
+STC,,0.02,0.0,0.004,0.0,neutral,,,
+Candlestick Recognition,,0.284,0.147,0.332,0.333,,bearish,,
+Candlestick Recognition,,0.176,0.279,0.197,0.154,,bullish,,
+Candlestick Recognition,,0.539,0.574,0.471,0.513,,neutral,,
+Harmonic Patterns,,0.039,0.0,0.0,0.0,,,bearish,
+Harmonic Patterns,,0.0,0.0,0.022,0.0,,,bullish,
+Harmonic Patterns,,0.961,1.0,0.978,1.0,,,neutral,
+Gann Time Cycles,,0.118,0.029,0.058,0.162,,,,bearish
+Gann Time Cycles,,0.029,0.074,0.045,0.009,,,,bullish
+Gann Time Cycles,,0.853,0.897,0.897,0.829,,,,neutral

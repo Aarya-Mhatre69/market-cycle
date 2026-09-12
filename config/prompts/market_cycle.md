@@ -42,7 +42,7 @@ You MUST format your entire response as a structured "Executive Market Cycle Bri
 - **Trend Context:** [price vs 200DMA %, 50v200 relationship] — [note]
 
 ### 3. Valuation & Equity Risk Premium
-- **Nifty 50 P/E Ratio:** [Value] ([data source]) | **10-Year Percentile:** [Valueth Percentile]
+- **Nifty 50 P/E Ratio:** [Value] ([data source]) | **10-Year Percentile:** [Valueth Percentile, or "Data Currently Unavailable" if `pe_10y_historical_percentile` is "insufficient_data" — no historical P/E series is wired in yet, per Rule 2 below]
 - **Nifty 50 P/B Ratio:** [Value] ([data source])
 - **Dividend Yield:** [Value %] ([data source])
 - **Equity Risk Premium Spread:** [Value %] ([Attractiveness Flag])
