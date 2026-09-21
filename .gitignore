@@ -16,7 +16,15 @@ frontend/node_modules/
 frontend/.next/
 *models/
 # Data — large raw datasets, never commit
-data/
+data/*
+# Exception: the Universe Cycle dashboard view reads this file directly and needs
+# it present on a fresh clone (e.g. a deploy target) — it's a small classification
+# snapshot (~2,200 rows), not a raw dataset, so committing it is fine. (Git can't
+# negate a path inside an already-excluded directory — data/* + per-level
+# re-inclusion is the standard workaround for data/'s trailing-slash form.)
+!data/universe_cycle/
+data/universe_cycle/*
+!data/universe_cycle/latest.csv
 
 # Trained model artifacts — committed so Docker build includes them
 # models/ is intentionally NOT ignored here
