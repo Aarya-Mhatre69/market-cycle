@@ -1,0 +1,21 @@
+# Minimal dependency set for scripts/cycle_dashboard.py only — NOT the full
+# monorepo's requirements.txt (that one covers the separate multi-agent backend
+# and pulls in ~1GB of unrelated packages: langchain, crewai, deepagents,
+# lightgbm, scikit-learn, gradio, etc.). Use THIS file when deploying just the
+# Streamlit dashboard (e.g. on Streamlit Community Cloud, Render, or Railway).
+#
+# Traced directly from cycle_dashboard.py's actual import graph (cycle_tools.py,
+# cycle_signals.py, universe_cycle.py) — matplotlib and nsepython are deliberately
+# excluded: they're only used by the offline batch scripts that pre-generate the
+# charts/data this dashboard displays, not by the dashboard itself at runtime.
+# fredapi is optional (cycle_tools.py already handles it being absent gracefully)
+# and is included so the FRED sidebar key actually works if a viewer sets one.
+streamlit==1.62.0
+pandas==2.2.2
+plotly==7.0.0
+numpy==2.4.6
+requests==2.34.2
+yfinance==1.2.0
+python-dotenv==1.2.2
+langchain-core==1.5.1
+fredapi==0.5.2
