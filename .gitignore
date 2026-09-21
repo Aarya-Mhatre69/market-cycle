@@ -22,9 +22,13 @@ data/*
 # snapshot (~2,200 rows), not a raw dataset, so committing it is fine. (Git can't
 # negate a path inside an already-excluded directory — data/* + per-level
 # re-inclusion is the standard workaround for data/'s trailing-slash form.)
+# hysteresis_state.json is committed alongside it so the daily CI rebuild
+# (.github/workflows/rebuild-universe-data.yml) carries dwell-time state forward
+# between runs instead of resetting min_dwell counters from scratch every day.
 !data/universe_cycle/
 data/universe_cycle/*
 !data/universe_cycle/latest.csv
+!data/universe_cycle/hysteresis_state.json
 
 # Trained model artifacts — committed so Docker build includes them
 # models/ is intentionally NOT ignored here

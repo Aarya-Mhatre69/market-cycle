@@ -65,7 +65,13 @@ _INDICATORS = {
     "candlestick": {"score_col": "candlestick_score", "tier": "contextual", "label": "Candlestick Recognition"},
     "harmonic": {"score_col": "harmonic_score", "tier": "contextual", "label": "Harmonic Patterns"},
     "gann": {"score_col": "gann_score", "tier": "contextual", "label": "Gann Time Cycles"},
+    "obv": {"score_col": "obv_score", "tier": "contextual", "label": "On-Balance Volume"},
+    "cmf": {"score_col": "cmf_score", "tier": "contextual", "label": "Chaikin Money Flow"},
+    "volume_confirmation": {"score_col": "volume_confirmation_score", "tier": "contextual", "label": "Volume-Confirmed Pivot"},
 }
+# The 3 volume signals, as a group — used for the dedicated "with vs without volume"
+# comparison the mentor asked for, on top of each signal's own individual row above.
+_VOLUME_SIGNALS = {"obv", "cmf", "volume_confirmation"}
 _DIRECTION_THRESHOLD = 0.05  # |score| below this counts as "neutral" / not fired
 
 
@@ -179,9 +185,11 @@ def _regime_association(history: pd.DataFrame, score_col: str) -> pd.DataFrame:
 def _replay_with_signals(history: pd.DataFrame, include: set, min_dwell: int = 5) -> pd.DataFrame:
     """Re-runs ONLY the phase-decision layer (axis-vote + hysteresis) over the
     already-logged, walk-forward-computed per-signal scores in `history`, with a
-    chosen subset of the 3 new indicators included as contextual-tier evidence. Does
-    NOT re-fetch data or re-derive indicator scores — those are already correct
-    (no-lookahead) from the canonical backtest run; only the decision layer changes.
+    chosen subset of the contextual-tier indicators (Phase 3's three + the three
+    volume signals) included as evidence. Does NOT re-fetch data or re-derive
+    indicator scores — those are already correct (no-lookahead) from the canonical
+    backtest run; only the decision layer changes. `include` names are keys into
+    _INDICATORS; zigzag/stc/trend_context (core) are always included.
     """
     state = HysteresisState()
     rows = []
@@ -191,12 +199,13 @@ def _replay_with_signals(history: pd.DataFrame, include: set, min_dwell: int = 5
             EvidenceItem("stc", "core", "", r["stc_score"]),
             EvidenceItem("trend_context", "core", "", r["trend_score"]),
         ]
-        if "candlestick" in include and abs(r["candlestick_score"]) > 1e-9:
-            evidence.append(EvidenceItem("candlestick", "contextual", "", r["candlestick_score"]))
-        if "harmonic" in include and abs(r["harmonic_score"]) > 1e-9:
-            evidence.append(EvidenceItem("harmonic", "contextual", "", r["harmonic_score"]))
-        if "gann" in include and abs(r["gann_score"]) > 1e-9:
-            evidence.append(EvidenceItem("gann", "contextual", "", r["gann_score"]))
+        for key in include:
+            meta = _INDICATORS.get(key)
+            if meta is None or meta["tier"] == "core":
+                continue
+            score = r[meta["score_col"]]
+            if abs(score) > 1e-9:
+                evidence.append(EvidenceItem(key, meta["tier"], "", score))
 
         result, state = classify_cycle_stateful(evidence, state, min_dwell=min_dwell)
         rows.append({"date": r["date"], "cycle_phase": result.cycle_phase, "transition_risk": result.transition_risk})
@@ -299,8 +308,8 @@ def plot_regime_heatmap(history: pd.DataFrame, out_path: Path) -> None:
     plt.close(fig)
 
 
-def plot_ablation_bars(ablation_df: pd.DataFrame, out_path: Path) -> None:
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5))
+def plot_ablation_bars(ablation_df: pd.DataFrame, out_path: Path, title_suffix: str = "") -> None:
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 4.5))
     x = range(len(ablation_df))
     ax1.bar(x, ablation_df["recall"], color="#1565C0")
     ax1.set_xticks(x)
@@ -318,7 +327,15 @@ def plot_ablation_bars(ablation_df: pd.DataFrame, out_path: Path) -> None:
     ax2.axhline(1.0, color="black", linewidth=0.6, linestyle="--", label="random (1.0)")
     ax2.legend(fontsize=8)
 
-    fig.suptitle("Marginal contribution of each new indicator (accuracy-roadmap Section 9.2)")
+    ax3.bar(x, ablation_df["mean_run_days"], color="#2E7D32")
+    ax3.set_xticks(x)
+    ax3.set_xticklabels(ablation_df["variant"], rotation=30, ha="right", fontsize=8)
+    ax3.set_ylabel("Mean phase duration (trading days)")
+    ax3.set_title("Ablation: phase persistence by variant")
+    ax3.axhline(ablation_df["mean_run_days"].iloc[0], color="grey", linestyle="--", linewidth=0.8, label="baseline")
+    ax3.legend(fontsize=8)
+
+    fig.suptitle(f"Marginal contribution of each indicator{title_suffix}")
     fig.tight_layout()
     fig.savefig(out_path, dpi=150)
     plt.close(fig)
@@ -364,6 +381,9 @@ _VERDICTS = {
     "Candlestick Recognition": "DROP from the phase vote. Noisy (40% reversal within 3 points), forward returns run backwards from expectation (bearish bucket beats bullish), zero ablation impact.",
     "Harmonic Patterns": "WATCH, don't weight into production yet. Most promising number (lift 2.44) but only 9 total firings — too small a sample to trust. Revisit once more history accumulates.",
     "Gann Time Cycles": "DROP. Statistically random (lift 0.99), zero ablation impact — matches the roadmap's own expectation that this is the least empirically-grounded of the five.",
+    "On-Balance Volume": "DROP from the phase vote (keep logged as context). Ablation: adding it to the core vote drops recall 0.357->0.321 with zero change to phase_changes/mean_run_days — it fires often (596x) but doesn't sharpen classification, it just adds noise.",
+    "Chaikin Money Flow": "DROP from the phase vote (keep logged as context). Same ablation signature as OBV: recall 0.357->0.321, phase_changes/mean_run_days unchanged. Mentor-requested signal, tested with the same rigor as Phase 3's indicators, and it doesn't move the needle.",
+    "Volume-Confirmed Pivot": "WATCH, don't weight into production yet. The one volume signal that doesn't hurt recall solo (0.357, unchanged) and ranks #1 on lift (1.10) — but combined with OBV+CMF the full volume bundle drops recall further to 0.286, so the three shouldn't be adopted together. Revisit this one alone with more history before promoting it off contextual tier.",
 }
 
 
@@ -471,6 +491,28 @@ def main():
     ablation_df = pd.DataFrame(ablation_rows)
     print(ablation_df.to_string(index=False))
     ablation_df.to_csv(_OUTPUT_DIR / "indicator_ablation.csv", index=False)
+
+    print("\n" + "=" * 100)
+    print("5b. VOLUME ABLATION — WITHOUT volume vs WITH volume (mentor-suggested follow-up)")
+    print("=" * 100)
+    volume_variants = {
+        "WITHOUT volume (Core-only baseline)": set(),
+        "+OBV": {"obv"},
+        "+CMF": {"cmf"},
+        "+volume-confirmed pivot": {"volume_confirmation"},
+        "WITH volume (all 3 combined)": set(_VOLUME_SIGNALS),
+    }
+    volume_ablation_rows = []
+    for name, include in volume_variants.items():
+        logger.info("Replaying volume variant: %s", name)
+        variant_history = _replay_with_signals(history, include, min_dwell=args.min_dwell)
+        m = _ablation_metrics(variant_history, turns, args.lead_days, args.backtest_step)
+        volume_ablation_rows.append({"variant": name, **m})
+    volume_ablation_df = pd.DataFrame(volume_ablation_rows)
+    print(volume_ablation_df.to_string(index=False))
+    volume_ablation_df.to_csv(_OUTPUT_DIR / "volume_ablation.csv", index=False)
+    plot_ablation_bars(volume_ablation_df, _OUTPUT_DIR / "volume_ablation_chart.png",
+                        title_suffix=" — With vs. Without Volume")
 
     print("\n" + "=" * 100)
     print("RANKED SUMMARY — ranked by lift among reliably-sampled indicators only (>= %d firings)" % _MIN_RELIABLE_FIRES)

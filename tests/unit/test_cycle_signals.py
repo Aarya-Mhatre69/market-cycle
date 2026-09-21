@@ -18,10 +18,13 @@ from shankh.agents.market.cycle_signals import (
     classify_cycle,
     classify_cycle_stateful,
     compute_candlestick_patterns,
+    compute_cmf,
     compute_gann_time_cycles,
     compute_harmonic_patterns,
+    compute_obv,
     compute_stc,
     compute_trend_context,
+    compute_volume_confirmed_pivot,
     compute_zigzag,
 )
 
@@ -159,6 +162,71 @@ class TestTrendContext:
         result = compute_trend_context(close)
         assert result.score < 0.0
 
+    def test_short_history_uses_linear_fallback(self):
+        """Below the 252-point own-history floor (n=250 here, only ~50 points of
+        price_vs_sma200 history once the 200-bar SMA warms up), a percentile claim
+        isn't defensible — must fall back to the original bounded-linear formula
+        rather than go silent, since trend_context is a core, always-voting signal."""
+        close = pd.Series(_uptrend(n=250))
+        result = compute_trend_context(close)
+        assert result.method == "LINEAR_FALLBACK"
+
+    def test_extreme_extension_scores_higher_than_moderate_once_percentile_active(self):
+        """Brutal-review audit finding #2 regression test: checked empirically against
+        the live universe, the OLD formula (clip at +/-10% from 200DMA) put 51.3% of
+        all 2,210 stocks at the same +/-1.0 ceiling, unable to distinguish a mild 12%
+        extension from a 90% blow-off top. With enough own-history for a percentile
+        read, an all-time-extreme extension must score strictly higher than a
+        middling one, not tie."""
+        rng = np.random.default_rng(7)
+        n = 600
+        base = 100 * (1.0003 ** np.arange(n))
+        noise = rng.normal(0, 0.015, n)
+        price = np.abs(base * (1 + noise.cumsum() * 0.05))
+
+        moderate = pd.Series(price.copy())
+        moderate.iloc[-1] = moderate.iloc[-2] * 1.12
+
+        extreme = pd.Series(price.copy())
+        extreme.iloc[-1] = extreme.iloc[-2] * 1.90
+
+        r_mod = compute_trend_context(moderate)
+        r_ext = compute_trend_context(extreme)
+        assert r_mod.method == "PERCENTILE"
+        assert r_ext.method == "PERCENTILE"
+        assert r_ext.score > r_mod.score
+        # The old formula would have clipped BOTH to exactly 1.0 -- assert the
+        # moderate case is no longer pinned at the ceiling.
+        assert r_mod.score < 1.0
+
+    def test_percentile_score_matches_independently_computed_percentile_rank(self):
+        """Pins the exact algorithm (score == average of the two 2*percentile-1
+        components) against an independently-computed expected value, rather than
+        relying on compute_trend_context's own internals -- so a future refactor
+        that silently changes the percentile formula gets caught here. Also directly
+        demonstrates score == 0 no longer means 'at the 200DMA' (see docstring):
+        this fixture's latest price_vs_sma200_pct is not 0%, yet its score is small
+        because that reading is unremarkable relative to its OWN history."""
+        rng = np.random.default_rng(5)
+        n = 600
+        t = np.arange(n, dtype=float)
+        close = pd.Series(100.0 + 0.03 * t + rng.normal(0, 1.5, n).cumsum() * 0.15)
+
+        result = compute_trend_context(close)
+        assert result.method == "PERCENTILE"
+        assert result.price_vs_sma200_pct != 0.0
+
+        sma_short = close.rolling(50).mean()
+        sma_long = close.rolling(200).mean()
+        price_series = ((close - sma_long) / sma_long * 100.0).dropna()
+        short_series = ((sma_short - sma_long) / sma_long * 100.0).dropna()
+        expected_price_pctile = (price_series <= price_series.iloc[-1]).mean()
+        expected_short_pctile = (short_series <= short_series.iloc[-1]).mean()
+        expected_score = np.clip(
+            ((2 * expected_price_pctile - 1) + (2 * expected_short_pctile - 1)) / 2.0, -1.0, 1.0
+        )
+        assert result.score == pytest.approx(expected_score, abs=1e-3)
+
 
 class TestClassifyCycle:
     def test_all_bullish_signals_classify_expansion(self):
@@ -170,7 +238,10 @@ class TestClassifyCycle:
         result = classify_cycle(evidence)
         assert result.cycle_phase == "EXPANSION"
         assert result.transition_risk == "low"
-        assert result.cycle_confidence == 1.0
+        # 3 core-tier items, all agreeing, but confidence is now also scaled by
+        # evidence completeness (see TestConfidenceScoring) — 3/6 of the full
+        # production evidence set's weight (1.8/2.7), not a bare agreement fraction.
+        assert result.cycle_confidence == 0.67
 
     def test_all_bearish_signals_classify_contraction(self):
         evidence = [
@@ -302,6 +373,61 @@ class TestFourPillarVote:
         ]
         result = classify_cycle(evidence)
         assert result.cycle_phase == "EXPANSION"
+
+
+class TestConfidenceScoring:
+    """Brutal-review audit finding #1 regression tests: cycle_confidence used to be
+    plain agree/len(evidence), which empirically INVERTED what confidence should
+    mean -- checked against the live 2,210-stock universe, thin-evidence stocks
+    (missing fundamentals) averaged HIGHER confidence (0.735) than fully-evidenced
+    ones (0.669), and 81% of the 417 stocks reporting the max 1.0 were the
+    thin-evidence ones. Confidence is now agreement-with-the-actual-axis-decision,
+    scaled by evidence completeness (see _MAX_EVIDENCE_WEIGHT)."""
+
+    def test_penalizes_thin_evidence_relative_to_full_evidence(self):
+        """The core reproduction of the audit finding: a stock classified on only 3
+        core signals must NOT out-score (or tie) one classified on the full 6-signal
+        production evidence set, even when both sets agree perfectly internally."""
+        thin = [
+            EvidenceItem("zigzag", "core", "HH/HL", 0.8),
+            EvidenceItem("stc", "core", "70 (RISING)", 0.7),
+            EvidenceItem("trend_context", "core", "+8% vs 200DMA", 0.6),
+        ]
+        full = thin + [
+            EvidenceItem("erp", "supporting", "3.0% (ATTRACTIVE)", 0.5),
+            EvidenceItem("earnings_momentum", "supporting", "+12% YoY", 0.6),
+            EvidenceItem("liquidity", "supporting", "M3 9% YoY", 0.4),
+        ]
+        r_thin = classify_cycle(thin)
+        r_full = classify_cycle(full)
+        assert r_thin.cycle_confidence < r_full.cycle_confidence
+        assert r_full.cycle_confidence == 1.0
+
+    def test_agreement_is_checked_against_axis_decision_not_composite_score(self):
+        """A divergence case (Distribution: directional up, momentum down) where
+        composite_score's blended sign differs from what each individual axis
+        actually decided -- agreement must be scored against directional_up/
+        momentum_up (what produced `phase`), not composite_score's sign."""
+        evidence = [
+            EvidenceItem("trend_context", "core", "+2% vs 200DMA", 0.15),  # directional: barely up
+            EvidenceItem("zigzag", "core", "HH/HL", 0.05),                 # directional: barely up
+            EvidenceItem("stc", "core", "20 (FALLING)", -0.9),             # momentum: clearly down
+        ]
+        result = classify_cycle(evidence)
+        assert result.cycle_phase == "DISTRIBUTION"
+        # composite_score (tier-weighted average of ALL 3, regardless of axis) is
+        # negative here since STC's -0.9 dominates the blend -- if confidence still
+        # compared against composite_score's sign, the two clearly-positive
+        # directional items would incorrectly count as disagreeing.
+        assert result.composite_score < 0.0
+        # trend_context and zigzag (both positive, feeding directional_up=True) and
+        # stc (negative, feeding momentum_up=False) all agree with THEIR OWN axis --
+        # full agreement, only discounted by evidence completeness (3/6 core+supporting).
+        assert result.cycle_confidence == 0.67
+
+    def test_zero_evidence_is_zero_confidence(self):
+        result = classify_cycle([])
+        assert result.cycle_confidence == 0.0
 
 
 class TestHysteresis:
@@ -539,4 +665,99 @@ class TestGannTimeCycles:
         df = self._build_pivot_then_drift("up", days_after_pivot=20)
         result = compute_gann_time_cycles(df, pct_threshold=4.0)
         assert result.active_cycle_days is None
+        assert result.score == 0.0
+
+
+class TestOBV:
+    def test_sustained_uptrend_gives_positive_score(self):
+        close = pd.Series(np.linspace(100.0, 150.0, 30))
+        volume = pd.Series(np.full(30, 1_000_000.0))
+        result = compute_obv(close, volume)
+        assert result.score > 0.0
+
+    def test_sustained_downtrend_gives_negative_score(self):
+        close = pd.Series(np.linspace(150.0, 100.0, 30))
+        volume = pd.Series(np.full(30, 1_000_000.0))
+        result = compute_obv(close, volume)
+        assert result.score < 0.0
+
+    def test_insufficient_data_returns_neutral(self):
+        close = pd.Series(np.linspace(100.0, 105.0, 10))
+        volume = pd.Series(np.full(10, 1_000_000.0))
+        result = compute_obv(close, volume, window=20)
+        assert result.score == 0.0
+
+
+class TestCMF:
+    def _bars_closing_near(self, position: str, n: int = 25) -> pd.DataFrame:
+        highs = 100.0 + np.arange(n)
+        lows = highs - 10.0
+        closes = highs - 0.5 if position == "high" else lows + 0.5
+        return pd.DataFrame({
+            "date": pd.bdate_range("2023-01-01", periods=n),
+            "open": closes, "high": highs, "low": lows, "close": closes,
+            "volume": np.full(n, 1_000_000.0),
+        })
+
+    def test_closes_near_highs_gives_positive_cmf(self):
+        result = compute_cmf(self._bars_closing_near("high"))
+        assert result.score > 0.5
+
+    def test_closes_near_lows_gives_negative_cmf(self):
+        result = compute_cmf(self._bars_closing_near("low"))
+        assert result.score < -0.5
+
+    def test_insufficient_data_returns_neutral(self):
+        result = compute_cmf(self._bars_closing_near("high", n=5), window=20)
+        assert result.score == 0.0
+
+
+class TestVolumeConfirmedPivot:
+    def _df_with_known_pivot(self):
+        """5-leg HIGHER_HIGHS_HIGHER_LOWS structure (W->X->A->B->C->D->confirm),
+        same construction pattern as TestHarmonicPatterns — needs >= 4 confirmed
+        pivots for compute_zigzag to report a non-zero structure/score at all
+        (fewer reports INSUFFICIENT_SWINGS, score 0.0, leaving nothing for volume
+        to confirm). The last pivot (D) is what volume gets injected around."""
+        W, X, A, B, C, D, confirm = 1050.0, 1000.0, 1200.0, 1100.0, 1300.0, 1250.0, 1320.0
+        segments = [
+            np.linspace(W, X, 12), np.linspace(X, A, 12)[1:], np.linspace(A, B, 12)[1:],
+            np.linspace(B, C, 12)[1:], np.linspace(C, D, 12)[1:], np.linspace(D, confirm, 12)[1:],
+        ]
+        prices = np.concatenate(segments)
+        dates = pd.bdate_range("2023-01-01", periods=len(prices))
+        df = pd.DataFrame({
+            "date": dates, "open": prices, "high": prices, "low": prices, "close": prices,
+            "volume": np.full(len(prices), 1_000_000.0),
+        })
+        zz = compute_zigzag(df, pct_threshold=2.0)
+        assert len(zz.all_pivots) >= 4, f"Test construction bug: only {len(zz.all_pivots)} pivots confirmed."
+        assert zz.score != 0.0, "Test construction bug: zigzag has no directional opinion to confirm."
+        return df, zz
+
+    def test_high_volume_pivot_confirms_in_zigzag_direction(self):
+        df, zz = self._df_with_known_pivot()
+        pivot_date = pd.Timestamp(zz.all_pivots[-1]["date"])
+        pivot_idx = df[df["date"] <= pivot_date].index[-1]
+        df.loc[pivot_idx, "volume"] = 5_000_000.0  # well above the 1M trailing average
+        result = compute_volume_confirmed_pivot(df, zz)
+        assert result.volume_ratio > 1.0
+        # zz's last pivot here is a HIGH (bearish structure once confirmed downward),
+        # so a confirming score should share zigzag's own sign, whatever it is.
+        assert (result.score >= 0) == (zz.score >= 0)
+        assert result.score != 0.0
+
+    def test_low_volume_pivot_does_not_confirm(self):
+        df, zz = self._df_with_known_pivot()
+        pivot_date = pd.Timestamp(zz.all_pivots[-1]["date"])
+        pivot_idx = df[df["date"] <= pivot_date].index[-1]
+        df.loc[pivot_idx, "volume"] = 200_000.0  # well below the 1M trailing average
+        result = compute_volume_confirmed_pivot(df, zz)
+        assert result.volume_ratio < 1.0
+        assert result.score == 0.0
+
+    def test_no_pivots_returns_neutral(self):
+        df = _make_series(np.full(15, 100.0))
+        zz = compute_zigzag(df)
+        result = compute_volume_confirmed_pivot(df, zz)
         assert result.score == 0.0

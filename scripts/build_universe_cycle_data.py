@@ -24,6 +24,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from shankh.agents.market.cycle_tools import (  # noqa: E402
+    _get_fmp_api_key,
     get_liquidity_and_credit_cycle,
     get_market_cycle_metrics,
 )
@@ -75,8 +76,10 @@ def main():
     logger.info("OHLCV usable for %d/%d tickers.", len(ohlcv_by_ticker), len(tickers))
 
     usable_tickers = list(ohlcv_by_ticker.keys())
-    logger.info("Fetching fundamentals for %d tickers (threaded)...", len(usable_tickers))
-    fundamentals_by_ticker = batch_fetch_fundamentals(usable_tickers, max_workers=args.workers)
+    fmp_api_key = _get_fmp_api_key()
+    logger.info("Fetching fundamentals for %d tickers (threaded, source=%s)...",
+                len(usable_tickers), "FMP+yfinance fallback" if fmp_api_key else "yfinance only")
+    fundamentals_by_ticker = batch_fetch_fundamentals(usable_tickers, max_workers=args.workers, fmp_api_key=fmp_api_key)
     logger.info("Fundamentals usable for %d/%d tickers.", len(fundamentals_by_ticker), len(usable_tickers))
 
     # Cross-sectional P/E percentile: this stock's P/E vs. every other stock's P/E,

@@ -1,0 +1,6 @@
+variant,phase_changes,mean_run_days,recall,lift
+WITHOUT volume (Core-only baseline),40,46.1,0.357,0.87
++OBV,40,46.1,0.321,0.86
++CMF,40,46.1,0.321,0.85
++volume-confirmed pivot,40,46.1,0.357,0.87
+WITH volume (all 3 combined),40,46.1,0.286,0.87

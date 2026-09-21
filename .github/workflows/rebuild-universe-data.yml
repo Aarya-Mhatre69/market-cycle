@@ -1,0 +1,48 @@
+name: Rebuild universe cycle data
+
+# Keeps data/universe_cycle/latest.csv "populated" — i.e. never more than a day
+# stale — by rebuilding it on a schedule and committing the result. Without this,
+# the file only updates when someone remembers to run
+# scripts/build_universe_cycle_data.py by hand, which is what let the deployed
+# dashboard drift 17 days stale and show a wrong closing price in production.
+on:
+  schedule:
+    # 12:00 UTC = 17:30 IST, well after NSE close (15:30 IST). Mon-Fri only.
+    - cron: "0 12 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r scripts/requirements.txt nsepython
+
+      - name: Rebuild universe cycle snapshot
+        # FMP_API_KEY is optional — add it under Settings > Secrets and variables >
+        # Actions to switch fundamentals sourcing from yfinance-only to
+        # FMP-primary/yfinance-fallback (see universe_cycle._fetch_one_fundamentals).
+        # Never put the key's actual value in this file — only reference it via
+        # secrets, which GitHub redacts from all logs automatically.
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+        run: python scripts/build_universe_cycle_data.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/universe_cycle/latest.csv data/universe_cycle/hysteresis_state.json
+          git diff --cached --quiet && echo "No changes, skipping commit." || git commit -m "Scheduled rebuild of universe cycle data [skip ci]"
+          git push

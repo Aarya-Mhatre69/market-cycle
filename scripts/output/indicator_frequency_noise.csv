@@ -1,6 +1,9 @@
 indicator,fire_rate,reversal_rate_within_3pts
-ZigZag,0.722,0.038
-STC,0.995,0.605
-Candlestick Recognition,0.491,0.397
+ZigZag,0.724,0.038
+STC,0.995,0.603
+Candlestick Recognition,0.492,0.396
 Harmonic Patterns,0.014,0.0
-Gann Time Cycles,0.136,0.024
+Gann Time Cycles,0.138,0.035
+On-Balance Volume,0.946,0.391
+Chaikin Money Flow,0.727,0.154
+Volume-Confirmed Pivot,0.313,0.046

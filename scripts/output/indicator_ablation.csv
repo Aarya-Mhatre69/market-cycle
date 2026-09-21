@@ -1,6 +1,6 @@
 variant,phase_changes,mean_run_days,recall,lift
-baseline (Core-only: zigzag+stc+trend),40,45.9,0.357,0.87
-+candlestick,40,45.9,0.357,0.9
-+harmonic,40,45.9,0.357,0.87
-+gann,40,45.9,0.357,0.89
-all 3 combined,40,45.9,0.357,0.93
+baseline (Core-only: zigzag+stc+trend),40,46.1,0.357,0.87
++candlestick,40,46.1,0.357,0.9
++harmonic,40,46.1,0.357,0.87
++gann,40,46.1,0.357,0.89
+all 3 combined,40,46.1,0.357,0.93

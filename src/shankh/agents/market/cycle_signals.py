@@ -227,10 +227,40 @@ class TrendResult:
     sma50_vs_sma200_pct: float
     score: float
     note: str
+    method: str = "LINEAR_FALLBACK"  # "PERCENTILE" once enough own-history exists
+
+
+# Brutal-review audit finding #2: the old score, clip((price_vs_long/10 +
+# short_vs_long/10)/2, -1, 1), saturates at +/-1.0 once price is ~10% from its 200DMA
+# — checked empirically against the live 2,210-stock universe, 51.3% of ALL stocks
+# already sit at that ceiling. A stock 12% above its 200DMA and one 90% above (a
+# classic blow-off top — exactly what DISTRIBUTION-phase detection needs to catch)
+# scored identically. Same floor already used for the P/E time-series percentile in
+# cycle_tools._compute_pe_percentile, for the same "not a defensible claim below
+# this" reason — applied here to trend for the first time.
+_TREND_MIN_PERCENTILE_HISTORY = 252
 
 
 def compute_trend_context(close: pd.Series, short: int = 50, long: int = 200) -> TrendResult:
-    """Anchors momentum readings to a slow-moving trend baseline (classic golden/death-cross context)."""
+    """
+    Anchors momentum readings to a slow-moving trend baseline (classic golden/death-
+    cross context). Score is a self-referential TIME-SERIES PERCENTILE — this stock's
+    CURRENT distance from its own 200DMA, ranked against its OWN trailing history —
+    not an absolute cutoff, so it naturally adapts to each stock's own volatility
+    regime instead of one fixed band applied universe-wide (see _TIER_WEIGHTS' sibling
+    finding: every other core parameter in this module has the same "calibrated on
+    the Nifty 50 index alone" limitation; this at least removes it for trend).
+    `score == 0` now means "at this stock's own typical distance from its 200DMA,"
+    not "at the 200DMA" — a real change from the old absolute scale, see
+    compute_trend_context's caller-facing note and TrendResult.method for which
+    scoring path produced a given read.
+
+    Falls back to the original bounded-linear formula (method="LINEAR_FALLBACK")
+    when there isn't enough trailing history (< _TREND_MIN_PERCENTILE_HISTORY points)
+    for a percentile claim to be defensible — trend_context is a core, always-voting
+    signal, so it must still produce a real read for newer listings rather than
+    reporting "insufficient_data" and going silent.
+    """
     if len(close) < long:
         return TrendResult(0.0, 0.0, 0.0, f"Need >= {long} bars, have {len(close)}.")
 
@@ -244,12 +274,28 @@ def compute_trend_context(close: pd.Series, short: int = 50, long: int = 200) ->
     price_vs_long = (last_close - last_long) / last_long * 100.0
     short_vs_long = (last_short - last_long) / last_long * 100.0
 
-    score = float(np.clip((price_vs_long / 10.0 + short_vs_long / 10.0) / 2.0, -1.0, 1.0))
+    price_vs_long_series = ((close - sma_long) / sma_long * 100.0).dropna()
+    short_vs_long_series = ((sma_short - sma_long) / sma_long * 100.0).dropna()
+    history_depth = min(len(price_vs_long_series), len(short_vs_long_series))
+
+    if history_depth >= _TREND_MIN_PERCENTILE_HISTORY:
+        price_pctile = float((price_vs_long_series <= price_vs_long).mean())
+        short_pctile = float((short_vs_long_series <= short_vs_long).mean())
+        price_component = 2.0 * price_pctile - 1.0
+        short_component = 2.0 * short_pctile - 1.0
+        score = float(np.clip((price_component + short_component) / 2.0, -1.0, 1.0))
+        method = "PERCENTILE"
+    else:
+        score = float(np.clip((price_vs_long / 10.0 + short_vs_long / 10.0) / 2.0, -1.0, 1.0))
+        method = "LINEAR_FALLBACK"
 
     note = (
         f"Price is {price_vs_long:+.1f}% vs {long}DMA; "
         f"{short}DMA is {short_vs_long:+.1f}% vs {long}DMA "
-        f"({'golden' if short_vs_long > 0 else 'death'}-cross side)."
+        f"({'golden' if short_vs_long > 0 else 'death'}-cross side). "
+        f"Score method: {method}"
+        + (f" ({history_depth}d own history)." if method == "PERCENTILE"
+           else f" (only {history_depth}d own history, need {_TREND_MIN_PERCENTILE_HISTORY}).")
     )
 
     return TrendResult(
@@ -257,6 +303,7 @@ def compute_trend_context(close: pd.Series, short: int = 50, long: int = 200) ->
         sma50_vs_sma200_pct=round(short_vs_long, 2),
         score=round(score, 3),
         note=note,
+        method=method,
     )
 
 
@@ -526,7 +573,146 @@ def compute_gann_time_cycles(df: pd.DataFrame, pct_threshold: float = 4.0) -> Ga
 
 
 # ---------------------------------------------------------------------------
-# 7. Composite classification
+# 7. Volume indicators (mentor-suggested follow-up, post-roadmap)
+#
+# Deliberately the easiest pillar to add of anything in this module: volume is
+# already sitting unused in the same OHLCV every other signal here already
+# fetches — no new data source, no API key, fits the existing "Core tier, no
+# external dependency" design exactly. Evaluated with the identical discipline
+# as Phase 3's three indicators (scripts/evaluate_indicators.py, 5-test
+# methodology) before being trusted with any vote — see the with/without-volume
+# comparison this produced, not assumed to help because it's a classical
+# technical-analysis concept.
+# ---------------------------------------------------------------------------
+
+@dataclass
+class OBVResult:
+    value: float
+    z_score: float
+    score: float
+    note: str
+
+
+def compute_obv(close: pd.Series, volume: pd.Series, window: int = 20) -> OBVResult:
+    """
+    On-Balance Volume: a running sum of +volume on up days, -volume on down
+    days — a measure of whether volume flow agrees with price direction. Score
+    is a z-score of the latest OBV value against its own trailing mean/std
+    (not OBV's raw level, which is an arbitrary, unbounded cumulative count
+    with no natural [-1,+1] scale) so it behaves consistently regardless of
+    how long OBV has been accumulating.
+    """
+    if len(close) < window + 2:
+        return OBVResult(0.0, 0.0, 0.0, f"Need >= {window + 2} bars, have {len(close)}.")
+
+    direction = np.sign(close.diff().fillna(0.0))
+    obv = (direction * volume).cumsum()
+
+    recent = obv.iloc[-window:]
+    mean, std = float(recent.mean()), float(recent.std())
+    latest = float(obv.iloc[-1])
+    z = (latest - mean) / std if std > 1e-9 else 0.0
+    score = float(np.clip(z / 2.0, -1.0, 1.0))
+
+    return OBVResult(
+        value=round(latest, 0),
+        z_score=round(z, 3),
+        score=round(score, 3),
+        note=f"OBV z-score {z:+.2f} vs its own {window}-bar mean — "
+             f"{'volume flow confirms' if score > 0 else 'volume flow diverges from' if score < 0 else 'volume flow neutral on'} recent price direction.",
+    )
+
+
+@dataclass
+class CMFResult:
+    value: float
+    score: float
+    note: str
+
+
+def compute_cmf(df: pd.DataFrame, window: int = 20) -> CMFResult:
+    """
+    Chaikin Money Flow: volume-weighted average of where each bar closed
+    within its own high-low range, over `window` bars. Naturally bounded in
+    [-1, +1] already (no extra normalization needed, unlike OBV) — same shape
+    as STC, directly comparable. Standard, well-established formula, unchanged
+    from the original Chaikin (1980s) definition.
+    """
+    if len(df) < window:
+        return CMFResult(0.0, 0.0, f"Need >= {window} bars, have {len(df)}.")
+
+    window_df = df.iloc[-window:]
+    high, low, close, vol = window_df["high"], window_df["low"], window_df["close"], window_df["volume"]
+    rng = (high - low).replace(0.0, np.nan)  # guard div-by-zero on a flat (high==low) bar
+    mfm = ((close - low) - (high - close)) / rng
+    mfm = mfm.fillna(0.0)
+    mfv = mfm * vol
+
+    total_vol = float(vol.sum())
+    cmf = float(mfv.sum() / total_vol) if total_vol > 0 else 0.0
+    cmf = float(np.clip(cmf, -1.0, 1.0))
+
+    return CMFResult(
+        value=round(cmf, 3),
+        score=round(cmf, 3),
+        note=f"CMF={cmf:+.3f} over last {window} bars — "
+             f"{'buying' if cmf > 0.05 else 'selling' if cmf < -0.05 else 'balanced'} pressure.",
+    )
+
+
+@dataclass
+class VolumeConfirmationResult:
+    volume_ratio: float
+    score: float
+    note: str
+
+
+def compute_volume_confirmed_pivot(df: pd.DataFrame, zigzag: "ZigZagResult", window: int = 20) -> VolumeConfirmationResult:
+    """
+    Classical technical-analysis check: was the most recent ZigZag swing pivot
+    accompanied by above-average volume (real conviction) or below-average
+    volume (a suspect, low-conviction move)? Deliberately a MODIFIER on
+    ZigZag's own direction, not an independent vote — this signal has no
+    directional opinion of its own (a volume ratio alone doesn't say bullish
+    or bearish), it only strengthens or withholds confirmation of what ZigZag
+    already says, the same "tiebreak/modifier, not full vote" treatment
+    already used for valuation and liquidity (cycle_signals._DIRECTIONAL_SIGNALS
+    comment) and for exactly the same kind of reason: a signal that only
+    answers "how much to trust this" shouldn't get to independently flip a
+    quadrant.
+    """
+    if not zigzag.all_pivots or len(df) < window + 1:
+        return VolumeConfirmationResult(0.0, 0.0, "No confirmed pivot or insufficient volume history.")
+
+    last_pivot_date = pd.Timestamp(zigzag.all_pivots[-1]["date"])
+    pivot_rows = df[df["date"] <= last_pivot_date]
+    if pivot_rows.empty:
+        return VolumeConfirmationResult(0.0, 0.0, "Pivot date not found in this window.")
+
+    pivot_idx = pivot_rows.index[-1]
+    trailing = df["volume"].iloc[max(0, pivot_idx - window):pivot_idx]
+    if len(trailing) < 5 or trailing.mean() <= 0:
+        return VolumeConfirmationResult(0.0, 0.0, "Insufficient trailing volume history around the pivot.")
+
+    pivot_volume = float(df["volume"].iloc[pivot_idx])
+    ratio = pivot_volume / float(trailing.mean())
+    # Only adds conviction in the direction ZigZag already points (ratio > 1 =
+    # above-average volume = confirmation); below-average volume contributes
+    # nothing rather than taking an independent contrary position — "low
+    # volume breakout is suspect" means withhold confirmation, not "bet against it".
+    confirmation_strength = float(np.clip(ratio - 1.0, 0.0, 1.0))
+    score = float(np.clip(zigzag.score * confirmation_strength, -1.0, 1.0))
+
+    return VolumeConfirmationResult(
+        volume_ratio=round(ratio, 2),
+        score=round(score, 3),
+        note=f"Last pivot volume was {ratio:.1f}x the trailing {window}-bar average — "
+             f"{'confirms' if ratio > 1 else 'does not confirm'} the {zigzag.structure} structure.",
+    )
+
+
+# ---------------------------------------------------------------------------
+# 8. Composite classification
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -587,6 +773,18 @@ class CycleClassification:
 #     don't fit to test, not a green light to pick a side. Kept at 50/50 — no change.
 _TIER_WEIGHTS = {"core": 0.6, "supporting": 0.3, "contextual": 0.1}
 
+# Brutal-review audit finding #1: cycle_confidence used to be plain agree/len(evidence)
+# — checked empirically against the live 2,210-stock universe, this INVERTS what
+# "confidence" should mean. Stocks missing fundamentals (fewer evidence items, so
+# fewer chances to disagree) averaged 0.735 confidence; stocks with full fundamentals
+# averaged 0.669. Of the 417 stocks reporting the max 1.0, 81% were the thin-evidence
+# ones. _MAX_EVIDENCE_WEIGHT is the tier-weight sum of the full production evidence
+# set (3 core signals + 3 supporting signals — contextual-tier signals are excluded
+# since nothing in cycle_tools.py/universe_cycle.py currently votes them in, see the
+# _MOMENTUM_SIGNALS comment above), used to scale confidence down when a stock's
+# actual evidence falls short of that, instead of letting thin evidence inflate it.
+_MAX_EVIDENCE_WEIGHT = 3 * _TIER_WEIGHTS["core"] + 3 * _TIER_WEIGHTS["supporting"]  # = 2.7
+
 # Axis membership for the 4-pillar vote (accuracy-roadmap Phase 2). Adapted from the
 # Section 10 diagram, with one deliberate change from that diagram's literal reading:
 #   Directional axis (full vote): trend_context + zigzag — genuine price trend/
@@ -628,6 +826,19 @@ _MOMENTUM_MODIFIER_SIGNAL = "liquidity"
 _MOMENTUM_SIGNALS |= {"candlestick", "harmonic", "gann"}
 _MODIFIER_TIEBREAK_EPSILON = 0.10  # only nudges an axis when it's already near-zero
 _MODIFIER_TIEBREAK_WEIGHT = 0.15   # small nudge, not a vote — never flips a non-tied axis
+
+# Volume indicators (mentor-suggested follow-up). OBV and CMF measure flow/pressure
+# — momentum-adjacent, same tier treatment as candlestick/harmonic/gann above.
+# "volume_confirmation" is different in kind: by construction (see
+# compute_volume_confirmed_pivot) its score is zigzag.score scaled by a
+# confirmation strength in [0, 1] — it can literally never point the opposite
+# direction from ZigZag, so unlike a true independent vote it can't cause the
+# valuation-style mislabeling bug documented above. That safety property is what
+# justifies giving it full CONTEXTUAL-tier membership on the directional axis
+# (not routed through the single tiebreak-modifier slot, which is reserved for
+# erp) rather than inventing a second modifier mechanism for it.
+_DIRECTIONAL_SIGNALS |= {"volume_confirmation"}
+_MOMENTUM_SIGNALS |= {"obv", "cmf"}
 
 
 def _axis_score(evidence: List[EvidenceItem], names: set) -> float:
@@ -703,8 +914,23 @@ def classify_cycle(evidence: List[EvidenceItem]) -> CycleClassification:
         phase = "ACCUMULATION"
         watch = "Accumulation -> Expansion"
 
-    agree = sum(1 for e in evidence if (e.score >= 0) == (composite_score >= 0))
-    confidence = round(agree / len(evidence), 2) if evidence else 0.0
+    # Brutal-review audit finding #1 fix: agreement is now checked against the axis
+    # each item actually feeds (directional_up/momentum_up — the values that decided
+    # `phase`), not composite_score's sign, which is a separate all-tier blend that
+    # doesn't itself determine the phase. Agreement is then scaled by evidence
+    # completeness (see _MAX_EVIDENCE_WEIGHT) so a thinly-evidenced stock can no
+    # longer out-score a fully-evidenced one purely by having less to disagree with.
+    def _reference_up(e: EvidenceItem) -> bool:
+        if e.signal in _DIRECTIONAL_SIGNALS or e.signal == _DIRECTIONAL_MODIFIER_SIGNAL:
+            return directional_up
+        if e.signal in _MOMENTUM_SIGNALS or e.signal == _MOMENTUM_MODIFIER_SIGNAL:
+            return momentum_up
+        return composite_score >= 0  # defensive fallback for a signal in neither axis
+
+    agree = sum(1 for e in evidence if (e.score >= 0) == _reference_up(e))
+    agreement_fraction = agree / len(evidence) if evidence else 0.0
+    completeness = min(1.0, weight_total / _MAX_EVIDENCE_WEIGHT) if _MAX_EVIDENCE_WEIGHT > 0 else 0.0
+    confidence = round(agreement_fraction * completeness, 2)
 
     divergence = (directional_up and not momentum_up) or (not directional_up and momentum_up)
     magnitude = abs(directional_score - momentum_score)

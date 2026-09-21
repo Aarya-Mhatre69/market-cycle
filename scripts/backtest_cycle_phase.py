@@ -42,10 +42,13 @@ from shankh.agents.market.cycle_signals import (
     classify_cycle,
     classify_cycle_stateful,
     compute_candlestick_patterns,
+    compute_cmf,
     compute_gann_time_cycles,
     compute_harmonic_patterns,
+    compute_obv,
     compute_stc,
     compute_trend_context,
+    compute_volume_confirmed_pivot,
     compute_zigzag,
 )
 
@@ -110,6 +113,11 @@ def run_walk_forward(df: pd.DataFrame, step: int, min_dwell: int = 1) -> pd.Data
         candles = compute_candlestick_patterns(window)
         harmonic = compute_harmonic_patterns(window)
         gann = compute_gann_time_cycles(window)
+        # Volume indicators (mentor-suggested follow-up) — same "log, don't vote
+        # until evaluated" treatment as the Phase 3 indicators above.
+        obv = compute_obv(window["close"], window["volume"])
+        cmf = compute_cmf(window)
+        vol_confirm = compute_volume_confirmed_pivot(window, zz)
 
         evidence: List[EvidenceItem] = [
             EvidenceItem("zigzag", "core", zz.structure, zz.score, zz.note),
@@ -150,6 +158,12 @@ def run_walk_forward(df: pd.DataFrame, step: int, min_dwell: int = 1) -> pd.Data
             "harmonic_score": harmonic.score,
             "gann_score": gann.score,
             "gann_active_cycle_days": gann.active_cycle_days if gann.active_cycle_days is not None else "",
+            # Volume indicators, logged but not voting (see comment above).
+            "obv_score": obv.score,
+            "obv_z_score": obv.z_score,
+            "cmf_score": cmf.score,
+            "volume_confirmation_score": vol_confirm.score,
+            "volume_confirmation_ratio": vol_confirm.volume_ratio,
         })
 
         if (i - _MIN_WARMUP_BARS) % (step * 100) == 0:

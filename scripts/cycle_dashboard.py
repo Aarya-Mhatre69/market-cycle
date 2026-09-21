@@ -382,6 +382,12 @@ def _load_universe_data() -> pd.DataFrame:
     return pd.read_csv(_UNIVERSE_CSV, parse_dates=["as_of_date"])
 
 
+@st.cache_data(ttl=300, show_spinner="Fetching live data and classifying...")
+def _fetch_live_stock(ticker: str):
+    from shankh.agents.market.universe_cycle import fetch_and_classify_live
+    return fetch_and_classify_live(ticker)
+
+
 def render_universe_view():
     st.title("Universe Cycle Map — All NSE-Listed Stocks")
     st.caption(
@@ -402,7 +408,16 @@ def render_universe_view():
         return
 
     df = _load_universe_data()
-    st.caption(f"{len(df)} stocks classified, as of {df['as_of_date'].max().date()}.")
+    snapshot_date = df["as_of_date"].max()
+    snapshot_age_days = (pd.Timestamp.now().normalize() - snapshot_date).days
+    st.caption(f"{len(df)} stocks classified, as of {snapshot_date.date()} ({snapshot_age_days} days ago).")
+    if snapshot_age_days > 3:
+        st.warning(
+            f"⚠️ This treemap/table is a **snapshot** from {snapshot_age_days} days ago — prices and phases "
+            f"shown here (including 'Close') are as of {snapshot_date.date()}, not today. Rebuild it with "
+            "`python scripts/build_universe_cycle_data.py`, or use **Stock detail** below and click "
+            "**Get live data** for an up-to-the-minute read on any single stock."
+        )
 
     # --- Filters ---
     c1, c2, c3 = st.columns([2, 2, 3])
@@ -451,6 +466,22 @@ def render_universe_view():
         ticker = picked.split(" — ")[0]
         row = filtered[filtered["ticker"] == ticker].iloc[0]
 
+        live_col1, live_col2 = st.columns([1, 3])
+        with live_col1:
+            get_live = st.button("🔄 Get live data", key=f"live_{ticker}")
+        if get_live:
+            live_row = _fetch_live_stock(ticker)
+            if live_row is None:
+                with live_col2:
+                    st.error(f"Live fetch failed for {ticker} (insufficient history or data unavailable).")
+            else:
+                row = pd.Series(live_row)
+                with live_col2:
+                    st.success(f"✅ Live as of {row['as_of_date']} — this replaces the {snapshot_age_days}-day-old snapshot above for this stock only.")
+        else:
+            with live_col2:
+                st.caption(f"Showing the {snapshot_age_days}-day-old snapshot (as of {row['as_of_date']}). Click **Get live data** for right now.")
+
         phase_color = PHASE_COLORS.get(row["cycle_phase"], "#888")
         risk_color = RISK_COLORS.get(row["transition_risk"], "#888")
         d1, d2, d3, d4 = st.columns(4)
@@ -477,7 +508,7 @@ def render_universe_view():
             "Valuation": {"pe_ratio": row["pe_ratio"], "pe_percentile_vs_universe": row["pe_percentile_vs_universe"], "pb_ratio": row["pb_ratio"]},
             "Earnings": {"earnings_quarterly_growth_percent": row["earnings_quarterly_growth_percent"]},
             "New indicators": {"candlestick_score": row["candlestick_score"],
-                               "harmonic_pattern": row["harmonic_pattern"] if pd.notna(row["harmonic_pattern"]) else "none",
+                               "harmonic_pattern": row["harmonic_pattern"] if pd.notna(row["harmonic_pattern"]) and row["harmonic_pattern"] != "" else "none",
                                "gann_score": row["gann_score"]},
         }
         cols = st.columns(len(evidence_cols))
