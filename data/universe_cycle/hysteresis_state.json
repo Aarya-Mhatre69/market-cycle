@@ -6,13 +6,13 @@
   },
   "21STCENMGM.NS": {
     "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "360ONE.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "3IINFOLTD.NS": {
     "confirmed_phase": "EXPANSION",
@@ -37,7 +37,7 @@
   "63MOONS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "A2ZINFRA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -52,7 +52,7 @@
   "AADHARHFC.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "AAKASH.NS": {
     "confirmed_phase": "EXPANSION",
@@ -72,17 +72,17 @@
   "AARTECH.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "AARTIDRUGS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "AARTIIND.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AARTIPHARM.NS": {
     "confirmed_phase": "EXPANSION",
@@ -92,12 +92,12 @@
   "AARTISURF.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AARVI.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AAVAS.NS": {
     "confirmed_phase": "EXPANSION",
@@ -127,22 +127,22 @@
   "ABCOTS.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ABDL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ABFRL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ABINFRA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ABLBL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -182,7 +182,7 @@
   "ACE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ACEINTEG.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -207,17 +207,17 @@
   "ACUTAAS.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ADANIENSOL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ADANIENT.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ADANIGREEN.NS": {
     "confirmed_phase": "EXPANSION",
@@ -257,12 +257,12 @@
   "ADSL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ADVANCE.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ADVANIHOTR.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -282,27 +282,27 @@
   "AEGISVOPAK.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "AEROENTER.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "AEROFLEX.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AERONEU.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "AETHER.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "AFCONS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -312,17 +312,17 @@
   "AFFLE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AFFORDABLE.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "AFIL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "AFSL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -357,7 +357,7 @@
   "AGROPHOS.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "AGSTRA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -422,7 +422,7 @@
   "AJMERA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AJOONI.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -432,22 +432,22 @@
   "AKASH.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AKG.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "AKI.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "AKSHAR.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AKSHARCHEM.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -457,7 +457,7 @@
   "AKSHOPTFBR.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AKUMS.NS": {
     "confirmed_phase": "EXPANSION",
@@ -467,12 +467,12 @@
   "ALANKIT.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ALBERTDAVD.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ALEMBICLTD.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -487,7 +487,7 @@
   "ALIVUS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ALKALI.NS": {
     "confirmed_phase": "EXPANSION",
@@ -502,12 +502,12 @@
   "ALKYLAMINE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ALLCARGO.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ALLDIGI.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -517,27 +517,27 @@
   "ALLTIME.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ALMONDZ.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ALOKINDS.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ALPA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ALPHAGEO.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AMANTA.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -565,14 +565,14 @@
     "candidate_count": 0
   },
   "AMDIND.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "AMJLAND.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "AMNPLST.NS": {
     "confirmed_phase": "EXPANSION",
@@ -580,9 +580,9 @@
     "candidate_count": 0
   },
   "AMRUTANJAN.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ANANDRATHI.NS": {
     "confirmed_phase": "EXPANSION",
@@ -592,7 +592,7 @@
   "ANANTRAJ.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ANDHRAPAP.NS": {
     "confirmed_phase": "EXPANSION",
@@ -602,27 +602,27 @@
   "ANDHRSUGAR.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ANGELONE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ANIKINDS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ANKITMETAL.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ANMOL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ANNAPURNA.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -652,12 +652,12 @@
   "ANUHPHR.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ANUP.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ANURAS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -667,7 +667,7 @@
   "APARINDS.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "APCL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -677,12 +677,12 @@
   "APCOTEXIND.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "APEX.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "APLAPOLLO.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -727,7 +727,7 @@
   "APTUS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AQYLON.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -742,7 +742,7 @@
   "ARCHIES.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ARE&M.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -752,7 +752,7 @@
   "ARENTERP.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ARFIN.NS": {
     "confirmed_phase": "EXPANSION",
@@ -762,7 +762,7 @@
   "ARIES.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ARIHANTCAP.NS": {
     "confirmed_phase": "EXPANSION",
@@ -770,14 +770,14 @@
     "candidate_count": 0
   },
   "ARIHANTSUP.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ARIS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ARKADE.NS": {
     "confirmed_phase": "EXPANSION",
@@ -787,12 +787,12 @@
   "ARMANFIN.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "AROGRANITE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ARROWGREEN.NS": {
     "confirmed_phase": "EXPANSION",
@@ -807,12 +807,12 @@
   "ARSSBL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ARTEMISMED.NS": {
     "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": null,
-    "candidate_count": 0
+    "candidate_phase": "EXPANSION",
+    "candidate_count": 1
   },
   "ARTNIRMAN.NS": {
     "confirmed_phase": "EXPANSION",
@@ -827,7 +827,7 @@
   "ARVIND.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ARVINDFASN.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -837,7 +837,7 @@
   "ARVSMART.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ASAHIINDIA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -865,9 +865,9 @@
     "candidate_count": 0
   },
   "ASHIANA.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ASHIMASYN.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -877,12 +877,12 @@
   "ASHOKA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ASHOKAMET.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ASHOKLEY.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -892,12 +892,12 @@
   "ASIANENE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ASIANHOTNR.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ASIANPAINT.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -905,14 +905,14 @@
     "candidate_count": 0
   },
   "ASIANTILES.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ASKAUTOLTD.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ASMS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -932,12 +932,12 @@
   "ASTERDM.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ASTRAL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ASTRAMICRO.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -962,7 +962,7 @@
   "ATAM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ATGL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -977,7 +977,7 @@
   "ATL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ATLANTAA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -987,7 +987,7 @@
   "ATLANTAELE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ATLASCYCLE.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1027,7 +1027,7 @@
   "AURUS.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AUSOMENT.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1057,7 +1057,7 @@
   "AVANTEL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AVANTIFEED.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1090,14 +1090,14 @@
     "candidate_count": 0
   },
   "AWFIS.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "AWHCL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "AWL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -1117,17 +1117,17 @@
   "AXITA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "AYMSYNTEX.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "AZAD.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BAFNAPH.NS": {
     "confirmed_phase": "EXPANSION",
@@ -1167,7 +1167,7 @@
   "BAJAJHCARE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BAJAJHFL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -1182,7 +1182,7 @@
   "BAJAJHLDNG.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BAJAJINDEF.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -1192,7 +1192,7 @@
   "BAJEL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BAJFINANCE.NS": {
     "confirmed_phase": "EXPANSION",
@@ -1202,17 +1202,17 @@
   "BALAJEE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BALAJITELE.NS": {
     "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "candidate_phase": "EXPANSION",
+    "candidate_count": 1
   },
   "BALAMINES.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BALAXI.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1227,32 +1227,32 @@
   "BALKRISIND.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BALMLAWRIE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BALPHARMA.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "BALRAMCHIN.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "BALUFORGE.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "BANARBEADS.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BANARISUG.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1267,7 +1267,7 @@
   "BANDHANBNK.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BANG.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1277,12 +1277,12 @@
   "BANKA.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BANKBARODA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BANKINDIA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1290,9 +1290,9 @@
     "candidate_count": 0
   },
   "BANSALWIRE.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "BANSWRAS.NS": {
     "confirmed_phase": "EXPANSION",
@@ -1322,7 +1322,7 @@
   "BBL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BBOX.NS": {
     "confirmed_phase": "EXPANSION",
@@ -1335,14 +1335,14 @@
     "candidate_count": 0
   },
   "BBTCL.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "BCG.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BCLIND.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -1362,7 +1362,7 @@
   "BEARDSELL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BECTORFOOD.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1372,7 +1372,7 @@
   "BEDMUTHA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BEL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1392,12 +1392,12 @@
   "BEML.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BEPL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BERGEPAINT.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -1410,9 +1410,9 @@
     "candidate_count": 0
   },
   "BETA.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "BFINVEST.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -1467,17 +1467,17 @@
   "BHARATSE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BHARATWIRE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BHARTIARTL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BHARTIHEXA.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -1487,22 +1487,22 @@
   "BHEL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BIGBLOC.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BIKAJI.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BIL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BILVYAPAR.NS": {
     "confirmed_phase": "EXPANSION",
@@ -1515,14 +1515,14 @@
     "candidate_count": 0
   },
   "BIOFILCHEM.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "BIRLACABLE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BIRLACORPN.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -1537,7 +1537,7 @@
   "BIRLANU.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BLACKBUCK.NS": {
     "confirmed_phase": "EXPANSION",
@@ -1552,17 +1552,17 @@
   "BLBLIMITED.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BLISSGVS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BLKASHYAP.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BLS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -1572,7 +1572,7 @@
   "BLSE.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BLUECOAST.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1582,12 +1582,12 @@
   "BLUEDART.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BLUEJET.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BLUESTARCO.NS": {
     "confirmed_phase": "EXPANSION",
@@ -1597,12 +1597,12 @@
   "BLUESTONE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BLUSPRING.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BMWVENTLTD.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -1627,17 +1627,17 @@
   "BORANA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BOROLTD.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BORORENEW.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BOROSCI.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1647,7 +1647,7 @@
   "BOSCH-HCIL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BOSCHLTD.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -1670,9 +1670,9 @@
     "candidate_count": 0
   },
   "BRIGHOTEL.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "BRITANNIA.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -1682,12 +1682,12 @@
   "BRNL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "BROOKS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "BSE.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1712,7 +1712,7 @@
   "BTML.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BURNPUR.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -1742,7 +1742,7 @@
   "CAMLINFINE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "CAMPUS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1777,7 +1777,7 @@
   "CAPACITE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CAPITALSFB.NS": {
     "confirmed_phase": "EXPANSION",
@@ -1807,7 +1807,7 @@
   "CARRARO.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CARTRADE.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -1835,9 +1835,9 @@
     "candidate_count": 0
   },
   "CCHHL.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "CCL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1862,17 +1862,17 @@
   "CELEBRITY.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "CELLO.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CEMPRO.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "CENTENKA.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -1887,7 +1887,7 @@
   "CENTRALBK.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CENTRUM.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -1907,7 +1907,7 @@
   "CERA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CEREBRAINT.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -1932,7 +1932,7 @@
   "CGPOWER.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CHALET.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -1947,12 +1947,12 @@
   "CHEMBOND.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CHEMBONDCH.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CHEMCON.NS": {
     "confirmed_phase": "EXPANSION",
@@ -1967,7 +1967,7 @@
   "CHEMPLASTS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CHENNPETRO.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -1975,9 +1975,9 @@
     "candidate_count": 0
   },
   "CHEVIOT.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "CHOICEIN.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -1990,9 +1990,9 @@
     "candidate_count": 0
   },
   "CHOLAHLDNG.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "CIEINDIA.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2012,7 +2012,7 @@
   "CINEVISTA.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "CIPLA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -2040,14 +2040,14 @@
     "candidate_count": 0
   },
   "CNL.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "COALINDIA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "COASTCORP.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2060,9 +2060,9 @@
     "candidate_count": 0
   },
   "COFFEEDAY.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "COFORGE.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2077,12 +2077,12 @@
   "COLPAL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "COMPINFO.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "COMPUSOFT.NS": {
     "confirmed_phase": "EXPANSION",
@@ -2090,9 +2090,9 @@
     "candidate_count": 0
   },
   "COMSYN.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "CONCOR.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2107,12 +2107,12 @@
   "CONFIPET.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "CONSOFINVT.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CONTROLPR.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2137,12 +2137,12 @@
   "COSMOFIRST.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "COUNCODOS.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "CPCAP.NS": {
     "confirmed_phase": "EXPANSION",
@@ -2157,7 +2157,7 @@
   "CPPLUS.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "CRAFTSMAN.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2167,12 +2167,12 @@
   "CRAMC.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CREATIVEYE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "CREDITACC.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2191,8 +2191,8 @@
   },
   "CRIZAC.NS": {
     "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_phase": "EXPANSION",
+    "candidate_count": 1
   },
   "CROMPTON.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2202,22 +2202,22 @@
   "CROWN.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "CSBBANK.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "CSLFINANCE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "CTE.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "CUB.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2242,7 +2242,7 @@
   "CURAA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "CYBERMEDIA.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -2257,12 +2257,12 @@
   "CYIENT.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "CYIENTDLM.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DABUR.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2270,14 +2270,14 @@
     "candidate_count": 0
   },
   "DALBHARAT.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "DALMIASUG.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DAMCAPITAL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2287,17 +2287,17 @@
   "DAMODARIND.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DANGEE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DATAMATICS.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DATAPATTNS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2317,12 +2317,12 @@
   "DBEIL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DBL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DBOL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2332,12 +2332,12 @@
   "DBREALTY.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DBSTOCKBRO.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "DCAL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2347,12 +2347,12 @@
   "DCBBANK.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DCI.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DCM.NS": {
     "confirmed_phase": "EXPANSION",
@@ -2362,32 +2362,32 @@
   "DCMFINSERV.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DCMNVL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DCMSHRIRAM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DCMSRIND.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DCW.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DCXINDIA.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "DDEVPLSTIK.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2395,9 +2395,9 @@
     "candidate_count": 0
   },
   "DECCANCE.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "DEEDEV.NS": {
     "confirmed_phase": "EXPANSION",
@@ -2412,7 +2412,7 @@
   "DEEPAKNTR.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DEEPINDS.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -2427,12 +2427,12 @@
   "DELPHIFX.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DELTACORP.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "DELTAMAGNT.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2450,9 +2450,9 @@
     "candidate_count": 0
   },
   "DENTA.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "DEVIT.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2462,27 +2462,27 @@
   "DEVX.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DEVYANI.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DGCONTENT.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DHAMPURSUG.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DHANBANK.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DHANUKA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2502,7 +2502,7 @@
   "DHRUV.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DHUNINV.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -2512,12 +2512,12 @@
   "DIACABS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DIAMINESQ.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DIAMONDYD.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2557,7 +2557,7 @@
   "DISHTV.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DIVGIITTS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2572,7 +2572,7 @@
   "DIXON.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DJML.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2580,9 +2580,9 @@
     "candidate_count": 0
   },
   "DLF.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "DLINKINDIA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2595,14 +2595,14 @@
     "candidate_count": 0
   },
   "DMCC.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "DNAMEDIA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DODLA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2612,17 +2612,17 @@
   "DOLATALGO.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DOLLAR.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DOLPHIN.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DOMS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2635,24 +2635,24 @@
     "candidate_count": 0
   },
   "DPABHUSHAN.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "DPSCLTD.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DPWIRES.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DRCSYSTEMS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DREAMFOLKS.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -2677,7 +2677,7 @@
   "DSSL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "DTIL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2697,7 +2697,7 @@
   "DWARKESH.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "DYCL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -2717,27 +2717,27 @@
   "E2E.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "EASEMYTRIP.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "EASTSILK.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "EBGNG.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ECLERX.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ECOSMOBLTY.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2767,12 +2767,12 @@
   "EIEL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "EIFFL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "EIHAHOTELS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2792,7 +2792,7 @@
   "EKC.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ELDEHSG.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -2802,7 +2802,7 @@
   "ELECON.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ELECTCAST.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -2812,7 +2812,7 @@
   "ELECTHERM.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ELGIEQUIP.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2822,7 +2822,7 @@
   "ELGIRUBCO.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ELIN.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2847,17 +2847,17 @@
   "EMAMIREAL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "EMBDL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "EMCURE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "EMIL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -2892,7 +2892,7 @@
   "ENERGYDEV.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ENGINERSIN.NS": {
     "confirmed_phase": "EXPANSION",
@@ -2902,12 +2902,12 @@
   "ENIL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ENRIN.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ENTERO.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -2922,7 +2922,7 @@
   "EPACKPEB.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "EPIGRAL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2942,22 +2942,22 @@
   "EQUITASBNK.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ERIS.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ESABINDIA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ESAFSFB.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ESCORTS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2972,7 +2972,7 @@
   "ESSENTIA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ESTER.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -2987,7 +2987,7 @@
   "ETHOSLTD.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "EUREKAFORB.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3005,14 +3005,14 @@
     "candidate_count": 0
   },
   "EUROTEXIND.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "EVEREADY.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "EVERESTIND.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3027,7 +3027,7 @@
   "EXICOM.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "EXIDEIND.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3057,7 +3057,7 @@
   "FAIRCHEMOR.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "FAZE3Q.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3067,12 +3067,12 @@
   "FCL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "FCSSOFT.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "FDC.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3097,17 +3097,17 @@
   "FELDVR.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "FIBERWEB.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "FIEMIND.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "FILATEX.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3117,7 +3117,7 @@
   "FILATFASH.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "FINCABLES.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3127,12 +3127,12 @@
   "FINEORG.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "FINKURVE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "FINOPB.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3152,17 +3152,17 @@
   "FISCHER.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "FIVESTAR.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "FLAIR.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "FLEXITUFF.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3172,7 +3172,7 @@
   "FLFL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "FLUOROCHEM.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -3202,17 +3202,17 @@
   "FORCEMOT.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "FORTIS.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "FOSECOIND.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "FSL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3225,9 +3225,9 @@
     "candidate_count": 0
   },
   "GABRIEL.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "GAEL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3247,17 +3247,17 @@
   "GALAXYSURF.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "GALLANTT.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "GANDHAR.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GANDHITUBE.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3267,7 +3267,7 @@
   "GANECOS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "GANESHBE.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -3277,7 +3277,7 @@
   "GANESHCP.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GANESHHOU.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3302,7 +3302,7 @@
   "GARUDA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "GATECH.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -3347,7 +3347,7 @@
   "GEMAROMA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GENCON.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3355,9 +3355,9 @@
     "candidate_count": 0
   },
   "GENESYS.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "GENSOL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3392,7 +3392,7 @@
   "GHCL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "GHCLTEXTIL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3407,7 +3407,7 @@
   "GICL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "GICRE.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3427,7 +3427,7 @@
   "GINNIFILA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "GIPCL.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -3435,14 +3435,14 @@
     "candidate_count": 0
   },
   "GKENERGY.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "GKWLIMITED.NS": {
     "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_phase": "CONTRACTION",
+    "candidate_count": 1
   },
   "GLAND.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3457,7 +3457,7 @@
   "GLENMARK.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GLFL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3472,7 +3472,7 @@
   "GLOBALE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GLOBALVECT.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3482,7 +3482,7 @@
   "GLOBE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GLOBECIVIL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3502,7 +3502,7 @@
   "GLOTTIS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "GMBREW.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3525,9 +3525,9 @@
     "candidate_count": 0
   },
   "GMRP&UI.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "GNA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3545,14 +3545,14 @@
     "candidate_count": 0
   },
   "GOCLCORP.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "GOCOLORS.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "GODAVARIB.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3572,7 +3572,7 @@
   "GODREJAGRO.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "GODREJCP.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3582,7 +3582,7 @@
   "GODREJIND.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GODREJPROP.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3602,7 +3602,7 @@
   "GOKULAGRO.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "GOLDENTOBC.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3612,12 +3612,12 @@
   "GOLDIAM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "GOLDTECH.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "GOODLUCK.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3625,9 +3625,9 @@
     "candidate_count": 0
   },
   "GOPAL.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "GOYALALUM.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3641,8 +3641,8 @@
   },
   "GPPL.NS": {
     "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": null,
-    "candidate_count": 0
+    "candidate_phase": "EXPANSION",
+    "candidate_count": 1
   },
   "GPTHEALTH.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3655,9 +3655,9 @@
     "candidate_count": 0
   },
   "GRANULES.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "GRAPHITE.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3667,7 +3667,7 @@
   "GRASIM.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GRAVITA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3687,7 +3687,7 @@
   "GREENPANEL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "GREENPLY.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3702,12 +3702,12 @@
   "GRINDWELL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GRINFRA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GRMOVER.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3717,7 +3717,7 @@
   "GROBTEA.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "GRPLTD.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -3727,37 +3727,37 @@
   "GRSE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GRWRHITECH.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GSFC.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GSLSU.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GSS.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GTECJAINX.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GTL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "GTLINFRA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3767,7 +3767,7 @@
   "GTPL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GUFICBIO.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -3787,7 +3787,7 @@
   "GUJENERGY.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GUJRAFFIA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3807,12 +3807,12 @@
   "GULFPETRO.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GULPOLY.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "GVKPIL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3852,7 +3852,7 @@
   "HAPPYFORGE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "HARDWYN.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3862,7 +3862,7 @@
   "HARIOMPIPE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "HARRMALAYA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3877,12 +3877,12 @@
   "HATHWAY.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "HATSUN.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "HAVELLS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3890,9 +3890,9 @@
     "candidate_count": 0
   },
   "HAVISHA.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "HBLENGINE.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3900,19 +3900,19 @@
     "candidate_count": 0
   },
   "HBSL.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "HCC.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "HCG.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "HCL-INSYS.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3922,7 +3922,7 @@
   "HCLTECH.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "HDBFS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3930,9 +3930,9 @@
     "candidate_count": 0
   },
   "HDFCAMC.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "HDFCBANK.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3942,7 +3942,7 @@
   "HDFCLIFE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "HDIL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -3952,7 +3952,7 @@
   "HEADSUP.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "HEALTHX.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -3977,17 +3977,17 @@
   "HEMIPROP.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "HERANBA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "HERITGFOOD.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "HEROMOTOCO.NS": {
     "confirmed_phase": "EXPANSION",
@@ -3997,7 +3997,7 @@
   "HESTERBIO.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "HEXATRADEX.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4017,7 +4017,7 @@
   "HGINFRA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "HGM.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4032,7 +4032,7 @@
   "HIKAL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "HILINFRA.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4041,8 +4041,8 @@
   },
   "HILTON.NS": {
     "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "HIMATSEIDE.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4057,12 +4057,12 @@
   "HINDCOMPOS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "HINDCON.NS": {
     "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": null,
-    "candidate_count": 0
+    "candidate_phase": "EXPANSION",
+    "candidate_count": 1
   },
   "HINDCOPPER.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4092,7 +4092,7 @@
   "HINDZINC.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "HIRECT.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4100,9 +4100,9 @@
     "candidate_count": 0
   },
   "HISARMETAL.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "HITECH.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4111,13 +4111,13 @@
   },
   "HITECHCORP.NS": {
     "confirmed_phase": "EXPANSION",
-    "candidate_phase": "ACCUMULATION",
+    "candidate_phase": "CONTRACTION",
     "candidate_count": 1
   },
   "HITECHGEAR.NS": {
     "confirmed_phase": "CONTRACTION",
-    "candidate_phase": null,
-    "candidate_count": 0
+    "candidate_phase": "ACCUMULATION",
+    "candidate_count": 1
   },
   "HLEGLAS.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4135,19 +4135,19 @@
     "candidate_count": 0
   },
   "HMT.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
-  },
-  "HMVL.NS": {
-    "confirmed_phase": "EXPANSION",
+    "confirmed_phase": "CONTRACTION",
     "candidate_phase": null,
     "candidate_count": 0
   },
+  "HMVL.NS": {
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": "DISTRIBUTION",
+    "candidate_count": 1
+  },
   "HNDFDS.NS": {
     "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "HOMEFIRST.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4157,12 +4157,12 @@
   "HONASA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "HONAUT.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "HONDAPOWER.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4172,7 +4172,7 @@
   "HPAL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "HPIL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4207,12 +4207,12 @@
   "HUHTAMAKI.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "HYBRIDFIN.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "HYUNDAI.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -4222,7 +4222,7 @@
   "IBULLSLTD.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ICDSLTD.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4230,9 +4230,9 @@
     "candidate_count": 0
   },
   "ICEMAKE.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ICICIBANK.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -4267,12 +4267,12 @@
   "IDEA.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "IDEAFORGE.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "IDFCFIRSTB.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4292,12 +4292,12 @@
   "IFBIND.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "IFCI.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "IFGLEXPOR.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4307,7 +4307,7 @@
   "IGARASHI.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "IGCL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4322,7 +4322,7 @@
   "IGL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "IGPL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4332,7 +4332,7 @@
   "IIFL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "IIFLCAPS.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4347,7 +4347,7 @@
   "IKIO.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "IKS.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4362,12 +4362,12 @@
   "IL&FSTRANS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "IMAGICAA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "IMFA.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4377,7 +4377,7 @@
   "IMPAL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "IMPEXFERRO.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4392,12 +4392,12 @@
   "INDBANK.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "INDGN.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "INDHOTEL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4412,7 +4412,7 @@
   "INDIAGLYCO.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "INDIAMART.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4427,7 +4427,7 @@
   "INDIANCARD.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "INDIANHUME.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4437,12 +4437,12 @@
   "INDIASHLTR.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "INDIGO.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "INDIGOPNTS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4457,7 +4457,7 @@
   "INDNIPPON.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "INDOAMIN.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4472,12 +4472,12 @@
   "INDOCO.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "INDOFARM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "INDORAMA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4492,7 +4492,7 @@
   "INDOTECH.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "INDOTHAI.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4502,7 +4502,7 @@
   "INDOUS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "INDOWIND.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -4512,7 +4512,7 @@
   "INDRAMEDCO.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "INDSWFTLAB.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -4522,17 +4522,17 @@
   "INDTERRAIN.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "INDUSINDBK.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "INDUSTOWER.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "INFOBEAN.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4572,22 +4572,22 @@
   "INOXINDIA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "INOXWIND.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "INSECTICID.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "INSPIRISYS.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "INTELLECT.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4597,12 +4597,12 @@
   "INTENTECH.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "INTERARCH.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "INTLCONV.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4627,17 +4627,17 @@
   "IOLCP.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "IONEXCHANG.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "IPCALAB.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "IPL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4662,7 +4662,7 @@
   "IREDA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "IRFC.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4672,7 +4672,7 @@
   "IRIS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "IRISDOREME.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4692,17 +4692,17 @@
   "ISGEC.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ISHANCH.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ITC.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ITCHOTELS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4727,7 +4727,7 @@
   "IVC.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "IVP.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4737,7 +4737,7 @@
   "IXIGO.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "IZMO.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4747,12 +4747,12 @@
   "J&KBANK.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "JAGRAN.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "JAGSNPHARM.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4760,14 +4760,14 @@
     "candidate_count": 0
   },
   "JAIBALAJI.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "JAICORPLTD.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "JAINREC.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4777,7 +4777,7 @@
   "JAIPURKURT.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "JAMNAAUTO.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4787,7 +4787,7 @@
   "JARO.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JASH.NS": {
     "confirmed_phase": "EXPANSION",
@@ -4802,7 +4802,7 @@
   "JAYBARMARU.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "JAYNECOIND.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4817,7 +4817,7 @@
   "JBMA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "JETFREIGHT.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4835,34 +4835,34 @@
     "candidate_count": 0
   },
   "JINDALPHOT.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "JINDALPOLY.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "JINDALSAW.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "JINDALSTEL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JINDRILL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JINDWORLD.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "JIOFIN.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4870,9 +4870,9 @@
     "candidate_count": 0
   },
   "JISLDVREQS.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "JISLJALEQS.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -4892,12 +4892,12 @@
   "JKIL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "JKIPL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "JKLAKSHMI.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4907,12 +4907,12 @@
   "JKPAPER.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "JKTYRE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "JLHL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4920,19 +4920,19 @@
     "candidate_count": 0
   },
   "JMA.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "JMFINANCIL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JNKINDIA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "JOCIL.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -4952,12 +4952,12 @@
   "JSFB.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "JSL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JSLL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -4967,7 +4967,7 @@
   "JSWCEMENT.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "JSWDULUX.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -4977,7 +4977,7 @@
   "JSWENERGY.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JSWHL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -4992,17 +4992,17 @@
   "JSWSTEEL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "JTEKTINDIA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JTLIND.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JUBLCPL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5012,12 +5012,12 @@
   "JUBLFOOD.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JUBLINGREA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JUBLPHARMA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5027,7 +5027,7 @@
   "JUNIPER.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JUSTDIAL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5037,7 +5037,7 @@
   "JWL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "JYOTHYLAB.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5047,27 +5047,27 @@
   "JYOTICNC.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "JYOTISTRUC.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KABRAEXTRU.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "KAJARIACER.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KAKATCEM.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "KALAMANDIR.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5075,14 +5075,14 @@
     "candidate_count": 0
   },
   "KALPATARU.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "KALYANI.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KALYANIFRG.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -5092,7 +5092,7 @@
   "KALYANKJIL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KAMATHOTEL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5102,12 +5102,12 @@
   "KAMDHENU.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KAMOPAINTS.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KANANIIND.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5132,12 +5132,12 @@
   "KAPSTON.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KARMAENG.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KARURVYSYA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5147,7 +5147,7 @@
   "KAUSHALYA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KAVDEFENCE.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5155,14 +5155,14 @@
     "candidate_count": 0
   },
   "KAYA.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "KAYNES.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "KCP.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5187,17 +5187,17 @@
   "KECL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "KEEPLEARN.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "KEI.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KELLTONTEC.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5212,22 +5212,22 @@
   "KESORAMIND.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "KEYFINSERV.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KFINTECH.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KHADIM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KHAICHEM.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5237,7 +5237,7 @@
   "KHAITANLTD.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KHANDSE.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5247,7 +5247,7 @@
   "KICL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "KILITCH.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5257,7 +5257,7 @@
   "KIMS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KINGFA.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -5272,17 +5272,17 @@
   "KIRIINDUS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "KIRLOSBROS.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KIRLOSENG.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KIRLOSIND.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -5292,7 +5292,7 @@
   "KIRLPNU.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KITEX.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5305,14 +5305,14 @@
     "candidate_count": 0
   },
   "KMEW.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "KMSUGAR.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "KNAGRI.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -5320,9 +5320,9 @@
     "candidate_count": 0
   },
   "KNRCON.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "KOHINOOR.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -5332,12 +5332,12 @@
   "KOKUYOCMLN.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "KOLTEPATIL.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "KOPRAN.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5352,7 +5352,7 @@
   "KOTARISUG.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KOTHARIPET.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -5362,12 +5362,12 @@
   "KOTHARIPRO.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KOTYARK.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KPEL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -5380,9 +5380,9 @@
     "candidate_count": 0
   },
   "KPIL.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "KPITTECH.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5402,7 +5402,7 @@
   "KREBSBIO.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KRIDHANINF.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5417,7 +5417,7 @@
   "KRISHIVAL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KRISHNADEF.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -5427,7 +5427,7 @@
   "KRITI.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KRITIKA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5447,7 +5447,7 @@
   "KRONOX.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KROSS.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5457,7 +5457,7 @@
   "KRSNAA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KRYSTAL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5467,12 +5467,12 @@
   "KSB.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KSCL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KSHITIJPOL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5487,12 +5487,12 @@
   "KSOLVES.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "KTKBANK.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "KUANTUM.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5500,39 +5500,39 @@
     "candidate_count": 0
   },
   "LAGNAM.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "LAKPRE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "LAL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "LALPATHLAB.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "LAMBODHARA.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "LANCORHOL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "LANDMARK.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "LANDSMILL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -5542,7 +5542,7 @@
   "LAOPALA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "LASA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5552,7 +5552,7 @@
   "LATENTVIEW.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "LATTEYS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5567,12 +5567,12 @@
   "LAXMICOT.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "LAXMIDENTL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "LAXMIINDIA.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -5595,14 +5595,14 @@
     "candidate_count": 0
   },
   "LEXUS.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "LFIC.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "LGBBROSLTD.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5627,7 +5627,7 @@
   "LIBERTSHOE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "LICHSGFIN.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -5637,7 +5637,7 @@
   "LICI.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "LIKHITHA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5652,7 +5652,7 @@
   "LINCOLN.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "LINDEINDIA.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -5682,12 +5682,12 @@
   "LODHA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "LOKESHMACH.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "LORDSCHLO.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5712,7 +5712,7 @@
   "LOYALTEX.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "LPDC.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5722,12 +5722,12 @@
   "LT.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "LTF.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "LTFOODS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5747,7 +5747,7 @@
   "LUMAXIND.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "LUMAXTECH.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5760,9 +5760,9 @@
     "candidate_count": 0
   },
   "LUXIND.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "LXCHEM.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5782,7 +5782,7 @@
   "M&MFIN.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MAANALU.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5802,7 +5802,7 @@
   "MADHUCON.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MADRASFERT.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5812,16 +5812,16 @@
   "MAGADSUGAR.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MAGNUM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MAHABANK.NS": {
     "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
+    "candidate_phase": "CONTRACTION",
     "candidate_count": 1
   },
   "MAHAPEXLTD.NS": {
@@ -5847,7 +5847,7 @@
   "MAHLIFE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MAHLOG.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -5857,12 +5857,12 @@
   "MAHSCOOTER.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MAHSEAMLES.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MAITHANALL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5877,12 +5877,12 @@
   "MALUPAPER.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MAMATA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MANAKALUCO.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -5890,19 +5890,19 @@
     "candidate_count": 0
   },
   "MANAKCOAT.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MANAKSIA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MANAKSTEEL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MANALIPETC.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -5912,7 +5912,7 @@
   "MANAPPURAM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MANBA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -5952,7 +5952,7 @@
   "MANOMAY.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MANORAMA.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -5980,14 +5980,14 @@
     "candidate_count": 0
   },
   "MARALOVER.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MARATHON.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MARICO.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -5997,7 +5997,7 @@
   "MARINE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MARKOLINES.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6007,7 +6007,7 @@
   "MARKSANS.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MARUTI.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6017,12 +6017,12 @@
   "MASFIN.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MASKINVEST.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MASTEK.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6037,7 +6037,7 @@
   "MATRIMONY.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MAWANASUG.NS": {
     "confirmed_phase": "EXPANSION",
@@ -6055,9 +6055,9 @@
     "candidate_count": 0
   },
   "MAXIND.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MAYURUNIQ.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -6067,12 +6067,12 @@
   "MAZDA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MAZDOCK.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MBAPL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -6082,7 +6082,7 @@
   "MBECL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MBEL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -6097,7 +6097,7 @@
   "MCL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MCLEODRUSS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -6127,12 +6127,12 @@
   "MEDICAMEQ.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MEDICO.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MEDPLUS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -6142,7 +6142,7 @@
   "MEGASTAR.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MEIL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6172,7 +6172,7 @@
   "MFML.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MFSL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -6187,12 +6187,12 @@
   "MGL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MHLXMIRU.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MHRIL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -6202,7 +6202,7 @@
   "MICEL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MIDHANI.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6212,12 +6212,12 @@
   "MINDACORP.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MINDTECK.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MIRZAINT.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6232,12 +6232,12 @@
   "MITTAL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MKPL.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MMFL.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -6257,17 +6257,17 @@
   "MOBIKWIK.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MODIRUBBER.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MODISONLTD.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MODTHREAD.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6287,17 +6287,17 @@
   "MOKSH.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MOL.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MOLDTECH.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MOLDTKPAC.NS": {
     "confirmed_phase": "EXPANSION",
@@ -6320,9 +6320,9 @@
     "candidate_count": 0
   },
   "MOREPENLAB.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MOSCHIP.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6337,7 +6337,7 @@
   "MOTILALOFS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MOTISONS.NS": {
     "confirmed_phase": "EXPANSION",
@@ -6345,9 +6345,9 @@
     "candidate_count": 0
   },
   "MOTOGENFIN.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MPHASIS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6355,9 +6355,9 @@
     "candidate_count": 0
   },
   "MPSLTD.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MRF.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -6365,9 +6365,9 @@
     "candidate_count": 0
   },
   "MRPL.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MSPL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -6375,9 +6375,9 @@
     "candidate_count": 0
   },
   "MSTCLTD.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MSUMI.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6390,14 +6390,14 @@
     "candidate_count": 0
   },
   "MTEDUCARE.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MTNL.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MUFIN.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6407,17 +6407,17 @@
   "MUFTI.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "MUKANDLTD.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MUKKA.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MUKTAARTS.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -6427,7 +6427,7 @@
   "MUNJALAU.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "MUNJALSHOW.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -6447,12 +6447,12 @@
   "MUTHOOTFIN.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "MUTHOOTMF.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MVGJL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -6477,12 +6477,12 @@
   "NAGREEKEXP.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "NAHARCAP.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "NAHARINDUS.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -6490,9 +6490,9 @@
     "candidate_count": 0
   },
   "NAHARPOLY.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "NAHARSPING.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -6522,22 +6522,22 @@
   "NATHBIOGEN.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "NATIONALUM.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "NAUKRI.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "NAVA.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "NAVINFLUOR.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -6550,9 +6550,9 @@
     "candidate_count": 0
   },
   "NAVKARURB.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "NAVNETEDUL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6570,19 +6570,19 @@
     "candidate_count": 0
   },
   "NBIFIN.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "NCC.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "NCLIND.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "NDGL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6597,22 +6597,22 @@
   "NDLVENTURE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "NDRAUTO.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": null,
-    "candidate_count": 0
-  },
-  "NDTV.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
     "candidate_count": 1
   },
+  "NDTV.NS": {
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": "EXPANSION",
+    "candidate_count": 2
+  },
   "NECCLTD.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "NECLIFE.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6622,7 +6622,7 @@
   "NELCAST.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "NELCO.NS": {
     "confirmed_phase": "EXPANSION",
@@ -6632,12 +6632,12 @@
   "NEOGEN.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "NESCO.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "NESTLEIND.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6662,7 +6662,7 @@
   "NEULANDLAB.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "NEWGEN.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6677,17 +6677,17 @@
   "NFL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "NGIL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "NGLFINE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "NH.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -6707,7 +6707,7 @@
   "NIBE.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "NIBL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -6717,7 +6717,7 @@
   "NIITLTD.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "NIITMTS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6747,12 +6747,12 @@
   "NIPPOBATRY.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "NIRAJ.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "NIRAJISPAT.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -6762,7 +6762,7 @@
   "NITCO.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "NITINSPIN.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -6772,7 +6772,7 @@
   "NITIRAJ.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "NIVABUPA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -6787,7 +6787,7 @@
   "NLCINDIA.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "NMDC.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6797,27 +6797,27 @@
   "NOCIL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "NOIDATOLL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "NORBTEAEXP.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "NORTHARC.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "NOVAAGRI.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "NPST.NS": {
     "confirmed_phase": "EXPANSION",
@@ -6827,7 +6827,7 @@
   "NRAIL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "NRBBEARING.NS": {
     "confirmed_phase": "EXPANSION",
@@ -6867,7 +6867,7 @@
   "NURECA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "NUVAMA.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -6902,7 +6902,7 @@
   "OCCLLTD.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ODIGMA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6932,7 +6932,7 @@
   "OLECTRA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "OMAXAUTO.NS": {
     "confirmed_phase": "EXPANSION",
@@ -6942,12 +6942,12 @@
   "OMAXE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "OMFREIGHT.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "OMINFRAL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -6977,7 +6977,7 @@
   "ONIDA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ONMOBILE.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7002,12 +7002,12 @@
   "ORCHASP.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ORCHPHARMA.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ORICONENT.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7022,7 +7022,7 @@
   "ORIENTBELL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ORIENTCEM.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7042,12 +7042,12 @@
   "ORIENTHOT.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ORIENTLTD.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ORIENTPPR.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -7057,7 +7057,7 @@
   "ORIENTTECH.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ORISSAMINE.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -7072,17 +7072,17 @@
   "OSIAHYPER.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "OSWALAGRO.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "OSWALGREEN.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "OSWALPUMPS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7095,9 +7095,9 @@
     "candidate_count": 0
   },
   "PACEDIGITK.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "PAGEIND.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7120,39 +7120,39 @@
     "candidate_count": 0
   },
   "PALREDTEC.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "PANACEABIO.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PANACHE.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "PANAMAPET.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "PANSARI.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PAR.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "PARACABLES.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PARADEEP.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -7162,7 +7162,7 @@
   "PARAGMILK.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PARAS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -7200,9 +7200,9 @@
     "candidate_count": 0
   },
   "PATELENG.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "PATELRMART.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -7217,7 +7217,7 @@
   "PAVNAIND.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "PAYTM.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -7235,9 +7235,9 @@
     "candidate_count": 0
   },
   "PDMJEPAPER.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "PDSL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7305,9 +7305,9 @@
     "candidate_count": 0
   },
   "PGIL.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "PHOENIXLTD.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7315,14 +7315,14 @@
     "candidate_count": 0
   },
   "PICCADIL.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "PIDILITIND.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PIGL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7342,7 +7342,7 @@
   "PILITA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "PIONEEREMB.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7357,17 +7357,17 @@
   "PIXTRANS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "PKTEA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PLASTIBLEN.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "PLATIND.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -7402,7 +7402,7 @@
   "PNCINFRA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "PNGJL.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -7417,7 +7417,7 @@
   "PODDARMENT.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "POKARNA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -7447,12 +7447,12 @@
   "PONNIERODE.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "POONAWALLA.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "POWERGRID.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7472,17 +7472,17 @@
   "PPAP.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PPL.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "PPLPHARMA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PRABHA.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -7505,14 +7505,14 @@
     "candidate_count": 0
   },
   "PRAKASHSTL.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "PRAXIS.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "PRECAM.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7522,7 +7522,7 @@
   "PRECOT.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "PRECWIRE.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7562,7 +7562,7 @@
   "PRIMESECU.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "PRIMO.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7572,17 +7572,17 @@
   "PRINCEPIPE.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PRITI.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "PRITIKAUTO.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "PRIVISCL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7592,12 +7592,12 @@
   "PROSTARM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PROTEAN.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PROZONER.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7612,7 +7612,7 @@
   "PRUDENT.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "PRUDMOULI.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -7627,7 +7627,7 @@
   "PSPPROJECT.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PTC.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7647,17 +7647,17 @@
   "PUNJABCHEM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "PURVA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "PVP.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "PVRINOX.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7682,7 +7682,7 @@
   "QPOWER.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "QUADFUTURE.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7700,24 +7700,24 @@
     "candidate_count": 0
   },
   "RACE.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "RACLGEAR.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "RADAAN.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "RADHIKAJWE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "RADIANTCMS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -7742,12 +7742,12 @@
   "RAIN.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "RAINBOW.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "RAJESHEXPO.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -7762,12 +7762,12 @@
   "RAJOOENG.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "RAJRATAN.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "RAJRILTD.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -7797,7 +7797,7 @@
   "RAMAPHO.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "RAMASTEEL.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7812,7 +7812,7 @@
   "RAMCOIND.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "RAMCOSYS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7822,7 +7822,7 @@
   "RAMKY.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "RAMRAT.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7862,7 +7862,7 @@
   "RAYMONDLSL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "RAYMONDREL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7877,22 +7877,22 @@
   "RBLBANK.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "RBZJEWEL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "RCF.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "RCOM.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "RECLTD.NS": {
     "confirmed_phase": "EXPANSION",
@@ -7912,12 +7912,12 @@
   "REFEX.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "REGAAL.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "REGENCERAM.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -7927,7 +7927,7 @@
   "RELAXO.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "RELCHEMQ.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -7947,7 +7947,7 @@
   "RELIGARE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "RELINFRA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -7962,22 +7962,22 @@
   "REMSONSIND.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "RENUKA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "REPCOHOME.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "REPL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "REPRO.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -8005,14 +8005,14 @@
     "candidate_count": 0
   },
   "RHFL.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "RHIM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "RHL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8027,7 +8027,7 @@
   "RIIL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "RISHABH.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -8047,17 +8047,17 @@
   "RKDL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "RKEC.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "RKFORGE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "RKSWAMY.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -8072,7 +8072,7 @@
   "RML.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "RNBDENIMS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -8087,7 +8087,7 @@
   "ROLEXRINGS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ROLLT.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8102,12 +8102,12 @@
   "ROSSARI.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ROSSELLIND.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ROSSTECH.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8117,12 +8117,12 @@
   "ROTO.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ROUTE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "RPEL.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8142,12 +8142,12 @@
   "RPPINFRA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "RPPL.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "RPSGVENT.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8155,14 +8155,14 @@
     "candidate_count": 0
   },
   "RPTECH.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "RRKABEL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "RSSOFTWARE.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8182,7 +8182,7 @@
   "RTNINDIA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "RTNPOWER.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -8205,14 +8205,14 @@
     "candidate_count": 0
   },
   "RUCHINFRA.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "RUCHIRA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "RUPA.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -8227,7 +8227,7 @@
   "RUSTOMJEE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "RVHL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8242,7 +8242,7 @@
   "RVTH.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "S&SPOWER.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -8250,19 +8250,19 @@
     "candidate_count": 0
   },
   "SAATVIKGL.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SADBHAV.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SADBHIN.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SADHNANIQ.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8277,7 +8277,7 @@
   "SAGARDEEP.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SAGCEM.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -8292,12 +8292,12 @@
   "SAHYADRI.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SAIL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SAILIFE.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8307,32 +8307,32 @@
   "SAKAR.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SAKHTISUG.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SAKSOFT.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SAKUMA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SALASAR.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SALONA.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SALSTEEL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8347,7 +8347,7 @@
   "SAMBHAAV.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SAMBHV.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8367,7 +8367,7 @@
   "SAMPANN.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SANATHAN.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8375,9 +8375,9 @@
     "candidate_count": 0
   },
   "SANDESH.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SANDHAR.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -8392,12 +8392,12 @@
   "SANGAMIND.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SANGHVIMOV.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SANGINITA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8407,7 +8407,7 @@
   "SANOFI.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SANOFICONR.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -8415,14 +8415,14 @@
     "candidate_count": 0
   },
   "SANSERA.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SANSTAR.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SANWARIA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8432,7 +8432,7 @@
   "SAPPHIRE.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SARDAEN.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -8450,19 +8450,19 @@
     "candidate_count": 0
   },
   "SARVESHWAR.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SASKEN.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SATIA.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SATIN.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8472,12 +8472,12 @@
   "SAURASHCEM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SBC.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SBCL.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8487,7 +8487,7 @@
   "SBFC.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SBGLP.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8517,12 +8517,12 @@
   "SCHAND.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SCHNEIDER.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SCI.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -8537,7 +8537,7 @@
   "SCODATUBES.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SCPL.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8547,17 +8547,17 @@
   "SDBL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SEAMECLTD.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SECMARK.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SECURKLOUD.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -8575,14 +8575,14 @@
     "candidate_count": 0
   },
   "SEMAC.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SENCO.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SENORES.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8592,7 +8592,7 @@
   "SEPC.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SERVOTECH.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -8602,12 +8602,12 @@
   "SESHAPAPER.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SETCO.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SETL.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8625,9 +8625,9 @@
     "candidate_count": 0
   },
   "SFL.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SGFIN.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8672,7 +8672,7 @@
   "SHALBY.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SHALPAINTS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -8682,22 +8682,22 @@
   "SHANKARA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SHANTI.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SHANTIGEAR.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SHANTIGOLD.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SHARDACROP.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -8722,7 +8722,7 @@
   "SHEMAROO.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SHILPAMED.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8742,7 +8742,7 @@
   "SHIVAMILLS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SHIVATEX.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8757,7 +8757,7 @@
   "SHK.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SHOPERSTOP.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8777,7 +8777,7 @@
   "SHREECEM.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SHREEJISPG.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8787,7 +8787,7 @@
   "SHREEPUSHK.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SHREERAMA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -8802,12 +8802,12 @@
   "SHREYANIND.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SHRINGARMS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SHRIPISTON.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -8850,9 +8850,9 @@
     "candidate_count": 0
   },
   "SIGACHI.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SIGIND.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8872,12 +8872,12 @@
   "SIGNATURE.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SIGNPOST.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SIKKO.NS": {
     "confirmed_phase": "EXPANSION",
@@ -8897,7 +8897,7 @@
   "SILINV.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SILLYMONKS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -8907,7 +8907,7 @@
   "SILVERTUC.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SIMBHALS.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8915,9 +8915,9 @@
     "candidate_count": 0
   },
   "SIMPLEXINF.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SINCLAIR.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -8932,7 +8932,7 @@
   "SINTERCOM.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SIRCA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -8947,17 +8947,17 @@
   "SITINET.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SIYSIL.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SJS.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SJVN.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9002,12 +9002,12 @@
   "SMLMAH.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SMLT.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SMSPHARMA.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -9032,17 +9032,17 @@
   "SOLARA.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SOLARINDS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SOLARWORLD.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SOLEX.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9062,12 +9062,12 @@
   "SOMICONVEY.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SONACOMS.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SONAMLTD.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -9075,19 +9075,19 @@
     "candidate_count": 0
   },
   "SONATSOFTW.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SOTL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SOUTHBANK.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SOUTHWEST.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9102,7 +9102,7 @@
   "SPANDANA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SPARC.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9152,12 +9152,12 @@
   "SPORTKING.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SRD.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SREEL.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -9192,12 +9192,12 @@
   "SSWL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "STALLION.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "STANLEY.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9207,17 +9207,17 @@
   "STAR.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "STARCEMENT.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "STARHEALTH.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "STARPAPER.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9227,7 +9227,7 @@
   "STARTECK.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "STCINDIA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9237,7 +9237,7 @@
   "STEELCAS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "STEELCITY.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -9247,7 +9247,7 @@
   "STEELXIND.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "STEL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9257,7 +9257,7 @@
   "STERTOOLS.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "STLNETWORK.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9267,7 +9267,7 @@
   "STLTECH.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "STOVEKRAFT.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9277,12 +9277,12 @@
   "STYL.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "STYLAMIND.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "STYLEBAAZA.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -9310,9 +9310,9 @@
     "candidate_count": 0
   },
   "SUDARSCHEM.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SUKHJITS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -9332,12 +9332,12 @@
   "SUMICHEM.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SUMIT.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SUMMITSEC.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -9347,7 +9347,7 @@
   "SUNCLAY.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SUNDARAM.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9357,7 +9357,7 @@
   "SUNDARMFIN.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SUNDRMBRAK.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9372,7 +9372,7 @@
   "SUNDROP.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SUNFLAG.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -9420,14 +9420,14 @@
     "candidate_count": 0
   },
   "SUPREMEIND.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SUPREMEINF.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SUPRIYA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9437,7 +9437,7 @@
   "SURAJEST.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SURAJLTD.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9452,7 +9452,7 @@
   "SURANASOL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SURANAT&P.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -9460,19 +9460,19 @@
     "candidate_count": 0
   },
   "SURYALAXMI.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SURYAROSNI.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SURYODAY.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SUTLEJTEX.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -9480,19 +9480,19 @@
     "candidate_count": 0
   },
   "SUVEN.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SUVIDHAA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SUYOG.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SUZLON.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9512,7 +9512,7 @@
   "SWANCORP.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SWANDEF.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9522,7 +9522,7 @@
   "SWARAJ.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "SWARAJENG.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -9532,17 +9532,17 @@
   "SWELECTES.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "SWIGGY.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "SWSOLAR.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SYMPHONY.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -9552,12 +9552,12 @@
   "SYNCOMF.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SYNGENE.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "SYRMA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9570,9 +9570,9 @@
     "candidate_count": 0
   },
   "TAINWALCHM.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "TAJGVK.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9597,7 +9597,7 @@
   "TARACHAND.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "TARAPUR.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -9612,7 +9612,7 @@
   "TARIL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "TARMAT.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9620,9 +9620,9 @@
     "candidate_count": 0
   },
   "TARSONS.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "TASTYBITE.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -9692,12 +9692,12 @@
   "TCI.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "TCIEXP.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "TCIFINANCE.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -9707,7 +9707,7 @@
   "TCPLPACK.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "TCS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9717,7 +9717,7 @@
   "TDPOWERSYS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "TEAMGTY.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -9742,7 +9742,7 @@
   "TECILCHEM.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "TEGA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9752,7 +9752,7 @@
   "TEJASNET.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "TEMBO.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9762,7 +9762,7 @@
   "TERASOFT.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "TEXINFRA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9777,7 +9777,7 @@
   "TEXRAIL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "TFCILTD.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9792,12 +9792,12 @@
   "TGBHOTELS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "THANGAMAYL.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "THEINVEST.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9815,14 +9815,14 @@
     "candidate_count": 0
   },
   "THEMISMED.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "THERMAX.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "THOMASCOOK.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9832,22 +9832,22 @@
   "THOMASCOTT.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "THYROCARE.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "TI.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "TICL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "TIGERLOGS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -9877,7 +9877,7 @@
   "TIMETECHNO.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "TIMKEN.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -9892,17 +9892,17 @@
   "TIPSFILMS.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "TIPSMUSIC.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "TIRUMALCHM.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "TIRUPATIFL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9912,7 +9912,7 @@
   "TITAGARH.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "TITAN.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -9922,7 +9922,7 @@
   "TMB.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "TMPV.NS": {
     "confirmed_phase": "EXPANSION",
@@ -9947,7 +9947,7 @@
   "TOKYOPLAST.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "TOLINS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -9962,12 +9962,12 @@
   "TORNTPOWER.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "TOTAL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "TOUCHWOOD.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -10007,12 +10007,12 @@
   "TREEHOUSE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "TREJHARA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "TREL.NS": {
     "confirmed_phase": "EXPANSION",
@@ -10022,7 +10022,7 @@
   "TRENT.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "TRF.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10032,7 +10032,7 @@
   "TRIDENT.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "TRIGYN.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -10052,12 +10052,12 @@
   "TRU.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "TRUALT.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "TSFINV.NS": {
     "confirmed_phase": "EXPANSION",
@@ -10065,9 +10065,9 @@
     "candidate_count": 0
   },
   "TTKHLTCARE.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "TTKPRESTIG.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10077,7 +10077,7 @@
   "TTL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "TTML.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10115,14 +10115,14 @@
     "candidate_count": 0
   },
   "TVVISION.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "UBL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "UCAL.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -10132,12 +10132,12 @@
   "UCOBANK.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "UDS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "UEL.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -10152,7 +10152,7 @@
   "UFLEX.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "UFO.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10162,7 +10162,7 @@
   "UGARSUGAR.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "UGROCAP.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -10172,7 +10172,7 @@
   "UJJIVANSFB.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ULTRACEMCO.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -10187,17 +10187,17 @@
   "UMESLTD.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "UMIYA-MRO.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "UNICHEMLAB.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "UNIDT.NS": {
     "confirmed_phase": "EXPANSION",
@@ -10207,7 +10207,7 @@
   "UNIECOM.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "UNIENTER.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -10222,7 +10222,7 @@
   "UNIMECH.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "UNIONBANK.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10230,14 +10230,14 @@
     "candidate_count": 0
   },
   "UNIPARTS.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "UNITDSPR.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "UNITECH.NS": {
     "confirmed_phase": "EXPANSION",
@@ -10252,7 +10252,7 @@
   "UNITEDTEA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "UNIVASTU.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10267,12 +10267,12 @@
   "UNIVPHOTO.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "UNOMINDA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "UPL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10302,7 +10302,7 @@
   "USK.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "UTIAMC.NS": {
     "confirmed_phase": "EXPANSION",
@@ -10317,7 +10317,7 @@
   "UTTAMSUGAR.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "UYFINCORP.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10330,9 +10330,9 @@
     "candidate_count": 0
   },
   "VADILALIND.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "VAIBHAVGBL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10367,7 +10367,7 @@
   "VARDMNPOLY.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "VARROC.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -10375,9 +10375,9 @@
     "candidate_count": 0
   },
   "VASCONEQ.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "VASWANI.NS": {
     "confirmed_phase": "EXPANSION",
@@ -10395,9 +10395,9 @@
     "candidate_count": 0
   },
   "VEDL.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "VEEDOL.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10407,7 +10407,7 @@
   "VENKEYS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "VENTIVE.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -10422,12 +10422,12 @@
   "VENUSREM.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "VERANDA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "VERTOZ.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10462,17 +10462,17 @@
   "VHLTD.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "VIDHIING.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "VIJAYA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "VIJIFIN.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -10487,22 +10487,22 @@
   "VIKASLIFE.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "VIKRAMSOLR.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "VIKRAN.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "VIMTALABS.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "VINATIORGA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10532,12 +10532,12 @@
   "VINYLINDIA.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "VIPCLOTHNG.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "VIPIND.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10552,12 +10552,12 @@
   "VIRINCHI.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "VISACHROME.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "VISAKAIND.NS": {
     "confirmed_phase": "EXPANSION",
@@ -10567,7 +10567,7 @@
   "VISHNU.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "VISHWARAJ.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10580,9 +10580,9 @@
     "candidate_count": 0
   },
   "VIVIANA.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 4
+    "confirmed_phase": "DISTRIBUTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "VIVIDHA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -10602,7 +10602,7 @@
   "VLEGOV.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "VLSFINANCE.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10620,9 +10620,9 @@
     "candidate_count": 0
   },
   "VMSTMT.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "VOLTAMP.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10672,7 +10672,7 @@
   "VTL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "WAAREEENER.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10685,9 +10685,9 @@
     "candidate_count": 0
   },
   "WAAREERTL.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "WABAG.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -10697,17 +10697,17 @@
   "WALCHANNAG.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "WANBURY.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "WCIL.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "WEALTH.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -10717,7 +10717,7 @@
   "WEBELSOLAR.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "WEIZMANIND.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -10737,7 +10737,7 @@
   "WELENT.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "WELINV.NS": {
     "confirmed_phase": "EXPANSION",
@@ -10755,14 +10755,14 @@
     "candidate_count": 0
   },
   "WESTLIFE.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "EXPANSION",
-    "candidate_count": 4
+    "confirmed_phase": "EXPANSION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "WEWIN.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "WEWORK.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -10777,12 +10777,12 @@
   "WHIRLPOOL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "WILLAMAGOR.NS": {
-    "confirmed_phase": "ACCUMULATION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "WINDLAS.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10807,7 +10807,7 @@
   "WOCKPHARMA.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "WONDERLA.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -10815,19 +10815,19 @@
     "candidate_count": 0
   },
   "WORTHPERI.NS": {
-    "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": "CONTRACTION",
-    "candidate_count": 4
+    "confirmed_phase": "CONTRACTION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "WSI.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "WSTCSTPAPR.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "XCHANGING.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -10837,7 +10837,7 @@
   "XELPMOC.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "XPROINDIA.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10867,12 +10867,12 @@
   "YESBANK.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "YUKEN.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ZAGGLE.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -10887,12 +10887,12 @@
   "ZEELEARN.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "ACCUMULATION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ZEEMEDIA.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "ZENITHEXPO.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -10902,7 +10902,7 @@
   "ZENITHSTL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "DISTRIBUTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ZENSARTECH.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10932,7 +10932,7 @@
   "ZODIACLOTH.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "ZOTA.NS": {
     "confirmed_phase": "EXPANSION",
@@ -10947,22 +10947,22 @@
   "ZUARIIND.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "ZYDUSLIFE.NS": {
-    "confirmed_phase": "EXPANSION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "ZYDUSWELL.NS": {
     "confirmed_phase": "EXPANSION",
     "candidate_phase": "CONTRACTION",
-    "candidate_count": 2
+    "candidate_count": 3
   },
   "BGLOBAL.NS": {
     "confirmed_phase": "DISTRIBUTION",
-    "candidate_phase": null,
-    "candidate_count": 0
+    "candidate_phase": "CONTRACTION",
+    "candidate_count": 1
   },
   "BLUECHIP.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -10982,7 +10982,7 @@
   "CRESTO.NS": {
     "confirmed_phase": "CONTRACTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 3
+    "candidate_count": 4
   },
   "DOLLEX.NS": {
     "confirmed_phase": "CONTRACTION",
@@ -11000,9 +11000,9 @@
     "candidate_count": 0
   },
   "MIDWESTLTD.NS": {
-    "confirmed_phase": "CONTRACTION",
-    "candidate_phase": "ACCUMULATION",
-    "candidate_count": 4
+    "confirmed_phase": "ACCUMULATION",
+    "candidate_phase": null,
+    "candidate_count": 0
   },
   "MORARJEE.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -11042,7 +11042,7 @@
   "SKIL.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "STUDDS.NS": {
     "confirmed_phase": "ACCUMULATION",
@@ -11052,7 +11052,7 @@
   "UNIVAFOODS.NS": {
     "confirmed_phase": "ACCUMULATION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "LENSKART.NS": {
     "confirmed_phase": "DISTRIBUTION",
@@ -11072,7 +11072,7 @@
   "PARIN.NS": {
     "confirmed_phase": "DISTRIBUTION",
     "candidate_phase": "EXPANSION",
-    "candidate_count": 1
+    "candidate_count": 2
   },
   "TMCV.NS": {
     "confirmed_phase": "ACCUMULATION",
