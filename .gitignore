@@ -29,6 +29,8 @@ data/*
 data/universe_cycle/*
 !data/universe_cycle/latest.csv
 !data/universe_cycle/hysteresis_state.json
+# phase_changes.csv: rolling 90-day feed of stocks whose confirmed phase flipped (small).
+!data/universe_cycle/phase_changes.csv
 
 # Trained model artifacts — committed so Docker build includes them
 # models/ is intentionally NOT ignored here

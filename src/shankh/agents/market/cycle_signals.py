@@ -154,11 +154,18 @@ def compute_stc(
     slow: int = 50,
     cycle: int = 10,
     smooth_factor: float = 0.5,
+    level_weight: float = 0.5,
 ) -> STCResult:
     """
     Schaff Trend Cycle: a double-smoothed stochastic oscillator applied to MACD,
     designed to react to momentum turns faster than raw MACD while filtering more
     noise than a raw price stochastic. Standard Schaff (2008) parameters (23/50/10).
+
+    `level_weight` blends the level-vs-midline and 5-bar-slope components of the
+    final score (see below) — default 0.5/0.5, grid-searched (brutal-review audit
+    finding #15) against the same calibration/validation split used elsewhere in
+    this module via scripts/calibrate_stc_blend_weight.py. Kept a parameter (not
+    hardcoded) so that script can sweep it without touching this function's body.
     """
     if len(close) < slow + cycle * 2:
         return STCResult(0.0, "INSUFFICIENT_DATA", 0.0,
@@ -207,7 +214,7 @@ def compute_stc(
     # a rising STC from 30 is expansionary even though the raw level is still low.
     level_component = (latest - 50.0) / 50.0
     slope_component = np.clip((latest - prev5) / 25.0, -1.0, 1.0)
-    score = float(np.clip(0.5 * level_component + 0.5 * slope_component, -1.0, 1.0))
+    score = float(np.clip(level_weight * level_component + (1.0 - level_weight) * slope_component, -1.0, 1.0))
 
     return STCResult(
         value=round(latest, 2),
@@ -746,6 +753,12 @@ class CycleClassification:
     # state, without corrupting the metric the roadmap asks to be honestly reported.
     pending_phase: Optional[Phase] = None
     dwell_progress: Optional[str] = None  # e.g. "3/5" candidate confirmations
+    # Raw inputs to the transition_risk bucketing (finding #11 recalibration work) —
+    # exposed so a threshold grid search can re-bucket post-hoc from logged history
+    # instead of re-running the whole walk-forward backtest per candidate threshold
+    # pair (see scripts/calibrate_transition_risk_thresholds.py).
+    transition_magnitude: float = 0.0
+    transition_divergence: bool = False
 
 
 # accuracy-roadmap Phase 4 note (tier-weight recalibration, P1): these three weights
@@ -934,16 +947,24 @@ def classify_cycle(evidence: List[EvidenceItem]) -> CycleClassification:
 
     divergence = (directional_up and not momentum_up) or (not directional_up and momentum_up)
     magnitude = abs(directional_score - momentum_score)
-    # Thresholds below (0.9 / 1.35) were calibrated against the walk-forward backtest
-    # (scripts/backtest_cycle_phase.py, ~623 evaluation points over 2018-2026 Nifty
-    # data) against the OLD trend_score/stc_score divergence. Carried over unchanged
-    # for the new directional/momentum axis divergence, since on the Core-tier
-    # backtest the two are close enough (both still core-signal-dominated) that
-    # re-deriving them is Phase 4 work (tier-weight/threshold recalibration), not
-    # Phase 2 — don't re-tune thresholds and the phase-vote mechanism in the same step.
+    # Brutal-review audit finding #11: the medium threshold below was recalibrated
+    # (was 0.9, carried over unvalidated from an older 2-signal mechanism, doubly
+    # stale after the trend-score percentile redesign reshaped this magnitude's
+    # distribution). Grid-searched via scripts/calibrate_transition_risk_thresholds.py
+    # against the same calibration (<=2020) / validation (2021-2023) split used for
+    # min_dwell: recall plateaus at medium<=0.5-0.6 (lower doesn't catch more turns,
+    # just fires on more days and hurts lift) — 0.5 is the least-aggressive threshold
+    # reaching that plateau, and it beat 0.9 on recall in BOTH windows (0.25 vs 0.167
+    # calibration, 0.75 vs 0.50 validation) with equal-or-better lift, the same
+    # "calibration and validation must agree" bar used elsewhere in this module.
+    # The high threshold (1.35) is UNCHANGED — grid-searching it against this same
+    # recall/lift methodology showed zero effect on either metric (both medium and
+    # high count identically as "elevated" for score_lead_time_recall/
+    # score_precision_vs_base_rate), so there is no evidence from this methodology to
+    # move it either way; it stays as the pre-existing, differently-sourced value.
     if divergence and magnitude > 1.35:
         transition_risk = "high"
-    elif divergence and magnitude > 0.9:
+    elif divergence and magnitude > 0.5:
         transition_risk = "medium"
     else:
         transition_risk = "low"
@@ -955,6 +976,8 @@ def classify_cycle(evidence: List[EvidenceItem]) -> CycleClassification:
         transition_watch=watch if transition_risk != "low" else "none",
         composite_score=composite_score,
         evidence=evidence,
+        transition_magnitude=round(magnitude, 4),
+        transition_divergence=divergence,
     )
 
 
@@ -1047,5 +1070,7 @@ def classify_cycle_stateful(
         evidence=raw.evidence,
         pending_phase=raw.cycle_phase if is_pending_build else None,
         dwell_progress=f"{new_state.candidate_count}/{min_dwell}" if is_pending_build else None,
+        transition_magnitude=raw.transition_magnitude,
+        transition_divergence=raw.transition_divergence,
     )
     return result, new_state

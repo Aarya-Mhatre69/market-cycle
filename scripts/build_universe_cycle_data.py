@@ -16,6 +16,7 @@ Usage:
 
 import argparse
 import logging
+import os
 import sys
 from pathlib import Path
 
@@ -31,6 +32,8 @@ from shankh.agents.market.cycle_tools import (  # noqa: E402
 from shankh.agents.market.universe_cycle import (  # noqa: E402
     _DATA_DIR,
     _LATEST_CSV,
+    append_phase_changes,
+    detect_phase_change,
     batch_fetch_fundamentals,
     batch_fetch_ohlcv,
     classify_one_stock,
@@ -43,6 +46,29 @@ import json
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
+
+# Brutal-review audit finding #9: the classification loop below used to only write
+# latest.csv/hysteresis_state.json once, after EVERY ticker finished — a crash or
+# the scheduled CI job's 30-minute timeout partway through lost the whole run's
+# already-fetched, already-classified data with nothing durable to show for it.
+# Checkpointing here doesn't protect the earlier OHLCV/fundamentals fetch stages
+# (batch_fetch_ohlcv/batch_fetch_fundamentals, the slower, network-bound, more
+# failure-prone part of a run) — those still need to fully return before this loop
+# starts — but it does mean a failure DURING this loop leaves a snapshot at most
+# _CHECKPOINT_INTERVAL tickers stale instead of the entire run's work discarded.
+_CHECKPOINT_INTERVAL = 300
+
+
+def _write_checkpoint(rows: list, state_store: dict, events: list) -> None:
+    """Atomic write (temp file + os.replace) so a crash mid-write never leaves a
+    truncated/corrupt latest.csv for the dashboard to read. Phase-change events are
+    saved with the state store they were derived from: if they were not, a crash after
+    the state advanced would make those flips undetectable on the next run."""
+    tmp_path = _LATEST_CSV.with_suffix(".csv.tmp")
+    pd.DataFrame(rows).to_csv(tmp_path, index=False)
+    os.replace(tmp_path, _LATEST_CSV)
+    _save_state_store(state_store)
+    append_phase_changes(events)
 
 
 def main():
@@ -104,7 +130,8 @@ def main():
     state_store = _load_state_store()
 
     rows = []
-    for ticker in usable_tickers:
+    events = []
+    for i, ticker in enumerate(usable_tickers, 1):
         ohlcv = ohlcv_by_ticker[ticker]
         fundamentals = fundamentals_by_ticker.get(ticker)
         pe_pctile = _pe_percentile(fundamentals.get("pe_ratio") if fundamentals else None)
@@ -116,13 +143,19 @@ def main():
         except Exception as exc:
             logger.warning("Classification failed for %s: %s", ticker, exc)
             continue
+        event = detect_phase_change(prior_state, row)
+        if event:
+            events.append(event)
         state_store[ticker] = row.pop("_new_state")
         rows.append(row)
 
+        if i % _CHECKPOINT_INTERVAL == 0:
+            _write_checkpoint(rows, state_store, events)
+            logger.info("Checkpoint: %d/%d tickers classified, saved to %s.", i, len(usable_tickers), _LATEST_CSV)
+
     result_df = pd.DataFrame(rows)
-    result_df.to_csv(_LATEST_CSV, index=False)
-    _save_state_store(state_store)
-    logger.info("Saved %d classified tickers to %s", len(result_df), _LATEST_CSV)
+    _write_checkpoint(rows, state_store, events)
+    logger.info("Saved %d classified tickers to %s (%d phase changes this run)", len(result_df), _LATEST_CSV, len(events))
 
     print("\n" + "=" * 78)
     print("SUMMARY")

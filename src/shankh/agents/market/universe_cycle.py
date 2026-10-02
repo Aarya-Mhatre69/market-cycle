@@ -44,6 +44,7 @@ Phase 4 already found and fixed exactly that kind of naming mismatch for the ind
 
 import json
 import logging
+import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -136,6 +137,26 @@ def _coerce_float(value: Any) -> Optional[float]:
 _FMP_HTTP_TIMEOUT = 10.0
 
 
+def yoy_net_income_growth(quarters: list) -> Optional[float]:
+    """Year-over-year net-income growth as a fraction (0.25 = +25%), from FMP quarterly
+    income statements ordered newest first. Compares the latest quarter with the one four
+    quarters earlier and returns None unless that earlier quarter really is about a year
+    back (a missing quarter would otherwise silently compare the wrong periods) and has a
+    non-zero base. A loss-making base uses its absolute value, so a swing from loss to
+    profit reads as growth."""
+    if len(quarters) < 5:
+        return None
+    latest, base = quarters[0], quarters[4]
+    try:
+        latest_income, base_income = float(latest["netIncome"]), float(base["netIncome"])
+        gap_days = (pd.Timestamp(latest["date"]) - pd.Timestamp(base["date"])).days
+    except (KeyError, TypeError, ValueError):
+        return None
+    if not 330 <= gap_days <= 400 or base_income == 0:
+        return None
+    return (latest_income - base_income) / abs(base_income)
+
+
 def _fetch_one_fundamentals_fmp(ticker: str, fmp_api_key: str) -> Optional[Dict[str, Any]]:
     """
     FMP-primary fundamentals for one ticker. Uses the same endpoint shapes already
@@ -144,11 +165,12 @@ def _fetch_one_fundamentals_fmp(ticker: str, fmp_api_key: str) -> Optional[Dict[
     ^NSEI instead of a single stock) — pe/priceToBookRatioTTM/dividendYieldTTM are
     field names already validated against a real FMP response, not guessed here.
 
-    earnings_quarterly_growth has no equally-proven FMP field in this codebase (FMP's
-    growth metrics are YoY-per-statement, not the same definition as yfinance's
-    earningsQuarterlyGrowth) — fetched best-effort from income-statement-growth and
-    left None on any mismatch/failure, same "insufficient_data over a guess" policy
-    used throughout this module, rather than fabricating a number.
+    earnings_quarterly_growth is year-over-year net-income growth, computed from FMP's
+    quarterly income statements (see yoy_net_income_growth) to match yfinance's
+    earningsQuarterlyGrowth definition. FMP's own income-statement-growth endpoint was
+    tried first and is quarter-over-quarter: verified on live data it flips the sign for
+    RELIANCE (+23% QoQ vs -22% YoY) and put 72% of the universe past the +/-20% point
+    where the earnings vote saturates, so it is not used.
 
     Returns None (triggering the yfinance fallback in _fetch_one_fundamentals) if FMP
     returns no usable data at all for this ticker — e.g. an invalid/expired key, a
@@ -189,13 +211,13 @@ def _fetch_one_fundamentals_fmp(ticker: str, fmp_api_key: str) -> Optional[Dict[
 
     earnings_growth = None
     try:
-        growth_res = requests.get(
-            f"https://financialmodelingprep.com/api/v3/income-statement-growth/{ticker}"
-            f"?period=quarter&limit=1&apikey={fmp_api_key}",
+        income_res = requests.get(
+            f"https://financialmodelingprep.com/api/v3/income-statement/{ticker}"
+            f"?period=quarter&limit=5&apikey={fmp_api_key}",
             timeout=_FMP_HTTP_TIMEOUT,
         ).json()
-        if isinstance(growth_res, list) and growth_res:
-            earnings_growth = _coerce_float(growth_res[0].get("growthNetIncome"))
+        if isinstance(income_res, list):
+            earnings_growth = yoy_net_income_growth(income_res)
     except Exception:
         pass
 
@@ -349,6 +371,54 @@ def _load_state_store() -> Dict[str, dict]:
 def _save_state_store(store: Dict[str, dict]) -> None:
     _DATA_DIR.mkdir(parents=True, exist_ok=True)
     _STATE_FILE.write_text(json.dumps(store, indent=2), encoding="utf-8")
+
+
+_PHASE_CHANGES_CSV = _DATA_DIR / "phase_changes.csv"
+_PHASE_CHANGE_COLUMNS = ["date", "ticker", "company_name", "sector", "from_phase", "to_phase", "close", "confidence"]
+_PHASE_CHANGE_KEEP_DAYS = 90
+
+
+def detect_phase_change(prior_state: Optional[dict], row: dict) -> Optional[dict]:
+    """A phase-change event if this build's confirmed phase differs from the one the
+    previous build stored for the same stock; None for a first sighting or no change.
+    Uses the hysteresis-confirmed phase, so a still-building (unconfirmed) change is
+    not reported as a flip."""
+    prior_phase = (prior_state or {}).get("confirmed_phase")
+    if not prior_phase or prior_phase == row["cycle_phase"]:
+        return None
+    return {
+        "date": row["as_of_date"], "ticker": row["ticker"], "company_name": row["company_name"],
+        "sector": row["sector"], "from_phase": prior_phase, "to_phase": row["cycle_phase"],
+        "close": round(float(row["close"]), 2), "confidence": row["cycle_confidence"],
+    }
+
+
+def append_phase_changes(events: List[dict], path: Path = _PHASE_CHANGES_CSV,
+                         keep_days: int = _PHASE_CHANGE_KEEP_DAYS) -> int:
+    """Merge `events` into the on-disk feed: de-duplicated (a re-run on the same day
+    cannot double-count), trimmed to the last `keep_days`, written atomically. Returns
+    the number of rows in the feed afterwards."""
+    new = pd.DataFrame(events, columns=_PHASE_CHANGE_COLUMNS)
+    if path.exists():
+        existing = pd.read_csv(path)
+        new = pd.concat([existing, new], ignore_index=True) if len(new) else existing
+    if new.empty:
+        # Always leave a (header-only) file: the CI job `git add`s this path and a
+        # missing file would fail the whole workflow on a quiet day.
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if not path.exists():
+            new.to_csv(path, index=False)
+        return 0
+    new["date"] = pd.to_datetime(new["date"])
+    new = new.drop_duplicates(subset=["date", "ticker", "from_phase", "to_phase"], keep="last")
+    new = new[new["date"] >= new["date"].max() - pd.Timedelta(days=keep_days)]
+    new = new.sort_values(["date", "ticker"], ascending=[False, True])
+    new["date"] = new["date"].dt.strftime("%Y-%m-%d")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".csv.tmp")
+    new.to_csv(tmp, index=False)
+    os.replace(tmp, path)
+    return len(new)
 
 
 def classify_one_stock(

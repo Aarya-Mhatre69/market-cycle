@@ -1,0 +1,26 @@
+series,variant,n_points,n_turns,recall,lift,phase_changes,mean_run_days,phase_differs_pct,risk_differs_pct
+Nifty 50,Without volume,797,28,0.536,0.91,48,48.8,0.0,0.0
+Nifty 50,+ OBV,797,28,0.536,0.91,50,46.9,0.6,5.4
+Nifty 50,+ CMF,797,28,0.536,0.9,48,48.8,0.0,5.3
+Nifty 50,+ Volume-confirmed pivot,797,28,0.536,0.91,48,48.8,0.0,0.9
+Nifty 50,With all 3 volume signals,797,28,0.5,0.89,48,48.8,0.0,8.4
+MARKSANS,Without volume,800,115,0.643,1.04,30,77.4,0.0,0.0
+MARKSANS,+ OBV,800,115,0.635,1.04,30,77.4,0.1,3.1
+MARKSANS,+ CMF,800,115,0.635,1.04,30,77.4,0.0,3.6
+MARKSANS,+ Volume-confirmed pivot,800,115,0.643,1.04,30,77.4,0.0,0.1
+MARKSANS,With all 3 volume signals,800,115,0.626,1.04,30,77.4,0.1,5.5
+RELIANCE,Without volume,800,67,0.687,0.98,54,43.6,0.0,0.0
+RELIANCE,+ OBV,800,67,0.687,0.99,54,43.6,0.0,4.2
+RELIANCE,+ CMF,800,67,0.687,0.98,54,43.6,0.0,5.4
+RELIANCE,+ Volume-confirmed pivot,800,67,0.701,0.99,54,43.6,1.1,0.8
+RELIANCE,With all 3 volume signals,800,67,0.701,0.99,54,43.6,1.1,9.2
+TCS,Without volume,800,62,0.694,1.03,52,45.3,0.0,0.0
+TCS,+ OBV,800,62,0.694,1.03,50,47.1,0.6,6.6
+TCS,+ CMF,800,62,0.677,1.02,52,45.3,0.0,6.6
+TCS,+ Volume-confirmed pivot,800,62,0.694,1.03,52,45.3,0.0,0.8
+TCS,With all 3 volume signals,800,62,0.677,1.04,50,47.1,0.8,10.6
+ICICIBANK,Without volume,800,62,0.629,0.97,44,53.3,0.0,0.0
+ICICIBANK,+ OBV,800,62,0.613,0.96,44,53.3,0.0,4.1
+ICICIBANK,+ CMF,800,62,0.613,0.98,44,53.3,0.0,5.5
+ICICIBANK,+ Volume-confirmed pivot,800,62,0.629,0.98,45,52.2,1.5,1.2
+ICICIBANK,With all 3 volume signals,800,62,0.613,0.96,45,52.2,1.5,8.2

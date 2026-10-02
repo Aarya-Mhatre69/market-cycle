@@ -1,0 +1,6 @@
+level_weight,is_current,calib_mean_run_days,calib_recall,calib_lift,valid_mean_run_days,valid_recall,valid_lift
+0.3,False,47.7,0.25,0.66,43.6,0.75,1.3
+0.4,False,47.7,0.25,0.62,43.6,0.75,1.29
+0.5,True,47.7,0.25,0.66,43.6,0.75,1.24
+0.6,False,47.7,0.25,0.66,43.6,0.75,1.26
+0.7,False,39.8,0.25,0.7,43.6,0.75,1.2

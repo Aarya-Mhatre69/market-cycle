@@ -149,6 +149,26 @@ class TestSTC:
         result = compute_stc(close)
         assert result.direction == "INSUFFICIENT_DATA"
 
+    def test_level_weight_default_matches_prior_hardcoded_50_50_blend(self):
+        """Brutal-review audit finding #15: level_weight was parameterized (was a
+        hardcoded 0.5/0.5 blend) so scripts/calibrate_stc_blend_weight.py could sweep
+        it. Pins that the default produces IDENTICAL output to the pre-parameterization
+        formula -- no silent behavior change for the many existing callers that don't
+        pass it explicitly."""
+        t = np.arange(250, dtype=float)
+        rng = np.random.default_rng(3)
+        prices = 100.0 + 0.05 * t + 0.0025 * t**2 + rng.normal(0, 0.3, 250)
+        close = pd.Series(prices)
+        default_result = compute_stc(close)
+        explicit_result = compute_stc(close, level_weight=0.5)
+        assert default_result.score == explicit_result.score
+
+    def test_level_weight_shifts_score_toward_the_dominant_component(self):
+        close = pd.Series(_uptrend(n=250))
+        level_heavy = compute_stc(close, level_weight=0.9)
+        slope_heavy = compute_stc(close, level_weight=0.1)
+        assert level_heavy.score != slope_heavy.score
+
 
 class TestTrendContext:
     def test_price_above_rising_mas_scores_positive(self):

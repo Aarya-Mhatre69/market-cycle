@@ -17,7 +17,13 @@ permissions:
 jobs:
   rebuild:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # 30 min was sized for the yfinance-only path. Measured with a real FMP key
+    # active (FMP-primary/yfinance-fallback, ~4 sequential HTTP calls per ticker for
+    # fundamentals): ~47 tickers/min, ~47 min for the full ~2,200-ticker universe.
+    # Checkpointing (build_universe_cycle_data.py's _write_checkpoint, every 300
+    # tickers) means a timeout mid-run still leaves a usable partial snapshot rather
+    # than nothing, but 30 min would cut off before even half the universe finishes.
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
 
@@ -43,6 +49,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/universe_cycle/latest.csv data/universe_cycle/hysteresis_state.json
+          git add data/universe_cycle/latest.csv data/universe_cycle/hysteresis_state.json data/universe_cycle/phase_changes.csv
           git diff --cached --quiet && echo "No changes, skipping commit." || git commit -m "Scheduled rebuild of universe cycle data [skip ci]"
           git push

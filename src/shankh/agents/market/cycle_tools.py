@@ -23,6 +23,7 @@ import numpy as np
 import pandas as pd
 import requests
 import yfinance as yf
+from dotenv import load_dotenv
 from langchain_core.tools import tool
 
 from shankh.agents.market.cycle_signals import (
@@ -35,6 +36,16 @@ from shankh.agents.market.cycle_signals import (
     compute_trend_context,
     compute_zigzag,
 )
+
+# Loaded here, not just in cycle_dashboard.py's sidebar path, so every entry point
+# that imports this module (scripts/build_universe_cycle_data.py, a plain CLI run,
+# the GitHub Actions job) reliably picks up a local .env's FMP_API_KEY/FRED_API_KEY
+# too — found the hard way: the batch-build script never loaded it, so a real,
+# working FMP key sitting in .env was silently never read, and every build kept
+# falling back to yfinance-only without any error or warning saying why.
+# override=False (the default) keeps a real environment variable (e.g. a CI
+# secret) taking precedence over anything in a committed-nowhere-near-here .env.
+load_dotenv(Path(__file__).resolve().parents[4] / ".env")
 
 logger = logging.getLogger(__name__)
 

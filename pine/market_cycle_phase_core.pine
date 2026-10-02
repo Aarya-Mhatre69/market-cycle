@@ -1,0 +1,292 @@
+//@version=6
+// ============================================================================
+// Market Cycle Phase — Core-Tier Port (TradingView Pine Script v6)
+//
+// Faithfully ports this repo's VALIDATED, Core-tier-only classification onto a
+// TradingView chart for any symbol: ZigZag (percentage-reversal swing structure)
+// + Schaff Trend Cycle (momentum) + Trend Context (self-referential percentile
+// vs. own 200DMA history) -> axis-vote (directional x momentum) -> phase, with
+// min-dwell hysteresis confirmation. This is deliberately the SAME configuration
+// scripts/validate_cycle_classifier.py backtests and reports recall/lift for
+// ("Core-tier only, no valuation/liquidity/earnings — those don't have clean
+// free historical daily coverage to backtest") — so this chart is a faithful
+// visual match to the system's own validated numbers, not a separate guess.
+//
+// NOT ported (can't be, on TradingView's own OHLCV-only data — the full system
+// pulls these server-side from FMP/yfinance, which Pine has no access to):
+//   - Equity Risk Premium / valuation modifier (erp)
+//   - Earnings momentum (full momentum-axis vote in the real system)
+//   - Liquidity / M3 growth modifier
+// So EXPANSION/DISTRIBUTION/CONTRACTION/ACCUMULATION here can differ from the
+// dashboard's read for the SAME stock on the SAME day whenever one of those
+// three would have mattered — same "Core-tier degrades to trend+zigzag+STC"
+// behavior the Python backtest itself documents, not a bug in this port.
+//
+// Source of truth for every formula below: src/shankh/agents/market/
+// cycle_signals.py (compute_zigzag, compute_stc, compute_trend_context,
+// classify_cycle, apply_phase_hysteresis) in this repo, as of the Round 2
+// accuracy pass (trend-score percentile redesign, confidence-formula fix,
+// recalibrated transition_risk thresholds — see that file's own comments for
+// the empirical evidence behind each default value below).
+// ============================================================================
+
+indicator("Market Cycle Phase (Core Tier)", shorttitle="MktCyclePhase", overlay=true, max_labels_count=500)
+
+// ---------------- Inputs ----------------
+zigzagPct  = input.float(4.0, "ZigZag reversal %", minval=0.1, group="ZigZag", tooltip="cycle_signals.compute_zigzag's pct_threshold — deliberately >= typical daily noise so pivots mark genuine swings, not single-day wiggles.")
+stcFast    = input.int(23, "STC fast EMA", group="STC")
+stcSlow    = input.int(50, "STC slow EMA", group="STC")
+stcCycle   = input.int(10, "STC stochastic cycle", group="STC")
+stcSmooth  = input.float(0.5, "STC smoothing alpha", minval=0.01, maxval=1.0, group="STC")
+stcLevelW  = input.float(0.5, "STC level/slope blend weight", minval=0.0, maxval=1.0, group="STC", tooltip="Grid-searched (audit finding #15) — calibration/validation disagreed on a better value, so 0.5 ships unchanged. See scripts/calibrate_stc_blend_weight.py.")
+trendShort = input.int(50, "Trend short SMA length", group="Trend")
+trendLong  = input.int(200, "Trend long SMA length", group="Trend")
+pctMinHist = input.int(252, "Min bars for percentile trend score", group="Trend", tooltip="Below this, falls back to the original bounded-linear formula — same floor used for the P/E time-series percentile server-side.")
+maxHistLen = input.int(1500, "Max bars kept for percentile history", group="Trend", tooltip="Caps the rolling percentile lookback for performance (~6 years of daily bars). Raise if you want a longer memory and your chart isn't lagging.")
+minDwell   = input.int(5, "Hysteresis min-dwell", minval=1, group="Hysteresis", tooltip="Calibrated value (scripts/calibrate_min_dwell.py) — a phase change needs this many consecutive raw reads before it's confirmed.")
+riskMed    = input.float(0.5, "Transition-risk MEDIUM threshold", group="Risk", tooltip="Recalibrated in Round 2 (was 0.9) — grid-searched, beat the old value on recall in both calibration and validation windows.")
+riskHigh   = input.float(1.35, "Transition-risk HIGH threshold", group="Risk", tooltip="Unchanged — grid search found this threshold has zero measurable effect on recall/lift by this methodology (medium+high are scored identically as 'elevated'), so there's no evidence to move it.")
+showBg     = input.bool(true, "Shade background by confirmed phase", group="Display")
+showPivots = input.bool(true, "Mark confirmed ZigZag pivots", group="Display")
+showTable  = input.bool(true, "Show status table", group="Display")
+
+// ---------------- Small helpers ----------------
+// Manual alpha-based EWM (pandas .ewm(alpha=..., adjust=False) equivalent) — used
+// instead of ta.ema so STC's smoothing stays exact for any stcSmooth the user
+// picks, not just the one alpha value that happens to map to an integer ta.ema
+// length.
+f_ewm(src, alpha) =>
+    var float prev = na
+    out = na(prev) ? src : alpha * src + (1 - alpha) * prev
+    prev := out
+    out
+
+// ---------------- 1. ZigZag (percentage-reversal state machine) ----------------
+// Ported bar-by-bar from compute_zigzag's sequential state machine — Pine's own
+// execution model (one bar at a time, persistent `var` state) is a natural fit
+// for this, not an approximation of it.
+var string zzTrend          = na
+var float  zzLastPivotPrice = na
+var int    zzLastPivotBar   = na
+var array<float>  zzPivotPrice = array.new<float>()
+var array<string> zzPivotType  = array.new<string>()
+var array<int>    zzPivotBar   = array.new<int>()
+
+if bar_index == 0
+    zzLastPivotPrice := close
+    zzLastPivotBar := 0
+
+// newPivotThisBar/newPivotType/newPivotPrice/newPivotBar: explicit flags rather
+// than "did array.size() change" — the array is capped at 8 entries (via shift),
+// so once that cap is hit, size() stops changing bar to bar and a size-comparison
+// trick would silently stop detecting new pivots. This stays correct forever.
+bool  newPivotThisBar = false
+string newPivotType = na
+float newPivotPrice = na
+int   newPivotBar = na
+
+if bar_index > 0
+    if na(zzTrend)
+        if high >= zzLastPivotPrice * (1 + zigzagPct / 100.0)
+            zzTrend := "up"
+            zzLastPivotPrice := high
+            zzLastPivotBar := bar_index
+        else if low <= zzLastPivotPrice * (1 - zigzagPct / 100.0)
+            zzTrend := "down"
+            zzLastPivotPrice := low
+            zzLastPivotBar := bar_index
+    else if zzTrend == "up"
+        if high > zzLastPivotPrice
+            zzLastPivotPrice := high
+            zzLastPivotBar := bar_index
+        else if low <= zzLastPivotPrice * (1 - zigzagPct / 100.0)
+            newPivotThisBar := true
+            newPivotType := "HIGH"
+            newPivotPrice := zzLastPivotPrice
+            newPivotBar := zzLastPivotBar
+            array.push(zzPivotPrice, zzLastPivotPrice)
+            array.push(zzPivotType, "HIGH")
+            array.push(zzPivotBar, zzLastPivotBar)
+            if array.size(zzPivotPrice) > 8
+                array.shift(zzPivotPrice)
+                array.shift(zzPivotType)
+                array.shift(zzPivotBar)
+            zzTrend := "down"
+            zzLastPivotPrice := low
+            zzLastPivotBar := bar_index
+    else if zzTrend == "down"
+        if low < zzLastPivotPrice
+            zzLastPivotPrice := low
+            zzLastPivotBar := bar_index
+        else if high >= zzLastPivotPrice * (1 + zigzagPct / 100.0)
+            newPivotThisBar := true
+            newPivotType := "LOW"
+            newPivotPrice := zzLastPivotPrice
+            newPivotBar := zzLastPivotBar
+            array.push(zzPivotPrice, zzLastPivotPrice)
+            array.push(zzPivotType, "LOW")
+            array.push(zzPivotBar, zzLastPivotBar)
+            if array.size(zzPivotPrice) > 8
+                array.shift(zzPivotPrice)
+                array.shift(zzPivotType)
+                array.shift(zzPivotBar)
+            zzTrend := "up"
+            zzLastPivotPrice := high
+            zzLastPivotBar := bar_index
+
+// Mark newly-confirmed pivots (fires once, on the bar the pivot is confirmed —
+// the label is placed back at the actual pivot bar via xloc.bar_index).
+if showPivots and newPivotThisBar
+    label.new(newPivotBar, newPivotPrice, text=newPivotType == "HIGH" ? "H" : "L",
+              style=newPivotType == "HIGH" ? label.style_label_down : label.style_label_up,
+              color=newPivotType == "HIGH" ? color.new(color.red, 20) : color.new(color.green, 20),
+              textcolor=color.white, size=size.tiny, xloc=xloc.bar_index)
+
+// Structure -> score from the last 4 confirmed pivots (HH+HL=+1, LH+LL=-1, else 0
+// — CONTRACTING_RANGE/EXPANDING_RANGE_VOLATILE/MIXED all collapse to 0, exactly
+// matching compute_zigzag's own bucketing).
+float hSeqLast = na
+float hSeqPrev = na
+float lSeqLast = na
+float lSeqPrev = na
+zigzagScore = 0.0
+if array.size(zzPivotPrice) >= 4
+    n = array.size(zzPivotPrice)
+    for i = n - 4 to n - 1
+        pType = array.get(zzPivotType, i)
+        pPrice = array.get(zzPivotPrice, i)
+        if pType == "HIGH"
+            hSeqPrev := hSeqLast
+            hSeqLast := pPrice
+        else
+            lSeqPrev := lSeqLast
+            lSeqLast := pPrice
+    higherHighs = not na(hSeqLast) and not na(hSeqPrev) and hSeqLast > hSeqPrev
+    higherLows  = not na(lSeqLast) and not na(lSeqPrev) and lSeqLast > lSeqPrev
+    lowerHighs  = not na(hSeqLast) and not na(hSeqPrev) and hSeqLast < hSeqPrev
+    lowerLows   = not na(lSeqLast) and not na(lSeqPrev) and lSeqLast < lSeqPrev
+    zigzagScore := higherHighs and higherLows ? 1.0 : lowerHighs and lowerLows ? -1.0 : 0.0
+
+// ---------------- 2. Schaff Trend Cycle ----------------
+emaFast = f_ewm(close, 2.0 / (stcFast + 1))
+emaSlow = f_ewm(close, 2.0 / (stcSlow + 1))
+macdLine = emaFast - emaSlow
+
+f_boundedStochastic(src, len) =>
+    var float lastValid = 50.0
+    ll = ta.lowest(src, len)
+    hh = ta.highest(src, len)
+    span = hh - ll
+    raw = span > 1e-9 ? (src - ll) / span * 100.0 : na
+    out = na(raw) ? lastValid : math.max(math.min(raw, 100.0), 0.0)
+    lastValid := out
+    out
+
+stoch1 = f_boundedStochastic(macdLine, stcCycle)
+pf     = f_ewm(stoch1, stcSmooth)
+stoch2 = f_boundedStochastic(pf, stcCycle)
+stcRaw = f_ewm(stoch2, stcSmooth)
+stcVal = math.max(math.min(stcRaw, 100.0), 0.0)
+
+prev5 = stcVal[5]
+prev5Safe = na(prev5) ? stcVal : prev5
+levelComponent = (stcVal - 50.0) / 50.0
+slopeComponent = math.max(math.min((stcVal - prev5Safe) / 25.0, 1.0), -1.0)
+stcScore = math.max(math.min(stcLevelW * levelComponent + (1.0 - stcLevelW) * slopeComponent, 1.0), -1.0)
+
+// ---------------- 3. Trend Context (self-referential percentile) ----------------
+smaShort = ta.sma(close, trendShort)
+smaLong  = ta.sma(close, trendLong)
+priceVsLong = (close - smaLong) / smaLong * 100.0
+shortVsLong = (smaShort - smaLong) / smaLong * 100.0
+
+var array<float> pvlHist = array.new<float>()
+var array<float> svlHist = array.new<float>()
+
+trendScore = 0.0
+trendMethod = "INSUFFICIENT_DATA"
+if not na(smaLong)
+    array.push(pvlHist, priceVsLong)
+    array.push(svlHist, shortVsLong)
+    if array.size(pvlHist) > maxHistLen
+        array.shift(pvlHist)
+        array.shift(svlHist)
+
+    if array.size(pvlHist) >= pctMinHist
+        cntP = 0
+        cntS = 0
+        for i = 0 to array.size(pvlHist) - 1
+            if array.get(pvlHist, i) <= priceVsLong
+                cntP += 1
+            if array.get(svlHist, i) <= shortVsLong
+                cntS += 1
+        pricePctile = cntP / array.size(pvlHist)
+        shortPctile = cntS / array.size(svlHist)
+        priceComp = 2.0 * pricePctile - 1.0
+        shortComp = 2.0 * shortPctile - 1.0
+        trendScore := math.max(math.min((priceComp + shortComp) / 2.0, 1.0), -1.0)
+        trendMethod := "PERCENTILE"
+    else
+        trendScore := math.max(math.min((priceVsLong / 10.0 + shortVsLong / 10.0) / 2.0, 1.0), -1.0)
+        trendMethod := "LINEAR_FALLBACK"
+
+// ---------------- 4. Axis-vote classification (Core tier: zigzag+trend vs stc) ----------------
+directionalScore = (zigzagScore + trendScore) / 2.0
+momentumScore = stcScore
+directionalUp = directionalScore >= 0
+momentumUp = momentumScore >= 0
+
+rawPhase = directionalUp and momentumUp ? "EXPANSION" : directionalUp and not momentumUp ? "DISTRIBUTION" : not directionalUp and not momentumUp ? "CONTRACTION" : "ACCUMULATION"
+
+divergence = (directionalUp and not momentumUp) or (not directionalUp and momentumUp)
+magnitude = math.abs(directionalScore - momentumScore)
+riskLevel = divergence and magnitude > riskHigh ? "HIGH" : divergence and magnitude > riskMed ? "MEDIUM" : "LOW"
+
+// ---------------- 5. Hysteresis (min-dwell confirmation) ----------------
+var string confirmedPhase = na
+var string candidatePhase = na
+var int    candidateCount = 0
+
+if na(confirmedPhase)
+    confirmedPhase := rawPhase
+else if rawPhase == confirmedPhase
+    candidatePhase := na
+    candidateCount := 0
+else
+    candidateCount := rawPhase == candidatePhase ? candidateCount + 1 : 1
+    candidatePhase := rawPhase
+    if candidateCount >= minDwell
+        confirmedPhase := rawPhase
+        candidatePhase := na
+        candidateCount := 0
+
+// ---------------- Display ----------------
+f_phaseColor(p) =>
+    p == "EXPANSION" ? color.new(color.green, 82) : p == "DISTRIBUTION" ? color.new(color.orange, 82) : p == "CONTRACTION" ? color.new(color.red, 82) : color.new(color.blue, 82)
+
+f_phaseColorSolid(p) =>
+    p == "EXPANSION" ? color.green : p == "DISTRIBUTION" ? color.orange : p == "CONTRACTION" ? color.red : color.blue
+
+bgcolor(showBg ? f_phaseColor(confirmedPhase) : na)
+
+var table statusTable = table.new(position.top_right, 2, 8, bgcolor=color.new(color.black, 10), border_width=1, border_color=color.gray)
+if showTable and barstate.islast
+    table.cell(statusTable, 0, 0, "Phase", text_color=color.white, bgcolor=color.new(color.gray, 40))
+    table.cell(statusTable, 1, 0, confirmedPhase, text_color=color.white, bgcolor=f_phaseColorSolid(confirmedPhase))
+    table.cell(statusTable, 0, 1, "Transition Risk", text_color=color.white)
+    table.cell(statusTable, 1, 1, riskLevel, text_color=color.white)
+    table.cell(statusTable, 0, 2, "Dwell", text_color=color.white)
+    table.cell(statusTable, 1, 2, na(candidatePhase) ? "confirmed" : str.tostring(candidateCount) + "/" + str.tostring(minDwell) + " -> " + candidatePhase, text_color=color.white)
+    table.cell(statusTable, 0, 3, "ZigZag score", text_color=color.white)
+    table.cell(statusTable, 1, 3, str.tostring(zigzagScore, "#.##"), text_color=color.white)
+    table.cell(statusTable, 0, 4, "STC score", text_color=color.white)
+    table.cell(statusTable, 1, 4, str.tostring(stcScore, "#.##"), text_color=color.white)
+    table.cell(statusTable, 0, 5, "Trend score", text_color=color.white)
+    table.cell(statusTable, 1, 5, str.tostring(trendScore, "#.##"), text_color=color.white)
+    table.cell(statusTable, 0, 6, "Trend method", text_color=color.white)
+    table.cell(statusTable, 1, 6, trendMethod, text_color=color.white)
+    table.cell(statusTable, 0, 7, "Core-tier only", text_color=color.gray)
+    table.cell(statusTable, 1, 7, "no ERP/earnings/liquidity", text_color=color.gray)
+
+plot(smaLong, "SMA200", color=color.new(color.gray, 40))
+plot(smaShort, "SMA50", color=color.new(color.aqua, 40))

@@ -7,7 +7,9 @@ in tests/unit/test_cycle_signals.py.
 import numpy as np
 import pandas as pd
 
-from shankh.agents.market.universe_cycle import classify_one_stock
+from shankh.agents.market.universe_cycle import (
+    append_phase_changes, classify_one_stock, detect_phase_change, yoy_net_income_growth,
+)
 
 
 def _make_series(prices: np.ndarray, start: str = "2023-01-01") -> pd.DataFrame:
@@ -77,3 +79,65 @@ class TestClassifyOneStock:
         assert row["cycle_phase"] == "CONTRACTION", "Prior phase must still be reported — one read can't confirm a flip."
         assert row["pending_phase"] is not None
         assert row["dwell_progress"] == "1/5"
+
+
+def _row(phase="DISTRIBUTION", date="2026-10-01", ticker="AAA.NS"):
+    return {"as_of_date": date, "ticker": ticker, "company_name": "AAA Ltd", "sector": "Industrials",
+            "cycle_phase": phase, "close": 123.456, "cycle_confidence": 0.6}
+
+
+class TestPhaseChangeFeed:
+    def test_flip_in_confirmed_phase_is_an_event(self):
+        event = detect_phase_change({"confirmed_phase": "EXPANSION"}, _row("DISTRIBUTION"))
+        assert event["from_phase"] == "EXPANSION" and event["to_phase"] == "DISTRIBUTION"
+        assert event["close"] == 123.46
+
+    def test_same_phase_or_first_sighting_is_not_an_event(self):
+        assert detect_phase_change({"confirmed_phase": "DISTRIBUTION"}, _row("DISTRIBUTION")) is None
+        assert detect_phase_change(None, _row("DISTRIBUTION")) is None
+        assert detect_phase_change({}, _row("DISTRIBUTION")) is None
+
+    def test_rerun_on_the_same_day_does_not_double_count(self, tmp_path):
+        path = tmp_path / "phase_changes.csv"
+        event = detect_phase_change({"confirmed_phase": "EXPANSION"}, _row("DISTRIBUTION"))
+        append_phase_changes([event], path=path)
+        assert append_phase_changes([event], path=path) == 1
+
+    def test_feed_is_trimmed_to_the_keep_window(self, tmp_path):
+        path = tmp_path / "phase_changes.csv"
+        old = detect_phase_change({"confirmed_phase": "EXPANSION"}, _row("DISTRIBUTION", date="2026-01-01", ticker="OLD.NS"))
+        new = detect_phase_change({"confirmed_phase": "EXPANSION"}, _row("CONTRACTION", date="2026-10-01", ticker="NEW.NS"))
+        n = append_phase_changes([old, new], path=path, keep_days=90)
+        assert n == 1
+        assert pd.read_csv(path)["ticker"].tolist() == ["NEW.NS"]
+
+    def test_no_events_leaves_a_header_only_file(self, tmp_path):
+        path = tmp_path / "phase_changes.csv"
+        assert append_phase_changes([], path=path) == 0
+        assert path.exists() and len(pd.read_csv(path)) == 0
+
+
+def _quarters(*incomes, dates=("2026-06-30", "2026-03-31", "2025-12-31", "2025-09-30", "2025-06-30")):
+    return [{"date": d, "netIncome": ni} for d, ni in zip(dates, incomes)]
+
+
+class TestYoyNetIncomeGrowth:
+    def test_matches_live_marksans_and_reliance_figures(self):
+        # Real FMP values checked on 2026-10-02. MARKSANS: +169.5% YoY. RELIANCE: -22.4% YoY,
+        # even though the quarter-over-quarter figure FMP's growth endpoint returns is +23%.
+        assert round(yoy_net_income_growth(_quarters(1571.67, 1481.29, 1132.02, 982.5, 583.17)), 3) == 1.695
+        assert round(yoy_net_income_growth(_quarters(209.46, 169.71, 186.45, 181.65, 269.94)), 3) == -0.224
+
+    def test_too_few_quarters_or_zero_base_is_none(self):
+        assert yoy_net_income_growth(_quarters(1, 2, 3, 4)) is None
+        assert yoy_net_income_growth(_quarters(5, 4, 3, 2, 0)) is None
+
+    def test_a_missing_quarter_is_not_silently_compared(self):
+        gapped = _quarters(5, 4, 3, 2, 1, dates=("2026-06-30", "2026-03-31", "2025-12-31", "2025-09-30", "2025-03-31"))
+        assert yoy_net_income_growth(gapped) is None
+
+    def test_loss_to_profit_reads_as_growth(self):
+        assert yoy_net_income_growth(_quarters(50, 0, 0, 0, -50)) == 2.0
+
+    def test_malformed_rows_are_none(self):
+        assert yoy_net_income_growth([{"date": "x"}] * 5) is None
